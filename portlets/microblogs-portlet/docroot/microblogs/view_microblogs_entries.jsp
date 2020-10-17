@@ -28,18 +28,18 @@ PortletURL microblogsEntriesURL = (PortletURL)request.getAttribute(WebKeys.MICRO
 <c:if test="<%= microblogsEntries.isEmpty() %>">
 
 	<%
-	String message = LanguageUtil.get(pageContext, "there-are-no-microblog-entries");
+	String message = LanguageUtil.get(request, "there-are-no-microblog-entries");
 
 	Group group = themeDisplay.getScopeGroup();
 
 	if (group.isUser()) {
 		if (group.getGroupId() == user.getGroupId()) {
-			message = LanguageUtil.get(pageContext, "you-do-not-have-any-microblog-entries");
+			message = LanguageUtil.get(request, "you-do-not-have-any-microblog-entries");
 		}
 		else {
 			User user2 = UserLocalServiceUtil.getUser(group.getClassPK());
 
-			message = LanguageUtil.format(pageContext, "x-does-not-have-any-microblog-entries" , HtmlUtil.escape(user2.getFullName()), false);
+			message = LanguageUtil.format(request, "x-does-not-have-any-microblog-entries", HtmlUtil.escape(user2.getFullName()), false);
 		}
 	}
 	%>
@@ -70,7 +70,7 @@ if (microblogsEntries != null) {
 
 		<div class="microblogs-entry" id="<portlet:namespace />microblogsEntry<%= microblogsEntry.getMicroblogsEntryId() %>">
 			<span class="thumbnail">
-				<a href="<%= userDisplayURL %>"><img alt="<%= userFullName %>" src="<%= userPortaitURL %>" /></a>
+				<a href="<%= userDisplayURL %>"><img alt="<%= HtmlUtil.escapeAttribute(userFullName) %>" src="<%= userPortaitURL %>" /></a>
 			</span>
 
 			<div class="entry-bubble">
@@ -78,14 +78,14 @@ if (microblogsEntries != null) {
 					<span><a href="<%= userDisplayURL %>"><%= userFullName %></a></span>
 
 					<c:if test="<%= microblogsEntry.getType() == MicroblogsEntryConstants.TYPE_REPOST %>">
-						<span class="small"><liferay-ui:message key="reposted-from" /></span> <span><%= HtmlUtil.escape(PortalUtil.getUserName(microblogsEntry.getReceiverUserId(), StringPool.BLANK)) %></span>
+						<span class="small"><liferay-ui:message key="reposted-from" /></span> <span><%= HtmlUtil.escape(PortalUtil.getUserName(microblogsEntry.getParentMicroblogsEntryUserId(), StringPool.BLANK)) %></span>
 					</c:if>
 				</div>
 
 				<div class="content">
 
 					<%
-					String content = MicroblogsUtil.getTaggedContent(microblogsEntry, ServiceContextFactory.getInstance(request));
+					String content = MicroblogsUtil.getProcessedContent(microblogsEntry, ServiceContextFactory.getInstance(request));
 					%>
 
 					<span>
@@ -99,25 +99,24 @@ if (microblogsEntries != null) {
 					<span class="modified-date">
 						<%= dateFormatDateTime.format(microblogsEntry.getModifiedDate()) %>
 					</span>
-
 					<span class="action-container">
 						<c:if test="<%= microblogsEntry.getType() != MicroblogsEntryConstants.TYPE_REPLY %>">
 
 							<%
-							int replyCount = MicroblogsEntryLocalServiceUtil.getReceiverMicroblogsEntryMicroblogsEntriesCount(MicroblogsEntryConstants.TYPE_REPLY, microblogsEntry.getMicroblogsEntryId());
+							int replyCount = MicroblogsEntryLocalServiceUtil.getParentMicroblogsEntryMicroblogsEntriesCount(MicroblogsEntryConstants.TYPE_REPLY, microblogsEntry.getMicroblogsEntryId());
 							%>
 
-							<portlet:renderURL var="commentsURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-								<portlet:param name="mvcPath" value="/microblogs/view_comments.jsp" />
-								<portlet:param name="receiverMicroblogsEntryId" value="<%= String.valueOf(microblogsEntry.getMicroblogsEntryId()) %>" />
-							</portlet:renderURL>
-
 							<span class="action comment">
+								<portlet:renderURL var="commentsURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+									<portlet:param name="mvcPath" value="/microblogs/view_comments.jsp" />
+									<portlet:param name="parentMicroblogsEntryId" value="<%= String.valueOf(microblogsEntry.getMicroblogsEntryId()) %>" />
+								</portlet:renderURL>
+
 								<a data-microblogsEntryId="<%= microblogsEntry.getMicroblogsEntryId() %>" href="<%= commentsURL %>"><%= replyCount > 0 ? replyCount : StringPool.BLANK %> <liferay-ui:message key='<%= replyCount > 1 ? "comments" : "comment" %>' /></a>
 							</span>
 						</c:if>
 
-						<c:if test="<%= themeDisplay.getUserId() != microblogsEntry.getUserId() && MicroblogsPermission.contains(permissionChecker, scopeGroupId, ActionKeys.ADD_ENTRY) && (microblogsEntry.getSocialRelationType() == MicroblogsEntryConstants.TYPE_EVERYONE) && (microblogsEntry.getType() != MicroblogsEntryConstants.TYPE_REPLY) %>">
+						<c:if test="<%= (themeDisplay.getUserId() != microblogsEntry.getUserId()) && MicroblogsPermission.contains(permissionChecker, scopeGroupId, ActionKeys.ADD_ENTRY) && (microblogsEntry.getSocialRelationType() == MicroblogsEntryConstants.TYPE_EVERYONE) && (microblogsEntry.getType() != MicroblogsEntryConstants.TYPE_REPLY) %>">
 							<portlet:renderURL var="repostMicroblogsEntryURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 								<portlet:param name="mvcPath" value="/microblogs/edit_microblogs_entry.jsp" />
 								<portlet:param name="microblogsEntryId" value="<%= String.valueOf(microblogsEntry.getMicroblogsEntryId()) %>" />
@@ -125,7 +124,7 @@ if (microblogsEntries != null) {
 							</portlet:renderURL>
 
 							<%
-							String repostURL = "javascript:Liferay.Microblogs.displayPopup('" + repostMicroblogsEntryURL + "','" + LanguageUtil.get(pageContext, "repost") + "');";
+							String repostURL = "javascript:Liferay.Microblogs.displayPopup('" + repostMicroblogsEntryURL + "','" + LanguageUtil.get(request, "repost") + "');";
 							%>
 
 							<span class="action repost">
@@ -133,25 +132,27 @@ if (microblogsEntries != null) {
 							</span>
 						</c:if>
 
-						<c:if test="<%= (microblogsEntry.getType() != MicroblogsEntryConstants.TYPE_REPOST) && (microblogsEntry.getType() != MicroblogsEntryConstants.TYPE_REPLY) && (MicroblogsEntryPermission.contains(permissionChecker, microblogsEntry.getMicroblogsEntryId(), ActionKeys.UPDATE)) %>">
-							<portlet:renderURL var="updateMicroblogsEntryURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-								<portlet:param name="mvcPath" value="/microblogs/edit_microblogs_entry.jsp" />
-								<portlet:param name="redirect" value="<%= microblogsEntriesURL.toString() %>" />
-								<portlet:param name="microblogsEntryId" value="<%= String.valueOf(microblogsEntry.getMicroblogsEntryId()) %>" />
-								<portlet:param name="edit" value="<%= Boolean.TRUE.toString() %>" />
-							</portlet:renderURL>
-
+						<c:if test="<%= (microblogsEntry.getType() != MicroblogsEntryConstants.TYPE_REPOST) && (microblogsEntry.getType() != MicroblogsEntryConstants.TYPE_REPLY) && MicroblogsEntryPermission.contains(permissionChecker, microblogsEntry.getMicroblogsEntryId(), ActionKeys.UPDATE) %>">
 							<span class="action edit">
+								<portlet:renderURL var="updateMicroblogsEntryURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+									<portlet:param name="mvcPath" value="/microblogs/edit_microblogs_entry.jsp" />
+									<portlet:param name="redirect" value="<%= microblogsEntriesURL.toString() %>" />
+									<portlet:param name="microblogsEntryId" value="<%= String.valueOf(microblogsEntry.getMicroblogsEntryId()) %>" />
+									<portlet:param name="edit" value="<%= Boolean.TRUE.toString() %>" />
+								</portlet:renderURL>
+
 								<a data-microblogsEntryId="<%= microblogsEntry.getMicroblogsEntryId() %>" href="<%= updateMicroblogsEntryURL %>"><liferay-ui:message key="edit" /></a>
 							</span>
 						</c:if>
 
 						<c:if test="<%= MicroblogsEntryPermission.contains(permissionChecker, microblogsEntry.getMicroblogsEntryId(), ActionKeys.DELETE) %>">
-							<portlet:actionURL name="deleteMicroblogsEntry" var="deleteURL" windowState="<%= LiferayWindowState.NORMAL.toString() %>">
-								<portlet:param name="microblogsEntryId" value="<%= String.valueOf(microblogsEntry.getMicroblogsEntryId()) %>" />
-							</portlet:actionURL>
+							<span class="action delete">
+								<portlet:actionURL name="deleteMicroblogsEntry" var="deleteURL" windowState="<%= LiferayWindowState.NORMAL.toString() %>">
+									<portlet:param name="microblogsEntryId" value="<%= String.valueOf(microblogsEntry.getMicroblogsEntryId()) %>" />
+								</portlet:actionURL>
 
-							<span class="action delete"><a href="<%= deleteURL %>"><liferay-ui:message key="delete" /></a></span>
+								<a href="<%= deleteURL %>"><liferay-ui:message key="delete" /></a>
+							</span>
 						</c:if>
 					</span>
 				</div>

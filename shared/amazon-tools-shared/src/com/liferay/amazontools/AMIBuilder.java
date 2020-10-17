@@ -38,8 +38,9 @@ import com.amazonaws.util.json.JSONObject;
 
 import jargs.gnu.CmdLineParser;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+
+import java.net.ConnectException;
 
 import java.security.Security;
 
@@ -49,10 +50,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 
 import net.schmizz.sshj.SSHClient;
-import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.common.StreamCopier;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
@@ -76,13 +76,29 @@ public class AMIBuilder extends BaseAMITool {
 			cmdLineParser.addStringOption("properties.file.name");
 		CmdLineParser.Option imageNameOption = cmdLineParser.addStringOption(
 			"image.name");
+		CmdLineParser.Option outputOption = cmdLineParser.addStringOption(
+			"output");
 
 		cmdLineParser.parse(args);
 
-		AMIBuilder amiBuilder = new AMIBuilder(
+		final AMIBuilder amiBuilder = new AMIBuilder(
 			(String)cmdLineParser.getOptionValue(baseDirOption),
 			(String)cmdLineParser.getOptionValue(imageNameOption),
+			Boolean.parseBoolean(
+				(String)cmdLineParser.getOptionValue(outputOption)),
 			(String)cmdLineParser.getOptionValue(propertiesFileNameOption));
+
+		Runtime runtime = Runtime.getRuntime();
+
+		runtime.addShutdownHook(
+			new Thread() {
+
+				@Override
+				public void run() {
+					amiBuilder.destroy();
+				}
+
+			});
 
 		try {
 			amiBuilder.start();
@@ -97,17 +113,25 @@ public class AMIBuilder extends BaseAMITool {
 			e.printStackTrace();
 
 			amiBuilder.destroy();
+
+			System.exit(-1);
+
+			return;
 		}
+
+		System.exit(0);
 	}
 
 	public AMIBuilder(
-			String baseDirName, String imageName, String propertiesFileName)
+			String baseDirName, String imageName, boolean output,
+			String propertiesFileName)
 		throws Exception {
 
 		super(propertiesFileName);
 
 		_baseDirName = baseDirName;
 		_imageName = imageName;
+		_output = output;
 
 		Security.addProvider(new BouncyCastleProvider());
 
@@ -127,7 +151,7 @@ public class AMIBuilder extends BaseAMITool {
 
 		boolean created = false;
 
-		for (int i = 0; i < 6; i ++) {
+		for (int i = 0; i < 6; i++) {
 			sleep(30);
 
 			created = isImageCreated(createImageResult.getImageId());
@@ -158,9 +182,15 @@ public class AMIBuilder extends BaseAMITool {
 	}
 
 	protected void destroy() {
+		if (_instanceId == null) {
+			return;
+		}
+
 		terminateInstance(_instanceId);
 
 		amazonEC2Client.shutdown();
+
+		_instanceId = null;
 	}
 
 	protected void executeScript(SSHClient sshClient, String scriptFileName)
@@ -189,69 +219,35 @@ public class AMIBuilder extends BaseAMITool {
 
 		Session session = sshClient.startSession();
 
+		session.allocateDefaultPTY();
+
 		try {
 			Session.Command sessionCommand = session.exec(command);
 
-			ByteArrayOutputStream byteArrayOutputStream = IOUtils.readFully(
-				sessionCommand.getInputStream());
-
-			String result = byteArrayOutputStream.toString();
-
-			if ((result != null) && (result.length() > 0)) {
-				System.out.println("Result: " + result);
+			if (_output) {
+				new StreamCopier(session.getInputStream(), System.out).copy();
 			}
 
-			sessionCommand.join(5, TimeUnit.SECONDS);
+			sessionCommand.join();
 		}
 		finally {
 			session.close();
 		}
 	}
 
-	protected String getKeyFileName() {
-		StringBuilder sb = new StringBuilder(6);
-
-		sb.append(System.getProperty("user.home"));
-		sb.append(File.separator);
-		sb.append(".ssh");
-		sb.append(File.separator);
-		sb.append(properties.getProperty("key.name"));
-		sb.append(".pem");
-
-		return sb.toString();
-	}
-
-	protected Map<String, String> getProvisioners(Properties properties) {
-		Map<String, String> provisioners = new TreeMap<String, String>();
-
-		Set<String> names = properties.stringPropertyNames();
-
-		for (String name : names) {
-			if (!name.contains("provisioners")) {
-				continue;
-			}
-
-			String value = properties.getProperty(name);
-
-			provisioners.put(name, value);
-		}
-
-		return provisioners;
-	}
-
-	protected Instance getRunningInstance(String instanceId) {
+	protected Instance getInstance(String instanceId, String state) {
 		DescribeInstancesRequest describeInstancesRequest =
 			new DescribeInstancesRequest();
 
-		List<Filter> filters = new ArrayList<Filter>();
+		List<Filter> filters = new ArrayList<>();
 
 		Filter filter = new Filter();
 
 		filter.setName("instance-state-name");
 
-		List<String> values = new ArrayList<String>();
+		List<String> values = new ArrayList<>();
 
-		values.add("running");
+		values.add(state);
 
 		filter.setValues(values);
 
@@ -259,7 +255,7 @@ public class AMIBuilder extends BaseAMITool {
 
 		describeInstancesRequest.setFilters(filters);
 
-		List<String> instanceIds = new ArrayList<String>();
+		List<String> instanceIds = new ArrayList<>();
 
 		instanceIds.add(instanceId);
 
@@ -282,17 +278,48 @@ public class AMIBuilder extends BaseAMITool {
 		return instances.get(0);
 	}
 
+	protected String getKeyFileName() {
+		StringBuilder sb = new StringBuilder(6);
+
+		sb.append(System.getProperty("user.home"));
+		sb.append(File.separator);
+		sb.append(".ssh");
+		sb.append(File.separator);
+		sb.append(properties.getProperty("key.name"));
+		sb.append(".pem");
+
+		return sb.toString();
+	}
+
+	protected Map<String, String> getProvisioners(Properties properties) {
+		Map<String, String> provisioners = new TreeMap<>();
+
+		Set<String> names = properties.stringPropertyNames();
+
+		for (String name : names) {
+			if (!name.contains("provisioners")) {
+				continue;
+			}
+
+			String value = properties.getProperty(name);
+
+			provisioners.put(name, value);
+		}
+
+		return provisioners;
+	}
+
 	protected boolean isImageCreated(String imageId) {
 		DescribeImagesRequest describeImagesRequest =
 			new DescribeImagesRequest();
 
-		List<Filter> filters = new ArrayList<Filter>();
+		List<Filter> filters = new ArrayList<>();
 
 		Filter filter = new Filter();
 
 		filter.setName("state");
 
-		List<String> values = new ArrayList<String>();
+		List<String> values = new ArrayList<>();
 
 		values.add("available");
 
@@ -302,7 +329,7 @@ public class AMIBuilder extends BaseAMITool {
 
 		describeImagesRequest.setFilters(filters);
 
-		List<String> imageIds = new ArrayList<String>();
+		List<String> imageIds = new ArrayList<>();
 
 		imageIds.add(imageId);
 
@@ -333,18 +360,37 @@ public class AMIBuilder extends BaseAMITool {
 	}
 
 	protected void provision() throws Exception {
-		sleep(45);
-
-		SSHClient sshClient = new SSHClient();
-
-		sshClient.addHostKeyVerifier(new PromiscuousVerifier());
-		sshClient.setTimeout(
-			Integer.parseInt(properties.getProperty("ssh.timeout")) * 1000);
-		sshClient.useCompression();
-
 		System.out.println("Connecting via SSH to " + _publicIpAddress);
 
-		sshClient.connect(_publicIpAddress);
+		SSHClient sshClient = null;
+
+		for (int i = 0; i < 6; i++) {
+			sleep(30);
+
+			sshClient = new SSHClient();
+
+			sshClient.addHostKeyVerifier(new PromiscuousVerifier());
+			sshClient.setTimeout(
+				Integer.parseInt(properties.getProperty("ssh.timeout")) * 1000);
+
+			sshClient.useCompression();
+
+			try {
+				sshClient.connect(_publicIpAddress);
+
+				break;
+			}
+			catch (ConnectException ce) {
+				sshClient = null;
+
+				continue;
+			}
+		}
+
+		if (sshClient == null) {
+			throw new RuntimeException(
+				"Unable to connect via SSH to " + _publicIpAddress);
+		}
 
 		FileKeyProvider fileKeyProvider = new PKCS8KeyFile();
 
@@ -430,7 +476,7 @@ public class AMIBuilder extends BaseAMITool {
 
 		runInstancesRequest.setPlacement(placement);
 
-		List<String> securityGroupsIds = new ArrayList<String>();
+		List<String> securityGroupsIds = new ArrayList<>();
 
 		securityGroupsIds.add(properties.getProperty("security.group.id"));
 
@@ -476,34 +522,41 @@ public class AMIBuilder extends BaseAMITool {
 
 		boolean running = false;
 
-		for (int i = 0; i < 6; i++) {
+		int i = 0;
+
+		do {
+			System.out.println("Waiting for running instance " + i + "...");
+
+			i = i + 1;
+
 			sleep(30);
 
-			instance = getRunningInstance(_instanceId);
+			instance = getInstance(_instanceId, "pending");
+		}
+		while (instance != null);
 
-			if (instance != null) {
-				_publicIpAddress = instance.getPublicIpAddress();
+		instance = getInstance(_instanceId, "running");
 
-				running = true;
+		if (instance != null) {
+			_publicIpAddress = instance.getPublicIpAddress();
 
-				sb = new StringBuilder(7);
+			running = true;
 
-				sb.append("{instanceId=");
-				sb.append(_instanceId);
-				sb.append(", publicIpAddress=");
-				sb.append(_publicIpAddress);
-				sb.append(", stat=");
+			sb = new StringBuilder(7);
 
-				instanceState = instance.getState();
+			sb.append("{instanceId=");
+			sb.append(_instanceId);
+			sb.append(", publicIpAddress=");
+			sb.append(_publicIpAddress);
+			sb.append(", stat=");
 
-				sb.append(instanceState.getName());
+			instanceState = instance.getState();
 
-				sb.append("}");
+			sb.append(instanceState.getName());
 
-				System.out.println("Started instance " + sb.toString());
+			sb.append("}");
 
-				break;
-			}
+			System.out.println("Started instance " + sb.toString());
 		}
 
 		if (!running) {
@@ -553,6 +606,7 @@ public class AMIBuilder extends BaseAMITool {
 	private String _baseDirName;
 	private String _imageName;
 	private String _instanceId;
+	private boolean _output;
 	private Map<String, String> _provisioners;
 	private String _publicIpAddress;
 

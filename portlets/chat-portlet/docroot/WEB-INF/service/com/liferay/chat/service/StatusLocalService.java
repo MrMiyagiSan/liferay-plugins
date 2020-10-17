@@ -14,14 +14,30 @@
 
 package com.liferay.chat.service;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.chat.model.Status;
+
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.service.BaseLocalService;
+import com.liferay.portal.kernel.service.InvokableLocalService;
+import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
-import com.liferay.portal.service.BaseLocalService;
-import com.liferay.portal.service.InvokableLocalService;
-import com.liferay.portal.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service interface for Status. Methods of this
@@ -35,6 +51,7 @@ import com.liferay.portal.service.PersistedModelLocalService;
  * @see com.liferay.chat.service.impl.StatusLocalServiceImpl
  * @generated
  */
+@ProviderType
 @Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
 	PortalException.class, SystemException.class})
 public interface StatusLocalService extends BaseLocalService,
@@ -50,11 +67,9 @@ public interface StatusLocalService extends BaseLocalService,
 	*
 	* @param status the status
 	* @return the status that was added
-	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.chat.model.Status addStatus(
-		com.liferay.chat.model.Status status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	@Indexable(type = IndexableType.REINDEX)
+	public Status addStatus(Status status);
 
 	/**
 	* Creates a new status with the primary key. Does not add the status to the database.
@@ -62,7 +77,16 @@ public interface StatusLocalService extends BaseLocalService,
 	* @param statusId the primary key for the new status
 	* @return the new status
 	*/
-	public com.liferay.chat.model.Status createStatus(long statusId);
+	public Status createStatus(long statusId);
+
+	/**
+	* Deletes the status from the database. Also notifies the appropriate model listeners.
+	*
+	* @param status the status
+	* @return the status that was removed
+	*/
+	@Indexable(type = IndexableType.DELETE)
+	public Status deleteStatus(Status status);
 
 	/**
 	* Deletes the status with the primary key from the database. Also notifies the appropriate model listeners.
@@ -70,36 +94,88 @@ public interface StatusLocalService extends BaseLocalService,
 	* @param statusId the primary key of the status
 	* @return the status that was removed
 	* @throws PortalException if a status with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public com.liferay.chat.model.Status deleteStatus(long statusId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+	@Indexable(type = IndexableType.DELETE)
+	public Status deleteStatus(long statusId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Status fetchStatus(long statusId);
 
 	/**
-	* Deletes the status from the database. Also notifies the appropriate model listeners.
+	* Returns the status with the primary key.
+	*
+	* @param statusId the primary key of the status
+	* @return the status
+	* @throws PortalException if a status with the primary key could not be found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Status getStatus(long statusId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Status getUserStatus(long userId);
+
+	/**
+	* Updates the status in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param status the status
-	* @return the status that was removed
-	* @throws SystemException if a system exception occurred
+	* @return the status that was updated
 	*/
-	public com.liferay.chat.model.Status deleteStatus(
-		com.liferay.chat.model.Status status)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	@Indexable(type = IndexableType.REINDEX)
+	public Status updateStatus(Status status);
 
-	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery();
+	public Status updateStatus(long userId, long modifiedDate);
+
+	public Status updateStatus(long userId, long modifiedDate, int online,
+		int awake, java.lang.String activePanelIds, java.lang.String message,
+		int playSound);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ActionableDynamicQuery getActionableDynamicQuery();
+
+	public DynamicQuery dynamicQuery();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	/**
+	* @throws PortalException
+	*/
+	@Override
+	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
+		throws PortalException;
+
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException;
+
+	/**
+	* Returns the number of statuses.
+	*
+	* @return the number of statuses
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getStatusesCount();
+
+	@Override
+	public java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable;
+
+	/**
+	* Returns the OSGi service identifier.
+	*
+	* @return the OSGi service identifier
+	*/
+	public java.lang.String getOSGiServiceIdentifier();
 
 	/**
 	* Performs a dynamic query on the database and returns the matching rows.
 	*
 	* @param dynamicQuery the dynamic query
 	* @return the matching rows
-	* @throws SystemException if a system exception occurred
 	*/
-	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery);
 
 	/**
 	* Performs a dynamic query on the database and returns a range of the matching rows.
@@ -112,12 +188,9 @@ public interface StatusLocalService extends BaseLocalService,
 	* @param start the lower bound of the range of model instances
 	* @param end the upper bound of the range of model instances (not inclusive)
 	* @return the range of matching rows
-	* @throws SystemException if a system exception occurred
 	*/
-	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException;
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end);
 
 	/**
 	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
@@ -131,62 +204,25 @@ public interface StatusLocalService extends BaseLocalService,
 	* @param end the upper bound of the range of model instances (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching rows
-	* @throws SystemException if a system exception occurred
 	*/
-	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns the number of rows that match the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows that match the dynamic query
-	* @throws SystemException if a system exception occurred
-	*/
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns the number of rows that match the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows that match the dynamic query
-	* @throws SystemException if a system exception occurred
-	*/
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end, OrderByComparator<T> orderByComparator);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.chat.model.Status fetchStatus(long statusId)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List<java.lang.Object[]> getAllStatuses(long companyId, long userId,
+		long modifiedDate, int start, int end);
 
-	/**
-	* Returns the status with the primary key.
-	*
-	* @param statusId the primary key of the status
-	* @return the status
-	* @throws PortalException if a status with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.chat.model.Status getStatus(long statusId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+	public List<java.lang.Object[]> getGroupStatuses(long userId,
+		long modifiedDate, java.lang.String[] groupNames, int start, int end);
 
-	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException;
+	public List<java.lang.Object[]> getSocialStatuses(long userId, int type,
+		long modifiedDate, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<java.lang.Object[]> getSocialStatuses(long userId, int[] types,
+		long modifiedDate, int start, int end);
 
 	/**
 	* Returns a range of all the statuses.
@@ -198,83 +234,25 @@ public interface StatusLocalService extends BaseLocalService,
 	* @param start the lower bound of the range of statuses
 	* @param end the upper bound of the range of statuses (not inclusive)
 	* @return the range of statuses
-	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.chat.model.Status> getStatuses(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public List<Status> getStatuses(int start, int end);
 
 	/**
-	* Returns the number of statuses.
+	* Returns the number of rows matching the dynamic query.
 	*
-	* @return the number of statuses
-	* @throws SystemException if a system exception occurred
+	* @param dynamicQuery the dynamic query
+	* @return the number of rows matching the dynamic query
 	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getStatusesCount()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long dynamicQueryCount(DynamicQuery dynamicQuery);
 
 	/**
-	* Updates the status in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	* Returns the number of rows matching the dynamic query.
 	*
-	* @param status the status
-	* @return the status that was updated
-	* @throws SystemException if a system exception occurred
+	* @param dynamicQuery the dynamic query
+	* @param projection the projection to apply to the query
+	* @return the number of rows matching the dynamic query
 	*/
-	public com.liferay.chat.model.Status updateStatus(
-		com.liferay.chat.model.Status status)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	/**
-	* Returns the Spring bean ID for this bean.
-	*
-	* @return the Spring bean ID for this bean
-	*/
-	public java.lang.String getBeanIdentifier();
-
-	/**
-	* Sets the Spring bean ID for this bean.
-	*
-	* @param beanIdentifier the Spring bean ID for this bean
-	*/
-	public void setBeanIdentifier(java.lang.String beanIdentifier);
-
-	@Override
-	public java.lang.Object invokeMethod(java.lang.String name,
-		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
-		throws java.lang.Throwable;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<java.lang.Object[]> getAllStatuses(long companyId,
-		long userId, long modifiedDate, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<java.lang.Object[]> getGroupStatuses(long userId,
-		long modifiedDate, java.lang.String[] groupNames, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<java.lang.Object[]> getSocialStatuses(long userId,
-		int type, long modifiedDate, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<java.lang.Object[]> getSocialStatuses(long userId,
-		int[] types, long modifiedDate, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public com.liferay.chat.model.Status getUserStatus(long userId)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	public com.liferay.chat.model.Status updateStatus(long userId,
-		long modifiedDate)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	public com.liferay.chat.model.Status updateStatus(long userId,
-		long modifiedDate, int online, int awake,
-		java.lang.String activePanelIds, java.lang.String message, int playSound)
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public long dynamicQueryCount(DynamicQuery dynamicQuery,
+		Projection projection);
 }

@@ -14,19 +14,22 @@
 
 package com.liferay.socialcoding.service;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.util.ClassLoaderObjectInputStream;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.BaseModel;
 
 import com.liferay.socialcoding.model.JIRAActionClp;
 import com.liferay.socialcoding.model.JIRAChangeGroupClp;
 import com.liferay.socialcoding.model.JIRAChangeItemClp;
 import com.liferay.socialcoding.model.JIRAIssueClp;
+import com.liferay.socialcoding.model.JIRAProjectClp;
 import com.liferay.socialcoding.model.SVNRepositoryClp;
 import com.liferay.socialcoding.model.SVNRevisionClp;
 
@@ -41,6 +44,7 @@ import java.util.List;
 /**
  * @author Brian Wing Shun Chan
  */
+@ProviderType
 public class ClpSerializer {
 	public static String getServletContextName() {
 		if (Validator.isNotNull(_servletContextName)) {
@@ -121,6 +125,10 @@ public class ClpSerializer {
 			return translateInputJIRAIssue(oldModel);
 		}
 
+		if (oldModelClassName.equals(JIRAProjectClp.class.getName())) {
+			return translateInputJIRAProject(oldModel);
+		}
+
 		if (oldModelClassName.equals(SVNRepositoryClp.class.getName())) {
 			return translateInputSVNRepository(oldModel);
 		}
@@ -184,6 +192,16 @@ public class ClpSerializer {
 		return newModel;
 	}
 
+	public static Object translateInputJIRAProject(BaseModel<?> oldModel) {
+		JIRAProjectClp oldClpModel = (JIRAProjectClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getJIRAProjectRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
 	public static Object translateInputSVNRepository(BaseModel<?> oldModel) {
 		SVNRepositoryClp oldClpModel = (SVNRepositoryClp)oldModel;
 
@@ -225,30 +243,259 @@ public class ClpSerializer {
 					"com.liferay.socialcoding.model.impl.JIRAActionImpl")) {
 			return translateOutputJIRAAction(oldModel);
 		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
 
 		if (oldModelClassName.equals(
 					"com.liferay.socialcoding.model.impl.JIRAChangeGroupImpl")) {
 			return translateOutputJIRAChangeGroup(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
 		}
 
 		if (oldModelClassName.equals(
 					"com.liferay.socialcoding.model.impl.JIRAChangeItemImpl")) {
 			return translateOutputJIRAChangeItem(oldModel);
 		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
 
 		if (oldModelClassName.equals(
 					"com.liferay.socialcoding.model.impl.JIRAIssueImpl")) {
 			return translateOutputJIRAIssue(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"com.liferay.socialcoding.model.impl.JIRAProjectImpl")) {
+			return translateOutputJIRAProject(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
 		}
 
 		if (oldModelClassName.equals(
 					"com.liferay.socialcoding.model.impl.SVNRepositoryImpl")) {
 			return translateOutputSVNRepository(oldModel);
 		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
 
 		if (oldModelClassName.equals(
 					"com.liferay.socialcoding.model.impl.SVNRevisionImpl")) {
 			return translateOutputSVNRevision(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
 		}
 
 		return oldModel;
@@ -331,38 +578,44 @@ public class ClpSerializer {
 		String className = clazz.getName();
 
 		if (className.equals(
-					"com.liferay.socialcoding.NoSuchJIRAActionException")) {
-			return new com.liferay.socialcoding.NoSuchJIRAActionException(throwable.getMessage(),
+					"com.liferay.socialcoding.exception.NoSuchJIRAActionException")) {
+			return new com.liferay.socialcoding.exception.NoSuchJIRAActionException(throwable.getMessage(),
 				throwable.getCause());
 		}
 
 		if (className.equals(
-					"com.liferay.socialcoding.NoSuchJIRAChangeGroupException")) {
-			return new com.liferay.socialcoding.NoSuchJIRAChangeGroupException(throwable.getMessage(),
+					"com.liferay.socialcoding.exception.NoSuchJIRAChangeGroupException")) {
+			return new com.liferay.socialcoding.exception.NoSuchJIRAChangeGroupException(throwable.getMessage(),
 				throwable.getCause());
 		}
 
 		if (className.equals(
-					"com.liferay.socialcoding.NoSuchJIRAChangeItemException")) {
-			return new com.liferay.socialcoding.NoSuchJIRAChangeItemException(throwable.getMessage(),
+					"com.liferay.socialcoding.exception.NoSuchJIRAChangeItemException")) {
+			return new com.liferay.socialcoding.exception.NoSuchJIRAChangeItemException(throwable.getMessage(),
 				throwable.getCause());
 		}
 
 		if (className.equals(
-					"com.liferay.socialcoding.NoSuchJIRAIssueException")) {
-			return new com.liferay.socialcoding.NoSuchJIRAIssueException(throwable.getMessage(),
+					"com.liferay.socialcoding.exception.NoSuchJIRAIssueException")) {
+			return new com.liferay.socialcoding.exception.NoSuchJIRAIssueException(throwable.getMessage(),
 				throwable.getCause());
 		}
 
 		if (className.equals(
-					"com.liferay.socialcoding.NoSuchSVNRepositoryException")) {
-			return new com.liferay.socialcoding.NoSuchSVNRepositoryException(throwable.getMessage(),
+					"com.liferay.socialcoding.exception.NoSuchJIRAProjectException")) {
+			return new com.liferay.socialcoding.exception.NoSuchJIRAProjectException(throwable.getMessage(),
 				throwable.getCause());
 		}
 
 		if (className.equals(
-					"com.liferay.socialcoding.NoSuchSVNRevisionException")) {
-			return new com.liferay.socialcoding.NoSuchSVNRevisionException(throwable.getMessage(),
+					"com.liferay.socialcoding.exception.NoSuchSVNRepositoryException")) {
+			return new com.liferay.socialcoding.exception.NoSuchSVNRepositoryException(throwable.getMessage(),
+				throwable.getCause());
+		}
+
+		if (className.equals(
+					"com.liferay.socialcoding.exception.NoSuchSVNRevisionException")) {
+			return new com.liferay.socialcoding.exception.NoSuchSVNRevisionException(throwable.getMessage(),
 				throwable.getCause());
 		}
 
@@ -405,6 +658,16 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setJIRAIssueRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputJIRAProject(BaseModel<?> oldModel) {
+		JIRAProjectClp newModel = new JIRAProjectClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setJIRAProjectRemoteModel(oldModel);
 
 		return newModel;
 	}

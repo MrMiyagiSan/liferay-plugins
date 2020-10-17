@@ -21,19 +21,26 @@ import com.liferay.chat.service.StatusLocalServiceUtil;
 import com.liferay.chat.util.BuddyFinderUtil;
 import com.liferay.chat.util.ChatConstants;
 import com.liferay.chat.util.PortletPropsValues;
-import com.liferay.portal.NoSuchUserException;
+import com.liferay.portal.kernel.exception.NoSuchLayoutSetException;
+import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.ContactConstants;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserConstants;
 import com.liferay.portal.kernel.poller.BasePollerProcessor;
 import com.liferay.portal.kernel.poller.PollerRequest;
 import com.liferay.portal.kernel.poller.PollerResponse;
+import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Time;
-import com.liferay.portal.model.ContactConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.UserLocalServiceUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,12 +62,15 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 	}
 
 	@Override
-	protected void doReceive(
-			PollerRequest pollerRequest, PollerResponse pollerResponse)
+	protected PollerResponse doReceive(PollerRequest pollerRequest)
 		throws Exception {
+
+		PollerResponse pollerResponse = pollerRequest.createPollerResponse();
 
 		getBuddies(pollerRequest, pollerResponse);
 		getEntries(pollerRequest, pollerResponse);
+
+		return pollerResponse;
 	}
 
 	@Override
@@ -79,13 +89,16 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 		JSONArray buddiesJSONArray = JSONFactoryUtil.createJSONArray();
 
 		for (Object[] buddy : buddies) {
-			long userId = (Long)buddy[0];
-			String screenName = (String)buddy[1];
-			String firstName = (String)buddy[2];
-			String middleName = (String)buddy[3];
-			String lastName = (String)buddy[4];
-			long portraitId = (Long)buddy[5];
-			boolean awake = (Boolean)buddy[6];
+			boolean awake = (Boolean)buddy[0];
+			String firstName = (String)buddy[1];
+			long groupId = (Long)buddy[2];
+			String lastName = (String)buddy[3];
+			boolean male = (Boolean)buddy[4];
+			String middleName = (String)buddy[5];
+			long portraitId = (Long)buddy[6];
+			String screenName = (String)buddy[7];
+			long userId = (Long)buddy[8];
+			String userUuid = (String)buddy[9];
 
 			JSONObject curUserJSONObject = JSONFactoryUtil.createJSONObject();
 
@@ -95,21 +108,43 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 
 			curUserJSONObject.put("awake", awake);
 
+			String displayURL = StringPool.BLANK;
+
+			try {
+				LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
+					groupId, false);
+
+				if (layoutSet.getPageCount() > 0) {
+					displayURL = PortalUtil.getLayoutSetDisplayURL(
+						layoutSet, false);
+
+					displayURL = HttpUtil.removeDomain(displayURL);
+				}
+			}
+			catch (NoSuchLayoutSetException nslse) {
+			}
+
+			curUserJSONObject.put("displayURL", displayURL);
+
 			String fullName = ContactConstants.getFullName(
 				firstName, middleName, lastName);
 
 			curUserJSONObject.put("fullName", fullName);
 
-			User user = UserLocalServiceUtil.getUser(userId);
-
-			curUserJSONObject.put("groupId", user.getGroupId());
-
+			curUserJSONObject.put("groupId", groupId);
 			curUserJSONObject.put("portraitId", portraitId);
+
+			String portraitURL = UserConstants.getPortraitURL(
+				StringPool.BLANK, male, portraitId, userUuid);
+
+			curUserJSONObject.put("portraitURL", portraitURL);
+
 			curUserJSONObject.put("screenName", screenName);
 
 			String statusMessage = buddyStatus.getMessage();
 
 			curUserJSONObject.put("statusMessage", statusMessage);
+
 			curUserJSONObject.put("userId", userId);
 
 			buddiesJSONArray.put(curUserJSONObject);
@@ -144,8 +179,8 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 		for (Entry entry : entries) {
 			JSONObject entryJSONObject = JSONFactoryUtil.createJSONObject();
 
-			entryJSONObject.put("entryId", entry.getEntryId());
 			entryJSONObject.put("createDate", entry.getCreateDate());
+			entryJSONObject.put("entryId", entry.getEntryId());
 			entryJSONObject.put("fromUserId", entry.getFromUserId());
 
 			if (entry.getFromUserId() != pollerRequest.getUserId()) {
@@ -162,9 +197,9 @@ public class ChatPollerProcessor extends BasePollerProcessor {
 				}
 			}
 
-			entryJSONObject.put("toUserId", entry.getToUserId());
 			entryJSONObject.put("content", HtmlUtil.escape(entry.getContent()));
 			entryJSONObject.put("flag", entry.getFlag());
+			entryJSONObject.put("toUserId", entry.getToUserId());
 
 			entriesJSONArray.put(entryJSONObject);
 		}

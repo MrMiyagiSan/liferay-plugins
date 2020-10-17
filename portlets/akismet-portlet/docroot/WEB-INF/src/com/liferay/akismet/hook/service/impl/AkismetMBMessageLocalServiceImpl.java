@@ -20,22 +20,21 @@ import com.liferay.akismet.util.AkismetConstants;
 import com.liferay.akismet.util.AkismetUtil;
 import com.liferay.akismet.util.PortletPropsKeys;
 import com.liferay.akismet.util.PrefsPortletPropsUtil;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.message.boards.kernel.model.MBMessage;
+import com.liferay.message.boards.kernel.service.MBMessageLocalService;
+import com.liferay.message.boards.kernel.service.MBMessageLocalServiceWrapper;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portlet.blogs.model.BlogsEntry;
-import com.liferay.portlet.messageboards.model.MBMessage;
-import com.liferay.portlet.messageboards.service.MBMessageLocalService;
-import com.liferay.portlet.messageboards.service.MBMessageLocalServiceWrapper;
-import com.liferay.portlet.wiki.model.WikiPage;
 
 import java.io.InputStream;
 
@@ -60,7 +59,7 @@ public class AkismetMBMessageLocalServiceImpl
 			long userId, String userName, long groupId, String className,
 			long classPK, long threadId, long parentMessageId, String subject,
 			String body, ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		boolean enabled = isDiscussionsEnabled(userId, serviceContext);
 
@@ -72,6 +71,14 @@ public class AkismetMBMessageLocalServiceImpl
 		MBMessage message = super.addDiscussionMessage(
 			userId, userName, groupId, className, classPK, threadId,
 			parentMessageId, subject, body, serviceContext);
+
+		String contentURL = (String)serviceContext.getAttribute("contentURL");
+
+		if (Validator.isNotNull(contentURL)) {
+			ExpandoBridge expandoBridge = message.getExpandoBridge();
+
+			expandoBridge.setAttribute("akismetContentURL", contentURL, false);
+		}
 
 		AkismetData akismetData = updateAkismetData(message, serviceContext);
 
@@ -99,7 +106,7 @@ public class AkismetMBMessageLocalServiceImpl
 			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
 			boolean anonymous, double priority, boolean allowPingbacks,
 			ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		boolean enabled = isMessageBoardsEnabled(
 			userId, groupId, serviceContext);
@@ -139,7 +146,7 @@ public class AkismetMBMessageLocalServiceImpl
 			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
 			boolean anonymous, double priority, boolean allowPingbacks,
 			ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		boolean enabled = isMessageBoardsEnabled(
 			userId, groupId, serviceContext);
@@ -176,7 +183,7 @@ public class AkismetMBMessageLocalServiceImpl
 	public MBMessage updateDiscussionMessage(
 			long userId, long messageId, String className, long classPK,
 			String subject, String body, ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		boolean enabled = isDiscussionsEnabled(userId, serviceContext);
 
@@ -213,7 +220,7 @@ public class AkismetMBMessageLocalServiceImpl
 			List<ObjectValuePair<String, InputStream>> inputStreamOVPs,
 			List<String> existingFiles, double priority, boolean allowPingbacks,
 			ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		MBMessage message = super.getMBMessage(messageId);
 
@@ -250,37 +257,25 @@ public class AkismetMBMessageLocalServiceImpl
 	protected String getPermalink(
 		MBMessage message, ServiceContext serviceContext) {
 
+		String contentURL = (String)serviceContext.getAttribute("contentURL");
+
+		if (Validator.isNotNull(contentURL)) {
+			return contentURL;
+		}
+
 		StringBundler sb = new StringBundler(4);
 
 		sb.append(serviceContext.getPortalURL());
 		sb.append(serviceContext.getPathMain());
-
-		if (message.isDiscussion()) {
-			String className = message.getClassName();
-
-			if (className.equals(BlogsEntry.class.getName())) {
-				sb.append("/blogs/find_entry?entryId=");
-				sb.append(message.getClassPK());
-			}
-			else if (className.equals(WikiPage.class.getName())) {
-				sb.append("/wiki/find_page?pageResourcePrimKey=");
-				sb.append(message.getClassPK());
-			}
-			else {
-				return StringPool.BLANK;
-			}
-		}
-		else {
-			sb.append("/message_boards/find_entry?messageId=");
-			sb.append(message.getMessageId());
-		}
+		sb.append("/message_boards/find_entry?messageId=");
+		sb.append(message.getMessageId());
 
 		return sb.toString();
 	}
 
 	protected boolean isDiscussionsEnabled(
 			long userId, ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		if (serviceContext.getWorkflowAction() !=
 				WorkflowConstants.ACTION_PUBLISH) {
@@ -304,7 +299,7 @@ public class AkismetMBMessageLocalServiceImpl
 
 	protected boolean isMessageBoardsEnabled(
 			long userId, long groupId, ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		if (serviceContext.getWorkflowAction() !=
 				WorkflowConstants.ACTION_PUBLISH) {
@@ -338,8 +333,7 @@ public class AkismetMBMessageLocalServiceImpl
 	}
 
 	protected AkismetData updateAkismetData(
-			MBMessage message, ServiceContext serviceContext)
-		throws SystemException {
+		MBMessage message, ServiceContext serviceContext) {
 
 		if (!AkismetUtil.hasRequiredInfo(serviceContext)) {
 			return null;

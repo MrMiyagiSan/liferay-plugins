@@ -30,7 +30,7 @@
 	/>
 
 	<liferay-ui:search-container-row
-		className="com.liferay.portlet.social.model.SocialRequest"
+		className="com.liferay.social.kernel.model.SocialRequest"
 		escapedModel="<%= true %>"
 		keyProperty="requestId"
 		modelVar="socialRequest"
@@ -40,22 +40,21 @@
 		User user2 = UserLocalServiceUtil.getUser(socialRequest.getUserId());
 		%>
 
-		<liferay-portlet:renderURL varImpl="rowURL">
-			<portlet:param name="mvcPath" value="/contacts_center/view_user.jsp" />
-			<portlet:param name="backURL" value="<%= currentURL %>" />
-			<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
-		</liferay-portlet:renderURL>
-
 		<liferay-ui:search-container-column-text
 			name="requests"
 		>
+			<liferay-portlet:renderURL varImpl="rowURL">
+				<portlet:param name="mvcPath" value="/contacts_center/view_user.jsp" />
+				<portlet:param name="backURL" value="<%= currentURL %>" />
+				<portlet:param name="userId" value="<%= String.valueOf(user2.getUserId()) %>" />
+			</liferay-portlet:renderURL>
 
 			<%
 			String creatorUserName = "<a href=\"" + rowURL.toString() +"\">" + user2.getFullName() + "</a>";
 			%>
 
 			<div class="lfr-user-portrait">
-				<a href="<%= rowURL %>"><img alt="<liferay-ui:message key="avatar" />" class="avatar" src="<%= user2.getPortraitURL(themeDisplay) %>" /></a>
+				<a href="<%= rowURL %>"><img alt="<liferay-ui:message escapeAttribute="<%= true %>" key="avatar" />" class="avatar" src="<%= user2.getPortraitURL(themeDisplay) %>" /></a>
 			</div>
 
 			<div class="lfr-user-data">
@@ -69,9 +68,9 @@
 					<portlet:param name="redirect" value="<%= currentURL %>" />
 					<portlet:param name="requestId" value="<%= String.valueOf(socialRequest.getRequestId()) %>" />
 					<portlet:param name="status" value="<%= String.valueOf(SocialRequestConstants.STATUS_CONFIRM) %>" />
-				</portlet:actionURL >
+				</portlet:actionURL>
 
-				<span class="lfr-user-action-item lfr-user-action-confirm">
+				<span class="lfr-user-action-confirm lfr-user-action-item">
 					<a href="<%= confirmURL %>"><liferay-ui:message key="confirm" /></a>
 				</span>
 
@@ -79,9 +78,9 @@
 					<portlet:param name="redirect" value="<%= currentURL %>" />
 					<portlet:param name="requestId" value="<%= String.valueOf(socialRequest.getRequestId()) %>" />
 					<portlet:param name="status" value="<%= String.valueOf(SocialRequestConstants.STATUS_IGNORE) %>" />
-				</portlet:actionURL >
+				</portlet:actionURL>
 
-				<span class="lfr-user-action-item lfr-user-action-ignore">
+				<span class="lfr-user-action-ignore lfr-user-action-item">
 					<a href="<%= ignoreURL %>"><liferay-ui:message key="ignore" /></a>
 				</span>
 			</div>

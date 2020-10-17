@@ -14,27 +14,33 @@
 
 package com.liferay.testblob.service.base;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.bean.IdentifiableBean;
 import com.liferay.portal.kernel.dao.db.DB;
-import com.liferay.portal.kernel.dao.db.DBFactoryUtil;
+import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
+import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistryUtil;
+import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
+import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.model.PersistedModel;
-import com.liferay.portal.service.BaseLocalServiceImpl;
-import com.liferay.portal.service.PersistedModelLocalServiceRegistryUtil;
-import com.liferay.portal.service.persistence.ClassNamePersistence;
-import com.liferay.portal.service.persistence.UserPersistence;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 
 import com.liferay.testblob.model.TestBlobEntry;
 import com.liferay.testblob.model.TestBlobEntryBlobFieldBlobModel;
@@ -59,9 +65,10 @@ import javax.sql.DataSource;
  * @see com.liferay.testblob.service.TestBlobEntryLocalServiceUtil
  * @generated
  */
+@ProviderType
 public abstract class TestBlobEntryLocalServiceBaseImpl
 	extends BaseLocalServiceImpl implements TestBlobEntryLocalService,
-		IdentifiableBean {
+		IdentifiableOSGiService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -73,12 +80,10 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @param testBlobEntry the test blob entry
 	 * @return the test blob entry that was added
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
-	public TestBlobEntry addTestBlobEntry(TestBlobEntry testBlobEntry)
-		throws SystemException {
+	public TestBlobEntry addTestBlobEntry(TestBlobEntry testBlobEntry) {
 		testBlobEntry.setNew(true);
 
 		return testBlobEntryPersistence.update(testBlobEntry);
@@ -91,6 +96,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @return the new test blob entry
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public TestBlobEntry createTestBlobEntry(long testBlobEntryId) {
 		return testBlobEntryPersistence.create(testBlobEntryId);
 	}
@@ -101,12 +107,11 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param testBlobEntryId the primary key of the test blob entry
 	 * @return the test blob entry that was removed
 	 * @throws PortalException if a test blob entry with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public TestBlobEntry deleteTestBlobEntry(long testBlobEntryId)
-		throws PortalException, SystemException {
+		throws PortalException {
 		return testBlobEntryPersistence.remove(testBlobEntryId);
 	}
 
@@ -115,12 +120,10 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @param testBlobEntry the test blob entry
 	 * @return the test blob entry that was removed
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public TestBlobEntry deleteTestBlobEntry(TestBlobEntry testBlobEntry)
-		throws SystemException {
+	public TestBlobEntry deleteTestBlobEntry(TestBlobEntry testBlobEntry) {
 		return testBlobEntryPersistence.remove(testBlobEntry);
 	}
 
@@ -137,12 +140,9 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	@SuppressWarnings("rawtypes")
-	public List dynamicQuery(DynamicQuery dynamicQuery)
-		throws SystemException {
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return testBlobEntryPersistence.findWithDynamicQuery(dynamicQuery);
 	}
 
@@ -157,12 +157,10 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param start the lower bound of the range of model instances
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	@SuppressWarnings("rawtypes")
-	public List dynamicQuery(DynamicQuery dynamicQuery, int start, int end)
-		throws SystemException {
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end) {
 		return testBlobEntryPersistence.findWithDynamicQuery(dynamicQuery,
 			start, end);
 	}
@@ -179,47 +177,41 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	@SuppressWarnings("rawtypes")
-	public List dynamicQuery(DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator orderByComparator) throws SystemException {
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end, OrderByComparator<T> orderByComparator) {
 		return testBlobEntryPersistence.findWithDynamicQuery(dynamicQuery,
 			start, end, orderByComparator);
 	}
 
 	/**
-	 * Returns the number of rows that match the dynamic query.
+	 * Returns the number of rows matching the dynamic query.
 	 *
 	 * @param dynamicQuery the dynamic query
-	 * @return the number of rows that match the dynamic query
-	 * @throws SystemException if a system exception occurred
+	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery)
-		throws SystemException {
+	public long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return testBlobEntryPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 
 	/**
-	 * Returns the number of rows that match the dynamic query.
+	 * Returns the number of rows matching the dynamic query.
 	 *
 	 * @param dynamicQuery the dynamic query
 	 * @param projection the projection to apply to the query
-	 * @return the number of rows that match the dynamic query
-	 * @throws SystemException if a system exception occurred
+	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) throws SystemException {
+		Projection projection) {
 		return testBlobEntryPersistence.countWithDynamicQuery(dynamicQuery,
 			projection);
 	}
 
 	@Override
-	public TestBlobEntry fetchTestBlobEntry(long testBlobEntryId)
-		throws SystemException {
+	public TestBlobEntry fetchTestBlobEntry(long testBlobEntryId) {
 		return testBlobEntryPersistence.fetchByPrimaryKey(testBlobEntryId);
 	}
 
@@ -229,17 +221,61 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param testBlobEntryId the primary key of the test blob entry
 	 * @return the test blob entry
 	 * @throws PortalException if a test blob entry with the primary key could not be found
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public TestBlobEntry getTestBlobEntry(long testBlobEntryId)
-		throws PortalException, SystemException {
+		throws PortalException {
 		return testBlobEntryPersistence.findByPrimaryKey(testBlobEntryId);
 	}
 
 	@Override
+	public ActionableDynamicQuery getActionableDynamicQuery() {
+		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+
+		actionableDynamicQuery.setBaseLocalService(testBlobEntryLocalService);
+		actionableDynamicQuery.setClassLoader(getClassLoader());
+		actionableDynamicQuery.setModelClass(TestBlobEntry.class);
+
+		actionableDynamicQuery.setPrimaryKeyPropertyName("testBlobEntryId");
+
+		return actionableDynamicQuery;
+	}
+
+	@Override
+	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(testBlobEntryLocalService);
+		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
+		indexableActionableDynamicQuery.setModelClass(TestBlobEntry.class);
+
+		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
+			"testBlobEntryId");
+
+		return indexableActionableDynamicQuery;
+	}
+
+	protected void initActionableDynamicQuery(
+		ActionableDynamicQuery actionableDynamicQuery) {
+		actionableDynamicQuery.setBaseLocalService(testBlobEntryLocalService);
+		actionableDynamicQuery.setClassLoader(getClassLoader());
+		actionableDynamicQuery.setModelClass(TestBlobEntry.class);
+
+		actionableDynamicQuery.setPrimaryKeyPropertyName("testBlobEntryId");
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
+		throws PortalException {
+		return testBlobEntryLocalService.deleteTestBlobEntry((TestBlobEntry)persistedModel);
+	}
+
+	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException, SystemException {
+		throws PortalException {
 		return testBlobEntryPersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -253,11 +289,9 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param start the lower bound of the range of test blob entries
 	 * @param end the upper bound of the range of test blob entries (not inclusive)
 	 * @return the range of test blob entries
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<TestBlobEntry> getTestBlobEntries(int start, int end)
-		throws SystemException {
+	public List<TestBlobEntry> getTestBlobEntries(int start, int end) {
 		return testBlobEntryPersistence.findAll(start, end);
 	}
 
@@ -265,10 +299,9 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * Returns the number of test blob entries.
 	 *
 	 * @return the number of test blob entries
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public int getTestBlobEntriesCount() throws SystemException {
+	public int getTestBlobEntriesCount() {
 		return testBlobEntryPersistence.countAll();
 	}
 
@@ -277,24 +310,22 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @param testBlobEntry the test blob entry
 	 * @return the test blob entry that was updated
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
-	public TestBlobEntry updateTestBlobEntry(TestBlobEntry testBlobEntry)
-		throws SystemException {
+	public TestBlobEntry updateTestBlobEntry(TestBlobEntry testBlobEntry) {
 		return testBlobEntryPersistence.update(testBlobEntry);
 	}
 
 	@Override
 	public TestBlobEntryBlobFieldBlobModel getBlobFieldBlobModel(
-		Serializable primaryKey) throws SystemException {
+		Serializable primaryKey) {
 		Session session = null;
 
 		try {
 			session = testBlobEntryPersistence.openSession();
 
-			return (com.liferay.testblob.model.TestBlobEntryBlobFieldBlobModel)session.get(TestBlobEntryBlobFieldBlobModel.class,
+			return (TestBlobEntryBlobFieldBlobModel)session.get(TestBlobEntryBlobFieldBlobModel.class,
 				primaryKey);
 		}
 		catch (Exception e) {
@@ -310,7 +341,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @return the test blob entry local service
 	 */
-	public com.liferay.testblob.service.TestBlobEntryLocalService getTestBlobEntryLocalService() {
+	public TestBlobEntryLocalService getTestBlobEntryLocalService() {
 		return testBlobEntryLocalService;
 	}
 
@@ -320,7 +351,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param testBlobEntryLocalService the test blob entry local service
 	 */
 	public void setTestBlobEntryLocalService(
-		com.liferay.testblob.service.TestBlobEntryLocalService testBlobEntryLocalService) {
+		TestBlobEntryLocalService testBlobEntryLocalService) {
 		this.testBlobEntryLocalService = testBlobEntryLocalService;
 	}
 
@@ -348,7 +379,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
 		return counterLocalService;
 	}
 
@@ -358,7 +389,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -367,7 +398,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
 		return classNameLocalService;
 	}
 
@@ -377,27 +408,8 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
 		this.classNameLocalService = classNameLocalService;
-	}
-
-	/**
-	 * Returns the class name remote service.
-	 *
-	 * @return the class name remote service
-	 */
-	public com.liferay.portal.service.ClassNameService getClassNameService() {
-		return classNameService;
-	}
-
-	/**
-	 * Sets the class name remote service.
-	 *
-	 * @param classNameService the class name remote service
-	 */
-	public void setClassNameService(
-		com.liferay.portal.service.ClassNameService classNameService) {
-		this.classNameService = classNameService;
 	}
 
 	/**
@@ -424,7 +436,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
 		return resourceLocalService;
 	}
 
@@ -434,7 +446,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -443,7 +455,7 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
 		return userLocalService;
 	}
 
@@ -453,27 +465,8 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 * @param userLocalService the user local service
 	 */
 	public void setUserLocalService(
-		com.liferay.portal.service.UserLocalService userLocalService) {
+		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
 		this.userLocalService = userLocalService;
-	}
-
-	/**
-	 * Returns the user remote service.
-	 *
-	 * @return the user remote service
-	 */
-	public com.liferay.portal.service.UserService getUserService() {
-		return userService;
-	}
-
-	/**
-	 * Sets the user remote service.
-	 *
-	 * @param userService the user remote service
-	 */
-	public void setUserService(
-		com.liferay.portal.service.UserService userService) {
-		this.userService = userService;
 	}
 
 	/**
@@ -495,10 +488,6 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		Class<?> clazz = getClass();
-
-		_classLoader = clazz.getClassLoader();
-
 		PersistedModelLocalServiceRegistryUtil.register("com.liferay.testblob.model.TestBlobEntry",
 			testBlobEntryLocalService);
 	}
@@ -509,44 +498,13 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the Spring bean ID for this bean.
+	 * Returns the OSGi service identifier.
 	 *
-	 * @return the Spring bean ID for this bean
+	 * @return the OSGi service identifier
 	 */
 	@Override
-	public String getBeanIdentifier() {
-		return _beanIdentifier;
-	}
-
-	/**
-	 * Sets the Spring bean ID for this bean.
-	 *
-	 * @param beanIdentifier the Spring bean ID for this bean
-	 */
-	@Override
-	public void setBeanIdentifier(String beanIdentifier) {
-		_beanIdentifier = beanIdentifier;
-	}
-
-	@Override
-	public Object invokeMethod(String name, String[] parameterTypes,
-		Object[] arguments) throws Throwable {
-		Thread currentThread = Thread.currentThread();
-
-		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
-
-		if (contextClassLoader != _classLoader) {
-			currentThread.setContextClassLoader(_classLoader);
-		}
-
-		try {
-			return _clpInvoker.invokeMethod(name, parameterTypes, arguments);
-		}
-		finally {
-			if (contextClassLoader != _classLoader) {
-				currentThread.setContextClassLoader(contextClassLoader);
-			}
-		}
+	public String getOSGiServiceIdentifier() {
+		return TestBlobEntryLocalService.class.getName();
 	}
 
 	protected Class<?> getModelClass() {
@@ -562,17 +520,17 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 	 *
 	 * @param sql the sql query
 	 */
-	protected void runSQL(String sql) throws SystemException {
+	protected void runSQL(String sql) {
 		try {
 			DataSource dataSource = testBlobEntryPersistence.getDataSource();
 
-			DB db = DBFactoryUtil.getDB();
+			DB db = DBManagerUtil.getDB();
 
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
 			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql, new int[0]);
+					sql);
 
 			sqlUpdate.update();
 		}
@@ -581,27 +539,20 @@ public abstract class TestBlobEntryLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = com.liferay.testblob.service.TestBlobEntryLocalService.class)
-	protected com.liferay.testblob.service.TestBlobEntryLocalService testBlobEntryLocalService;
+	@BeanReference(type = TestBlobEntryLocalService.class)
+	protected TestBlobEntryLocalService testBlobEntryLocalService;
 	@BeanReference(type = TestBlobEntryPersistence.class)
 	protected TestBlobEntryPersistence testBlobEntryPersistence;
-	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
-	protected com.liferay.counter.service.CounterLocalService counterLocalService;
-	@BeanReference(type = com.liferay.portal.service.ClassNameLocalService.class)
-	protected com.liferay.portal.service.ClassNameLocalService classNameLocalService;
-	@BeanReference(type = com.liferay.portal.service.ClassNameService.class)
-	protected com.liferay.portal.service.ClassNameService classNameService;
+	@BeanReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
+	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
+	@BeanReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
 	@BeanReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)
-	protected com.liferay.portal.service.ResourceLocalService resourceLocalService;
-	@BeanReference(type = com.liferay.portal.service.UserLocalService.class)
-	protected com.liferay.portal.service.UserLocalService userLocalService;
-	@BeanReference(type = com.liferay.portal.service.UserService.class)
-	protected com.liferay.portal.service.UserService userService;
+	@BeanReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
+	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
+	@BeanReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
+	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
 	@BeanReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	private String _beanIdentifier;
-	private ClassLoader _classLoader;
-	private TestBlobEntryLocalServiceClpInvoker _clpInvoker = new TestBlobEntryLocalServiceClpInvoker();
 }

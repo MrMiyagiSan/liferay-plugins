@@ -18,13 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Represents a WebRTC mailbox, which can contain WebRTC mail.
+ *
  * @author Philippe Proulx
  */
 public class WebRTCMailbox {
 
 	public List<WebRTCMail> popWebRTCMails() {
-		List<WebRTCMail> allWebRTCMails = new ArrayList<WebRTCMail>(
-			_webRTCMails);
+		List<WebRTCMail> allWebRTCMails = new ArrayList<>(_webRTCMails);
 
 		_webRTCMails.clear();
 
@@ -35,6 +36,6 @@ public class WebRTCMailbox {
 		_webRTCMails.add(webRTCMail);
 	}
 
-	private List<WebRTCMail> _webRTCMails = new ArrayList<WebRTCMail>();
+	private List<WebRTCMail> _webRTCMails = new ArrayList<>();
 
 }

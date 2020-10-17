@@ -14,19 +14,20 @@
 
 package com.liferay.samplelar.service.persistence;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
-import com.liferay.portal.service.ServiceContext;
 
 import com.liferay.samplelar.model.SampleLARBooking;
 
 import java.util.List;
 
 /**
- * The persistence utility for the sample l a r booking service. This utility wraps {@link SampleLARBookingPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ * The persistence utility for the sample l a r booking service. This utility wraps {@link com.liferay.samplelar.service.persistence.impl.SampleLARBookingPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
  * <p>
  * Caching information and settings can be found in <code>portal.properties</code>
@@ -34,9 +35,10 @@ import java.util.List;
  *
  * @author Mate Thurzo
  * @see SampleLARBookingPersistence
- * @see SampleLARBookingPersistenceImpl
+ * @see com.liferay.samplelar.service.persistence.impl.SampleLARBookingPersistenceImpl
  * @generated
  */
+@ProviderType
 public class SampleLARBookingUtil {
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -45,68 +47,65 @@ public class SampleLARBookingUtil {
 	 */
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#clearCache()
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache()
 	 */
 	public static void clearCache() {
 		getPersistence().clearCache();
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#clearCache(com.liferay.portal.model.BaseModel)
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache(com.liferay.portal.kernel.model.BaseModel)
 	 */
 	public static void clearCache(SampleLARBooking sampleLARBooking) {
 		getPersistence().clearCache(sampleLARBooking);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#countWithDynamicQuery(DynamicQuery)
 	 */
-	public static long countWithDynamicQuery(DynamicQuery dynamicQuery)
-		throws SystemException {
+	public static long countWithDynamicQuery(DynamicQuery dynamicQuery) {
 		return getPersistence().countWithDynamicQuery(dynamicQuery);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
 	 */
 	public static List<SampleLARBooking> findWithDynamicQuery(
-		DynamicQuery dynamicQuery) throws SystemException {
+		DynamicQuery dynamicQuery) {
 		return getPersistence().findWithDynamicQuery(dynamicQuery);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int)
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int)
 	 */
 	public static List<SampleLARBooking> findWithDynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end)
-		throws SystemException {
+		DynamicQuery dynamicQuery, int start, int end) {
 		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int, OrderByComparator)
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int, OrderByComparator)
 	 */
 	public static List<SampleLARBooking> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator orderByComparator) throws SystemException {
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence()
 				   .findWithDynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel)
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel)
 	 */
-	public static SampleLARBooking update(SampleLARBooking sampleLARBooking)
-		throws SystemException {
+	public static SampleLARBooking update(SampleLARBooking sampleLARBooking) {
 		return getPersistence().update(sampleLARBooking);
 	}
 
 	/**
-	 * @see com.liferay.portal.service.persistence.BasePersistence#update(com.liferay.portal.model.BaseModel, ServiceContext)
+	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
 	 */
 	public static SampleLARBooking update(SampleLARBooking sampleLARBooking,
-		ServiceContext serviceContext) throws SystemException {
+		ServiceContext serviceContext) {
 		return getPersistence().update(sampleLARBooking, serviceContext);
 	}
 
@@ -115,11 +114,8 @@ public class SampleLARBookingUtil {
 	*
 	* @param uuid the uuid
 	* @return the matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByUuid(
-		java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByUuid(java.lang.String uuid) {
 		return getPersistence().findByUuid(uuid);
 	}
 
@@ -127,18 +123,16 @@ public class SampleLARBookingUtil {
 	* Returns a range of all the sample l a r bookings where uuid = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param uuid the uuid
 	* @param start the lower bound of the range of sample l a r bookings
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @return the range of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByUuid(
-		java.lang.String uuid, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByUuid(java.lang.String uuid,
+		int start, int end) {
 		return getPersistence().findByUuid(uuid, start, end);
 	}
 
@@ -146,7 +140,7 @@ public class SampleLARBookingUtil {
 	* Returns an ordered range of all the sample l a r bookings where uuid = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param uuid the uuid
@@ -154,13 +148,34 @@ public class SampleLARBookingUtil {
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByUuid(
-		java.lang.String uuid, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByUuid(java.lang.String uuid,
+		int start, int end,
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence().findByUuid(uuid, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the sample l a r bookings where uuid = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param start the lower bound of the range of sample l a r bookings
+	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching sample l a r bookings
+	*/
+	public static List<SampleLARBooking> findByUuid(java.lang.String uuid,
+		int start, int end,
+		OrderByComparator<SampleLARBooking> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByUuid(uuid, start, end, orderByComparator,
+			retrieveFromCache);
 	}
 
 	/**
@@ -169,14 +184,11 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a matching sample l a r booking could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByUuid_First(
-		java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByUuid_First(java.lang.String uuid,
+		OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().findByUuid_First(uuid, orderByComparator);
 	}
 
@@ -186,12 +198,9 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByUuid_First(
-		java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByUuid_First(java.lang.String uuid,
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence().fetchByUuid_First(uuid, orderByComparator);
 	}
 
@@ -201,14 +210,11 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a matching sample l a r booking could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByUuid_Last(
-		java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByUuid_Last(java.lang.String uuid,
+		OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().findByUuid_Last(uuid, orderByComparator);
 	}
 
@@ -218,12 +224,9 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByUuid_Last(
-		java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByUuid_Last(java.lang.String uuid,
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence().fetchByUuid_Last(uuid, orderByComparator);
 	}
 
@@ -234,14 +237,12 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a sample l a r booking with the primary key could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a sample l a r booking with the primary key could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking[] findByUuid_PrevAndNext(
+	public static SampleLARBooking[] findByUuid_PrevAndNext(
 		long sampleLARBookingId, java.lang.String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+		OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence()
 				   .findByUuid_PrevAndNext(sampleLARBookingId, uuid,
 			orderByComparator);
@@ -251,10 +252,8 @@ public class SampleLARBookingUtil {
 	* Removes all the sample l a r bookings where uuid = &#63; from the database.
 	*
 	* @param uuid the uuid
-	* @throws SystemException if a system exception occurred
 	*/
-	public static void removeByUuid(java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void removeByUuid(java.lang.String uuid) {
 		getPersistence().removeByUuid(uuid);
 	}
 
@@ -263,26 +262,22 @@ public class SampleLARBookingUtil {
 	*
 	* @param uuid the uuid
 	* @return the number of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int countByUuid(java.lang.String uuid)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int countByUuid(java.lang.String uuid) {
 		return getPersistence().countByUuid(uuid);
 	}
 
 	/**
-	* Returns the sample l a r booking where uuid = &#63; and groupId = &#63; or throws a {@link com.liferay.samplelar.NoSuchBookingException} if it could not be found.
+	* Returns the sample l a r booking where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchBookingException} if it could not be found.
 	*
 	* @param uuid the uuid
 	* @param groupId the group ID
 	* @return the matching sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a matching sample l a r booking could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByUUID_G(
-		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByUUID_G(java.lang.String uuid,
+		long groupId)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().findByUUID_G(uuid, groupId);
 	}
 
@@ -292,11 +287,9 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param groupId the group ID
 	* @return the matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByUUID_G(
-		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByUUID_G(java.lang.String uuid,
+		long groupId) {
 		return getPersistence().fetchByUUID_G(uuid, groupId);
 	}
 
@@ -305,13 +298,11 @@ public class SampleLARBookingUtil {
 	*
 	* @param uuid the uuid
 	* @param groupId the group ID
-	* @param retrieveFromCache whether to use the finder cache
+	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByUUID_G(
-		java.lang.String uuid, long groupId, boolean retrieveFromCache)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByUUID_G(java.lang.String uuid,
+		long groupId, boolean retrieveFromCache) {
 		return getPersistence().fetchByUUID_G(uuid, groupId, retrieveFromCache);
 	}
 
@@ -321,12 +312,10 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param groupId the group ID
 	* @return the sample l a r booking that was removed
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking removeByUUID_G(
-		java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking removeByUUID_G(java.lang.String uuid,
+		long groupId)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().removeByUUID_G(uuid, groupId);
 	}
 
@@ -336,10 +325,8 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param groupId the group ID
 	* @return the number of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int countByUUID_G(java.lang.String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int countByUUID_G(java.lang.String uuid, long groupId) {
 		return getPersistence().countByUUID_G(uuid, groupId);
 	}
 
@@ -349,11 +336,9 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @return the matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByUuid_C(
-		java.lang.String uuid, long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByUuid_C(java.lang.String uuid,
+		long companyId) {
 		return getPersistence().findByUuid_C(uuid, companyId);
 	}
 
@@ -361,7 +346,7 @@ public class SampleLARBookingUtil {
 	* Returns a range of all the sample l a r bookings where uuid = &#63; and companyId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param uuid the uuid
@@ -369,11 +354,9 @@ public class SampleLARBookingUtil {
 	* @param start the lower bound of the range of sample l a r bookings
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @return the range of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByUuid_C(
-		java.lang.String uuid, long companyId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByUuid_C(java.lang.String uuid,
+		long companyId, int start, int end) {
 		return getPersistence().findByUuid_C(uuid, companyId, start, end);
 	}
 
@@ -381,7 +364,7 @@ public class SampleLARBookingUtil {
 	* Returns an ordered range of all the sample l a r bookings where uuid = &#63; and companyId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param uuid the uuid
@@ -390,14 +373,36 @@ public class SampleLARBookingUtil {
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByUuid_C(
-		java.lang.String uuid, long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByUuid_C(java.lang.String uuid,
+		long companyId, int start, int end,
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence()
 				   .findByUuid_C(uuid, companyId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the sample l a r bookings where uuid = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param start the lower bound of the range of sample l a r bookings
+	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching sample l a r bookings
+	*/
+	public static List<SampleLARBooking> findByUuid_C(java.lang.String uuid,
+		long companyId, int start, int end,
+		OrderByComparator<SampleLARBooking> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByUuid_C(uuid, companyId, start, end,
+			orderByComparator, retrieveFromCache);
 	}
 
 	/**
@@ -407,14 +412,11 @@ public class SampleLARBookingUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a matching sample l a r booking could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByUuid_C_First(
-		java.lang.String uuid, long companyId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByUuid_C_First(java.lang.String uuid,
+		long companyId, OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence()
 				   .findByUuid_C_First(uuid, companyId, orderByComparator);
 	}
@@ -426,12 +428,9 @@ public class SampleLARBookingUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByUuid_C_First(
-		java.lang.String uuid, long companyId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByUuid_C_First(java.lang.String uuid,
+		long companyId, OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence()
 				   .fetchByUuid_C_First(uuid, companyId, orderByComparator);
 	}
@@ -443,14 +442,11 @@ public class SampleLARBookingUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a matching sample l a r booking could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByUuid_C_Last(
-		java.lang.String uuid, long companyId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByUuid_C_Last(java.lang.String uuid,
+		long companyId, OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence()
 				   .findByUuid_C_Last(uuid, companyId, orderByComparator);
 	}
@@ -462,12 +458,9 @@ public class SampleLARBookingUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByUuid_C_Last(
-		java.lang.String uuid, long companyId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByUuid_C_Last(java.lang.String uuid,
+		long companyId, OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence()
 				   .fetchByUuid_C_Last(uuid, companyId, orderByComparator);
 	}
@@ -480,14 +473,12 @@ public class SampleLARBookingUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a sample l a r booking with the primary key could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a sample l a r booking with the primary key could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking[] findByUuid_C_PrevAndNext(
+	public static SampleLARBooking[] findByUuid_C_PrevAndNext(
 		long sampleLARBookingId, java.lang.String uuid, long companyId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+		OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence()
 				   .findByUuid_C_PrevAndNext(sampleLARBookingId, uuid,
 			companyId, orderByComparator);
@@ -498,10 +489,8 @@ public class SampleLARBookingUtil {
 	*
 	* @param uuid the uuid
 	* @param companyId the company ID
-	* @throws SystemException if a system exception occurred
 	*/
-	public static void removeByUuid_C(java.lang.String uuid, long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void removeByUuid_C(java.lang.String uuid, long companyId) {
 		getPersistence().removeByUuid_C(uuid, companyId);
 	}
 
@@ -511,10 +500,8 @@ public class SampleLARBookingUtil {
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @return the number of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int countByUuid_C(java.lang.String uuid, long companyId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int countByUuid_C(java.lang.String uuid, long companyId) {
 		return getPersistence().countByUuid_C(uuid, companyId);
 	}
 
@@ -523,11 +510,8 @@ public class SampleLARBookingUtil {
 	*
 	* @param groupId the group ID
 	* @return the matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByGroupId(
-		long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByGroupId(long groupId) {
 		return getPersistence().findByGroupId(groupId);
 	}
 
@@ -535,18 +519,16 @@ public class SampleLARBookingUtil {
 	* Returns a range of all the sample l a r bookings where groupId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param groupId the group ID
 	* @param start the lower bound of the range of sample l a r bookings
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @return the range of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByGroupId(
-		long groupId, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByGroupId(long groupId, int start,
+		int end) {
 		return getPersistence().findByGroupId(groupId, start, end);
 	}
 
@@ -554,7 +536,7 @@ public class SampleLARBookingUtil {
 	* Returns an ordered range of all the sample l a r bookings where groupId = &#63;.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param groupId the group ID
@@ -562,14 +544,33 @@ public class SampleLARBookingUtil {
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findByGroupId(
-		long groupId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findByGroupId(long groupId, int start,
+		int end, OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence()
 				   .findByGroupId(groupId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the sample l a r bookings where groupId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param start the lower bound of the range of sample l a r bookings
+	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching sample l a r bookings
+	*/
+	public static List<SampleLARBooking> findByGroupId(long groupId, int start,
+		int end, OrderByComparator<SampleLARBooking> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByGroupId(groupId, start, end, orderByComparator,
+			retrieveFromCache);
 	}
 
 	/**
@@ -578,14 +579,11 @@ public class SampleLARBookingUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a matching sample l a r booking could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByGroupId_First(
-		long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByGroupId_First(long groupId,
+		OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().findByGroupId_First(groupId, orderByComparator);
 	}
 
@@ -595,12 +593,9 @@ public class SampleLARBookingUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByGroupId_First(
-		long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByGroupId_First(long groupId,
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence().fetchByGroupId_First(groupId, orderByComparator);
 	}
 
@@ -610,14 +605,11 @@ public class SampleLARBookingUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a matching sample l a r booking could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByGroupId_Last(
-		long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByGroupId_Last(long groupId,
+		OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().findByGroupId_Last(groupId, orderByComparator);
 	}
 
@@ -627,12 +619,9 @@ public class SampleLARBookingUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching sample l a r booking, or <code>null</code> if a matching sample l a r booking could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByGroupId_Last(
-		long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByGroupId_Last(long groupId,
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence().fetchByGroupId_Last(groupId, orderByComparator);
 	}
 
@@ -643,14 +632,12 @@ public class SampleLARBookingUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a sample l a r booking with the primary key could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a sample l a r booking with the primary key could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking[] findByGroupId_PrevAndNext(
+	public static SampleLARBooking[] findByGroupId_PrevAndNext(
 		long sampleLARBookingId, long groupId,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+		OrderByComparator<SampleLARBooking> orderByComparator)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence()
 				   .findByGroupId_PrevAndNext(sampleLARBookingId, groupId,
 			orderByComparator);
@@ -660,10 +647,8 @@ public class SampleLARBookingUtil {
 	* Removes all the sample l a r bookings where groupId = &#63; from the database.
 	*
 	* @param groupId the group ID
-	* @throws SystemException if a system exception occurred
 	*/
-	public static void removeByGroupId(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static void removeByGroupId(long groupId) {
 		getPersistence().removeByGroupId(groupId);
 	}
 
@@ -672,10 +657,8 @@ public class SampleLARBookingUtil {
 	*
 	* @param groupId the group ID
 	* @return the number of matching sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int countByGroupId(long groupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int countByGroupId(long groupId) {
 		return getPersistence().countByGroupId(groupId);
 	}
 
@@ -684,8 +667,7 @@ public class SampleLARBookingUtil {
 	*
 	* @param sampleLARBooking the sample l a r booking
 	*/
-	public static void cacheResult(
-		com.liferay.samplelar.model.SampleLARBooking sampleLARBooking) {
+	public static void cacheResult(SampleLARBooking sampleLARBooking) {
 		getPersistence().cacheResult(sampleLARBooking);
 	}
 
@@ -694,8 +676,7 @@ public class SampleLARBookingUtil {
 	*
 	* @param sampleLARBookings the sample l a r bookings
 	*/
-	public static void cacheResult(
-		java.util.List<com.liferay.samplelar.model.SampleLARBooking> sampleLARBookings) {
+	public static void cacheResult(List<SampleLARBooking> sampleLARBookings) {
 		getPersistence().cacheResult(sampleLARBookings);
 	}
 
@@ -705,8 +686,7 @@ public class SampleLARBookingUtil {
 	* @param sampleLARBookingId the primary key for the new sample l a r booking
 	* @return the new sample l a r booking
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking create(
-		long sampleLARBookingId) {
+	public static SampleLARBooking create(long sampleLARBookingId) {
 		return getPersistence().create(sampleLARBookingId);
 	}
 
@@ -715,34 +695,26 @@ public class SampleLARBookingUtil {
 	*
 	* @param sampleLARBookingId the primary key of the sample l a r booking
 	* @return the sample l a r booking that was removed
-	* @throws com.liferay.samplelar.NoSuchBookingException if a sample l a r booking with the primary key could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a sample l a r booking with the primary key could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking remove(
-		long sampleLARBookingId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking remove(long sampleLARBookingId)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().remove(sampleLARBookingId);
 	}
 
-	public static com.liferay.samplelar.model.SampleLARBooking updateImpl(
-		com.liferay.samplelar.model.SampleLARBooking sampleLARBooking)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking updateImpl(SampleLARBooking sampleLARBooking) {
 		return getPersistence().updateImpl(sampleLARBooking);
 	}
 
 	/**
-	* Returns the sample l a r booking with the primary key or throws a {@link com.liferay.samplelar.NoSuchBookingException} if it could not be found.
+	* Returns the sample l a r booking with the primary key or throws a {@link NoSuchBookingException} if it could not be found.
 	*
 	* @param sampleLARBookingId the primary key of the sample l a r booking
 	* @return the sample l a r booking
-	* @throws com.liferay.samplelar.NoSuchBookingException if a sample l a r booking with the primary key could not be found
-	* @throws SystemException if a system exception occurred
+	* @throws NoSuchBookingException if a sample l a r booking with the primary key could not be found
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking findByPrimaryKey(
-		long sampleLARBookingId)
-		throws com.liferay.portal.kernel.exception.SystemException,
-			com.liferay.samplelar.NoSuchBookingException {
+	public static SampleLARBooking findByPrimaryKey(long sampleLARBookingId)
+		throws com.liferay.samplelar.exception.NoSuchBookingException {
 		return getPersistence().findByPrimaryKey(sampleLARBookingId);
 	}
 
@@ -751,22 +723,22 @@ public class SampleLARBookingUtil {
 	*
 	* @param sampleLARBookingId the primary key of the sample l a r booking
 	* @return the sample l a r booking, or <code>null</code> if a sample l a r booking with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
-	public static com.liferay.samplelar.model.SampleLARBooking fetchByPrimaryKey(
-		long sampleLARBookingId)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static SampleLARBooking fetchByPrimaryKey(long sampleLARBookingId) {
 		return getPersistence().fetchByPrimaryKey(sampleLARBookingId);
+	}
+
+	public static java.util.Map<java.io.Serializable, SampleLARBooking> fetchByPrimaryKeys(
+		java.util.Set<java.io.Serializable> primaryKeys) {
+		return getPersistence().fetchByPrimaryKeys(primaryKeys);
 	}
 
 	/**
 	* Returns all the sample l a r bookings.
 	*
 	* @return the sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findAll() {
 		return getPersistence().findAll();
 	}
 
@@ -774,17 +746,14 @@ public class SampleLARBookingUtil {
 	* Returns a range of all the sample l a r bookings.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param start the lower bound of the range of sample l a r bookings
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @return the range of sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findAll(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findAll(int start, int end) {
 		return getPersistence().findAll(start, end);
 	}
 
@@ -792,29 +761,43 @@ public class SampleLARBookingUtil {
 	* Returns an ordered range of all the sample l a r bookings.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.liferay.samplelar.model.impl.SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param start the lower bound of the range of sample l a r bookings
 	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static java.util.List<com.liferay.samplelar.model.SampleLARBooking> findAll(
-		int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findAll(int start, int end,
+		OrderByComparator<SampleLARBooking> orderByComparator) {
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
 	/**
-	* Removes all the sample l a r bookings from the database.
+	* Returns an ordered range of all the sample l a r bookings.
 	*
-	* @throws SystemException if a system exception occurred
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SampleLARBookingModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param start the lower bound of the range of sample l a r bookings
+	* @param end the upper bound of the range of sample l a r bookings (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of sample l a r bookings
 	*/
-	public static void removeAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static List<SampleLARBooking> findAll(int start, int end,
+		OrderByComparator<SampleLARBooking> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findAll(start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Removes all the sample l a r bookings from the database.
+	*/
+	public static void removeAll() {
 		getPersistence().removeAll();
 	}
 
@@ -822,11 +805,13 @@ public class SampleLARBookingUtil {
 	* Returns the number of sample l a r bookings.
 	*
 	* @return the number of sample l a r bookings
-	* @throws SystemException if a system exception occurred
 	*/
-	public static int countAll()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static int countAll() {
 		return getPersistence().countAll();
+	}
+
+	public static java.util.Set<java.lang.String> getBadColumnNames() {
+		return getPersistence().getBadColumnNames();
 	}
 
 	public static SampleLARBookingPersistence getPersistence() {
@@ -839,13 +824,6 @@ public class SampleLARBookingUtil {
 		}
 
 		return _persistence;
-	}
-
-	/**
-	 * @deprecated As of 6.2.0
-	 */
-	@Deprecated
-	public void setPersistence(SampleLARBookingPersistence persistence) {
 	}
 
 	private static SampleLARBookingPersistence _persistence;

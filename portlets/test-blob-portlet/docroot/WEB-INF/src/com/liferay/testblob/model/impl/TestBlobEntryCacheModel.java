@@ -14,9 +14,11 @@
 
 package com.liferay.testblob.model.impl;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.CacheModel;
 
 import com.liferay.testblob.model.TestBlobEntry;
 
@@ -32,8 +34,33 @@ import java.io.ObjectOutput;
  * @see TestBlobEntry
  * @generated
  */
+@ProviderType
 public class TestBlobEntryCacheModel implements CacheModel<TestBlobEntry>,
 	Externalizable {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof TestBlobEntryCacheModel)) {
+			return false;
+		}
+
+		TestBlobEntryCacheModel testBlobEntryCacheModel = (TestBlobEntryCacheModel)obj;
+
+		if (testBlobEntryId == testBlobEntryCacheModel.testBlobEntryId) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return HashUtil.hash(0, testBlobEntryId);
+	}
+
 	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(5);
@@ -51,7 +78,7 @@ public class TestBlobEntryCacheModel implements CacheModel<TestBlobEntry>,
 		TestBlobEntryImpl testBlobEntryImpl = new TestBlobEntryImpl();
 
 		if (uuid == null) {
-			testBlobEntryImpl.setUuid(StringPool.BLANK);
+			testBlobEntryImpl.setUuid("");
 		}
 		else {
 			testBlobEntryImpl.setUuid(uuid);
@@ -67,6 +94,7 @@ public class TestBlobEntryCacheModel implements CacheModel<TestBlobEntry>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
+
 		testBlobEntryId = objectInput.readLong();
 	}
 
@@ -74,7 +102,7 @@ public class TestBlobEntryCacheModel implements CacheModel<TestBlobEntry>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);

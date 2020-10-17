@@ -18,16 +18,17 @@ import com.liferay.chat.model.Entry;
 import com.liferay.chat.model.Status;
 import com.liferay.chat.service.EntryLocalServiceUtil;
 import com.liferay.chat.service.StatusLocalServiceUtil;
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.PortalService;
+import com.liferay.portal.kernel.service.PortalServiceUtil;
+import com.liferay.portal.kernel.service.persistence.CompanyUtil;
+import com.liferay.portal.kernel.service.persistence.GroupUtil;
+import com.liferay.portal.kernel.service.persistence.UserUtil;
 import com.liferay.portal.kernel.util.ReleaseInfo;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.PortalServiceUtil;
-import com.liferay.portal.service.persistence.CompanyUtil;
-import com.liferay.portal.service.persistence.GroupUtil;
-import com.liferay.portal.service.persistence.UserUtil;
 import com.liferay.testpacl.service.base.FooLocalServiceBaseImpl;
 
 import java.util.List;
@@ -39,42 +40,40 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 
 	@Override
 	public Company getCompanyPersistence_FindByPrimaryKey(long companyId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return companyPersistence.findByPrimaryKey(companyId);
 	}
 
 	@Override
 	public Company getCompanyUtil_FindByPrimaryKey(long companyId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return CompanyUtil.findByPrimaryKey(companyId);
 	}
 
 	@Override
-	public List<Entry> getEntryLocalServiceUtil_GetEntries(int start, int end)
-		throws SystemException {
-
+	public List<Entry> getEntryLocalServiceUtil_GetEntries(int start, int end) {
 		return EntryLocalServiceUtil.getEntries(start, end);
 	}
 
 	@Override
 	public Entry getEntryLocalServiceUtil_GetEntry(long entryId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return EntryLocalServiceUtil.getEntry(entryId);
 	}
 
 	@Override
 	public Group getGroupPersistence_FindByPrimaryKey(long groupId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return groupPersistence.findByPrimaryKey(groupId);
 	}
 
 	@Override
 	public Group getGroupUtil_FindByPrimaryKey(long groupId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return GroupUtil.findByPrimaryKey(groupId);
 	}
@@ -90,7 +89,7 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 	}
 
 	@Override
-	public boolean getPortalService_TestHasClassName() throws SystemException {
+	public boolean getPortalService_TestHasClassName() {
 		return portalService.testHasClassName();
 	}
 
@@ -105,9 +104,7 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 	}
 
 	@Override
-	public boolean getPortalServiceUtil_TestHasClassName()
-		throws SystemException {
-
+	public boolean getPortalServiceUtil_TestHasClassName() {
 		return PortalServiceUtil.testHasClassName();
 	}
 
@@ -118,31 +115,33 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 
 	@Override
 	public Status getStatusLocalServiceUtil_GetStatus(long statusId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return StatusLocalServiceUtil.getStatus(statusId);
 	}
 
 	@Override
 	public List<Status> getStatusLocalServiceUtil_GetStatuses(
-			int start, int end)
-		throws SystemException {
+		int start, int end) {
 
 		return StatusLocalServiceUtil.getStatuses(start, end);
 	}
 
 	@Override
 	public User getUserPersistence_FindByPrimaryKey(long userId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return userPersistence.findByPrimaryKey(userId);
 	}
 
 	@Override
 	public User getUserUtil_FindByPrimaryKey(long userId)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		return UserUtil.findByPrimaryKey(userId);
 	}
+
+	@BeanReference(type = PortalService.class)
+	protected PortalService portalService;
 
 }

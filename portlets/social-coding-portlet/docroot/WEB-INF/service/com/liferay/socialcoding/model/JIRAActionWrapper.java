@@ -14,8 +14,15 @@
 
 package com.liferay.socialcoding.model;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.expando.kernel.model.ExpandoBridge;
+
+import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ModelWrapper;
+
+import java.io.Serializable;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +37,7 @@ import java.util.Map;
  * @see JIRAAction
  * @generated
  */
+@ProviderType
 public class JIRAActionWrapper implements JIRAAction, ModelWrapper<JIRAAction> {
 	public JIRAActionWrapper(JIRAAction jiraAction) {
 		_jiraAction = jiraAction;
@@ -112,204 +120,9 @@ public class JIRAActionWrapper implements JIRAAction, ModelWrapper<JIRAAction> {
 		}
 	}
 
-	/**
-	* Returns the primary key of this j i r a action.
-	*
-	* @return the primary key of this j i r a action
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _jiraAction.getPrimaryKey();
-	}
-
-	/**
-	* Sets the primary key of this j i r a action.
-	*
-	* @param primaryKey the primary key of this j i r a action
-	*/
-	@Override
-	public void setPrimaryKey(long primaryKey) {
-		_jiraAction.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	* Returns the jira action ID of this j i r a action.
-	*
-	* @return the jira action ID of this j i r a action
-	*/
-	@Override
-	public long getJiraActionId() {
-		return _jiraAction.getJiraActionId();
-	}
-
-	/**
-	* Sets the jira action ID of this j i r a action.
-	*
-	* @param jiraActionId the jira action ID of this j i r a action
-	*/
-	@Override
-	public void setJiraActionId(long jiraActionId) {
-		_jiraAction.setJiraActionId(jiraActionId);
-	}
-
-	/**
-	* Returns the jira user ID of this j i r a action.
-	*
-	* @return the jira user ID of this j i r a action
-	*/
-	@Override
-	public java.lang.String getJiraUserId() {
-		return _jiraAction.getJiraUserId();
-	}
-
-	/**
-	* Sets the jira user ID of this j i r a action.
-	*
-	* @param jiraUserId the jira user ID of this j i r a action
-	*/
-	@Override
-	public void setJiraUserId(java.lang.String jiraUserId) {
-		_jiraAction.setJiraUserId(jiraUserId);
-	}
-
-	/**
-	* Returns the create date of this j i r a action.
-	*
-	* @return the create date of this j i r a action
-	*/
-	@Override
-	public java.util.Date getCreateDate() {
-		return _jiraAction.getCreateDate();
-	}
-
-	/**
-	* Sets the create date of this j i r a action.
-	*
-	* @param createDate the create date of this j i r a action
-	*/
-	@Override
-	public void setCreateDate(java.util.Date createDate) {
-		_jiraAction.setCreateDate(createDate);
-	}
-
-	/**
-	* Returns the modified date of this j i r a action.
-	*
-	* @return the modified date of this j i r a action
-	*/
-	@Override
-	public java.util.Date getModifiedDate() {
-		return _jiraAction.getModifiedDate();
-	}
-
-	/**
-	* Sets the modified date of this j i r a action.
-	*
-	* @param modifiedDate the modified date of this j i r a action
-	*/
-	@Override
-	public void setModifiedDate(java.util.Date modifiedDate) {
-		_jiraAction.setModifiedDate(modifiedDate);
-	}
-
-	/**
-	* Returns the jira issue ID of this j i r a action.
-	*
-	* @return the jira issue ID of this j i r a action
-	*/
-	@Override
-	public long getJiraIssueId() {
-		return _jiraAction.getJiraIssueId();
-	}
-
-	/**
-	* Sets the jira issue ID of this j i r a action.
-	*
-	* @param jiraIssueId the jira issue ID of this j i r a action
-	*/
-	@Override
-	public void setJiraIssueId(long jiraIssueId) {
-		_jiraAction.setJiraIssueId(jiraIssueId);
-	}
-
-	/**
-	* Returns the type of this j i r a action.
-	*
-	* @return the type of this j i r a action
-	*/
-	@Override
-	public java.lang.String getType() {
-		return _jiraAction.getType();
-	}
-
-	/**
-	* Sets the type of this j i r a action.
-	*
-	* @param type the type of this j i r a action
-	*/
-	@Override
-	public void setType(java.lang.String type) {
-		_jiraAction.setType(type);
-	}
-
-	/**
-	* Returns the body of this j i r a action.
-	*
-	* @return the body of this j i r a action
-	*/
-	@Override
-	public java.lang.String getBody() {
-		return _jiraAction.getBody();
-	}
-
-	/**
-	* Sets the body of this j i r a action.
-	*
-	* @param body the body of this j i r a action
-	*/
-	@Override
-	public void setBody(java.lang.String body) {
-		_jiraAction.setBody(body);
-	}
-
-	/**
-	* Returns the jira group name of this j i r a action.
-	*
-	* @return the jira group name of this j i r a action
-	*/
-	@Override
-	public java.lang.String getJiraGroupName() {
-		return _jiraAction.getJiraGroupName();
-	}
-
-	/**
-	* Sets the jira group name of this j i r a action.
-	*
-	* @param jiraGroupName the jira group name of this j i r a action
-	*/
-	@Override
-	public void setJiraGroupName(java.lang.String jiraGroupName) {
-		_jiraAction.setJiraGroupName(jiraGroupName);
-	}
-
-	@Override
-	public boolean isNew() {
-		return _jiraAction.isNew();
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_jiraAction.setNew(n);
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _jiraAction.isCachedModel();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_jiraAction.setCachedModel(cachedModel);
 	}
 
 	@Override
@@ -318,55 +131,17 @@ public class JIRAActionWrapper implements JIRAAction, ModelWrapper<JIRAAction> {
 	}
 
 	@Override
-	public java.io.Serializable getPrimaryKeyObj() {
-		return _jiraAction.getPrimaryKeyObj();
+	public boolean isNew() {
+		return _jiraAction.isNew();
 	}
 
 	@Override
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
-		_jiraAction.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
+	public ExpandoBridge getExpandoBridge() {
 		return _jiraAction.getExpandoBridge();
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.model.BaseModel<?> baseModel) {
-		_jiraAction.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
-		_jiraAction.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
-		_jiraAction.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new JIRAActionWrapper((JIRAAction)_jiraAction.clone());
-	}
-
-	@Override
-	public int compareTo(com.liferay.socialcoding.model.JIRAAction jiraAction) {
-		return _jiraAction.compareTo(jiraAction);
-	}
-
-	@Override
-	public int hashCode() {
-		return _jiraAction.hashCode();
-	}
-
-	@Override
-	public com.liferay.portal.model.CacheModel<com.liferay.socialcoding.model.JIRAAction> toCacheModel() {
+	public com.liferay.portal.kernel.model.CacheModel<com.liferay.socialcoding.model.JIRAAction> toCacheModel() {
 		return _jiraAction.toCacheModel();
 	}
 
@@ -381,6 +156,66 @@ public class JIRAActionWrapper implements JIRAAction, ModelWrapper<JIRAAction> {
 	}
 
 	@Override
+	public int compareTo(com.liferay.socialcoding.model.JIRAAction jiraAction) {
+		return _jiraAction.compareTo(jiraAction);
+	}
+
+	@Override
+	public int hashCode() {
+		return _jiraAction.hashCode();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _jiraAction.getPrimaryKeyObj();
+	}
+
+	@Override
+	public java.lang.Object clone() {
+		return new JIRAActionWrapper((JIRAAction)_jiraAction.clone());
+	}
+
+	/**
+	* Returns the body of this j i r a action.
+	*
+	* @return the body of this j i r a action
+	*/
+	@Override
+	public java.lang.String getBody() {
+		return _jiraAction.getBody();
+	}
+
+	/**
+	* Returns the jira group name of this j i r a action.
+	*
+	* @return the jira group name of this j i r a action
+	*/
+	@Override
+	public java.lang.String getJiraGroupName() {
+		return _jiraAction.getJiraGroupName();
+	}
+
+	/**
+	* Returns the jira user ID of this j i r a action.
+	*
+	* @return the jira user ID of this j i r a action
+	*/
+	@Override
+	public java.lang.String getJiraUserId() {
+		return _jiraAction.getJiraUserId();
+	}
+
+	/**
+	* Returns the type of this j i r a action.
+	*
+	* @return the type of this j i r a action
+	*/
+	@Override
+	public java.lang.String getType() {
+		return _jiraAction.getType();
+	}
+
+	@Override
 	public java.lang.String toString() {
 		return _jiraAction.toString();
 	}
@@ -390,10 +225,180 @@ public class JIRAActionWrapper implements JIRAAction, ModelWrapper<JIRAAction> {
 		return _jiraAction.toXmlString();
 	}
 
+	/**
+	* Returns the create date of this j i r a action.
+	*
+	* @return the create date of this j i r a action
+	*/
 	@Override
-	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public Date getCreateDate() {
+		return _jiraAction.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this j i r a action.
+	*
+	* @return the modified date of this j i r a action
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _jiraAction.getModifiedDate();
+	}
+
+	/**
+	* Returns the jira action ID of this j i r a action.
+	*
+	* @return the jira action ID of this j i r a action
+	*/
+	@Override
+	public long getJiraActionId() {
+		return _jiraAction.getJiraActionId();
+	}
+
+	/**
+	* Returns the jira issue ID of this j i r a action.
+	*
+	* @return the jira issue ID of this j i r a action
+	*/
+	@Override
+	public long getJiraIssueId() {
+		return _jiraAction.getJiraIssueId();
+	}
+
+	/**
+	* Returns the primary key of this j i r a action.
+	*
+	* @return the primary key of this j i r a action
+	*/
+	@Override
+	public long getPrimaryKey() {
+		return _jiraAction.getPrimaryKey();
+	}
+
+	@Override
+	public void persist() {
 		_jiraAction.persist();
+	}
+
+	/**
+	* Sets the body of this j i r a action.
+	*
+	* @param body the body of this j i r a action
+	*/
+	@Override
+	public void setBody(java.lang.String body) {
+		_jiraAction.setBody(body);
+	}
+
+	@Override
+	public void setCachedModel(boolean cachedModel) {
+		_jiraAction.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the create date of this j i r a action.
+	*
+	* @param createDate the create date of this j i r a action
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_jiraAction.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_jiraAction.setExpandoBridgeAttributes(expandoBridge);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+		_jiraAction.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		_jiraAction.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the jira action ID of this j i r a action.
+	*
+	* @param jiraActionId the jira action ID of this j i r a action
+	*/
+	@Override
+	public void setJiraActionId(long jiraActionId) {
+		_jiraAction.setJiraActionId(jiraActionId);
+	}
+
+	/**
+	* Sets the jira group name of this j i r a action.
+	*
+	* @param jiraGroupName the jira group name of this j i r a action
+	*/
+	@Override
+	public void setJiraGroupName(java.lang.String jiraGroupName) {
+		_jiraAction.setJiraGroupName(jiraGroupName);
+	}
+
+	/**
+	* Sets the jira issue ID of this j i r a action.
+	*
+	* @param jiraIssueId the jira issue ID of this j i r a action
+	*/
+	@Override
+	public void setJiraIssueId(long jiraIssueId) {
+		_jiraAction.setJiraIssueId(jiraIssueId);
+	}
+
+	/**
+	* Sets the jira user ID of this j i r a action.
+	*
+	* @param jiraUserId the jira user ID of this j i r a action
+	*/
+	@Override
+	public void setJiraUserId(java.lang.String jiraUserId) {
+		_jiraAction.setJiraUserId(jiraUserId);
+	}
+
+	/**
+	* Sets the modified date of this j i r a action.
+	*
+	* @param modifiedDate the modified date of this j i r a action
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_jiraAction.setModifiedDate(modifiedDate);
+	}
+
+	@Override
+	public void setNew(boolean n) {
+		_jiraAction.setNew(n);
+	}
+
+	/**
+	* Sets the primary key of this j i r a action.
+	*
+	* @param primaryKey the primary key of this j i r a action
+	*/
+	@Override
+	public void setPrimaryKey(long primaryKey) {
+		_jiraAction.setPrimaryKey(primaryKey);
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		_jiraAction.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the type of this j i r a action.
+	*
+	* @param type the type of this j i r a action
+	*/
+	@Override
+	public void setType(java.lang.String type) {
+		_jiraAction.setType(type);
 	}
 
 	@Override
@@ -413,14 +418,6 @@ public class JIRAActionWrapper implements JIRAAction, ModelWrapper<JIRAAction> {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
-	 */
-	@Deprecated
-	public JIRAAction getWrappedJIRAAction() {
-		return _jiraAction;
 	}
 
 	@Override
@@ -443,5 +440,5 @@ public class JIRAActionWrapper implements JIRAAction, ModelWrapper<JIRAAction> {
 		_jiraAction.resetOriginalValues();
 	}
 
-	private JIRAAction _jiraAction;
+	private final JIRAAction _jiraAction;
 }

@@ -14,17 +14,21 @@
 
 package com.liferay.chat.model;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.chat.service.ClpSerializer;
 import com.liferay.chat.service.EntryLocalServiceUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.model.BaseModel;
-import com.liferay.portal.model.impl.BaseModelImpl;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringPool;
 
 import java.io.Serializable;
 
@@ -34,8 +38,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Brian Wing Shun Chan
+ * @generated
  */
+@ProviderType
 public class EntryClp extends BaseModelImpl<Entry> implements Entry {
 	public EntryClp() {
 	}
@@ -199,13 +204,19 @@ public class EntryClp extends BaseModelImpl<Entry> implements Entry {
 	}
 
 	@Override
-	public String getFromUserUuid() throws SystemException {
-		return PortalUtil.getUserValue(getFromUserId(), "uuid", _fromUserUuid);
+	public String getFromUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getFromUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
 	}
 
 	@Override
 	public void setFromUserUuid(String fromUserUuid) {
-		_fromUserUuid = fromUserUuid;
 	}
 
 	@Override
@@ -232,13 +243,19 @@ public class EntryClp extends BaseModelImpl<Entry> implements Entry {
 	}
 
 	@Override
-	public String getToUserUuid() throws SystemException {
-		return PortalUtil.getUserValue(getToUserId(), "uuid", _toUserUuid);
+	public String getToUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getToUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return StringPool.BLANK;
+		}
 	}
 
 	@Override
 	public void setToUserUuid(String toUserUuid) {
-		_toUserUuid = toUserUuid;
 	}
 
 	@Override
@@ -337,7 +354,7 @@ public class EntryClp extends BaseModelImpl<Entry> implements Entry {
 	}
 
 	@Override
-	public void persist() throws SystemException {
+	public void persist() {
 		if (this.isNew()) {
 			EntryLocalServiceUtil.addEntry(this);
 		}
@@ -409,6 +426,10 @@ public class EntryClp extends BaseModelImpl<Entry> implements Entry {
 		else {
 			return false;
 		}
+	}
+
+	public Class<?> getClpSerializerClass() {
+		return _clpSerializerClass;
 	}
 
 	@Override
@@ -488,12 +509,11 @@ public class EntryClp extends BaseModelImpl<Entry> implements Entry {
 	private long _entryId;
 	private long _createDate;
 	private long _fromUserId;
-	private String _fromUserUuid;
 	private long _toUserId;
-	private String _toUserUuid;
 	private String _content;
 	private int _flag;
 	private BaseModel<?> _entryRemoteModel;
+	private Class<?> _clpSerializerClass = com.liferay.chat.service.ClpSerializer.class;
 	private boolean _entityCacheEnabled;
 	private boolean _finderCacheEnabled;
 }

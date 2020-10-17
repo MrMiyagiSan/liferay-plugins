@@ -14,7 +14,9 @@
 
 package com.liferay.socialcoding.service;
 
-import com.liferay.portal.service.ServiceWrapper;
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
  * Provides a wrapper for {@link JIRAChangeGroupLocalService}.
@@ -23,6 +25,7 @@ import com.liferay.portal.service.ServiceWrapper;
  * @see JIRAChangeGroupLocalService
  * @generated
  */
+@ProviderType
 public class JIRAChangeGroupLocalServiceWrapper
 	implements JIRAChangeGroupLocalService,
 		ServiceWrapper<JIRAChangeGroupLocalService> {
@@ -31,17 +34,47 @@ public class JIRAChangeGroupLocalServiceWrapper
 		_jiraChangeGroupLocalService = jiraChangeGroupLocalService;
 	}
 
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
+		return _jiraChangeGroupLocalService.getActionableDynamicQuery();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
+		return _jiraChangeGroupLocalService.dynamicQuery();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		return _jiraChangeGroupLocalService.getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	* @throws PortalException
+	*/
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
+		com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _jiraChangeGroupLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _jiraChangeGroupLocalService.getPersistedModel(primaryKeyObj);
+	}
+
 	/**
 	* Adds the j i r a change group to the database. Also notifies the appropriate model listeners.
 	*
 	* @param jiraChangeGroup the j i r a change group
 	* @return the j i r a change group that was added
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.socialcoding.model.JIRAChangeGroup addJIRAChangeGroup(
-		com.liferay.socialcoding.model.JIRAChangeGroup jiraChangeGroup)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.socialcoding.model.JIRAChangeGroup jiraChangeGroup) {
 		return _jiraChangeGroupLocalService.addJIRAChangeGroup(jiraChangeGroup);
 	}
 
@@ -58,38 +91,89 @@ public class JIRAChangeGroupLocalServiceWrapper
 	}
 
 	/**
+	* Deletes the j i r a change group from the database. Also notifies the appropriate model listeners.
+	*
+	* @param jiraChangeGroup the j i r a change group
+	* @return the j i r a change group that was removed
+	*/
+	@Override
+	public com.liferay.socialcoding.model.JIRAChangeGroup deleteJIRAChangeGroup(
+		com.liferay.socialcoding.model.JIRAChangeGroup jiraChangeGroup) {
+		return _jiraChangeGroupLocalService.deleteJIRAChangeGroup(jiraChangeGroup);
+	}
+
+	/**
 	* Deletes the j i r a change group with the primary key from the database. Also notifies the appropriate model listeners.
 	*
 	* @param jiraChangeGroupId the primary key of the j i r a change group
 	* @return the j i r a change group that was removed
 	* @throws PortalException if a j i r a change group with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public com.liferay.socialcoding.model.JIRAChangeGroup deleteJIRAChangeGroup(
 		long jiraChangeGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return _jiraChangeGroupLocalService.deleteJIRAChangeGroup(jiraChangeGroupId);
 	}
 
+	@Override
+	public com.liferay.socialcoding.model.JIRAChangeGroup fetchJIRAChangeGroup(
+		long jiraChangeGroupId) {
+		return _jiraChangeGroupLocalService.fetchJIRAChangeGroup(jiraChangeGroupId);
+	}
+
 	/**
-	* Deletes the j i r a change group from the database. Also notifies the appropriate model listeners.
+	* Returns the j i r a change group with the primary key.
 	*
-	* @param jiraChangeGroup the j i r a change group
-	* @return the j i r a change group that was removed
-	* @throws SystemException if a system exception occurred
+	* @param jiraChangeGroupId the primary key of the j i r a change group
+	* @return the j i r a change group
+	* @throws PortalException if a j i r a change group with the primary key could not be found
 	*/
 	@Override
-	public com.liferay.socialcoding.model.JIRAChangeGroup deleteJIRAChangeGroup(
-		com.liferay.socialcoding.model.JIRAChangeGroup jiraChangeGroup)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.deleteJIRAChangeGroup(jiraChangeGroup);
+	public com.liferay.socialcoding.model.JIRAChangeGroup getJIRAChangeGroup(
+		long jiraChangeGroupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _jiraChangeGroupLocalService.getJIRAChangeGroup(jiraChangeGroupId);
+	}
+
+	/**
+	* Updates the j i r a change group in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	*
+	* @param jiraChangeGroup the j i r a change group
+	* @return the j i r a change group that was updated
+	*/
+	@Override
+	public com.liferay.socialcoding.model.JIRAChangeGroup updateJIRAChangeGroup(
+		com.liferay.socialcoding.model.JIRAChangeGroup jiraChangeGroup) {
+		return _jiraChangeGroupLocalService.updateJIRAChangeGroup(jiraChangeGroup);
+	}
+
+	/**
+	* Returns the number of j i r a change groups.
+	*
+	* @return the number of j i r a change groups
+	*/
+	@Override
+	public int getJIRAChangeGroupsCount() {
+		return _jiraChangeGroupLocalService.getJIRAChangeGroupsCount();
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
-		return _jiraChangeGroupLocalService.dynamicQuery();
+	public java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		return _jiraChangeGroupLocalService.invokeMethod(name, parameterTypes,
+			arguments);
+	}
+
+	/**
+	* Returns the OSGi service identifier.
+	*
+	* @return the OSGi service identifier
+	*/
+	@Override
+	public java.lang.String getOSGiServiceIdentifier() {
+		return _jiraChangeGroupLocalService.getOSGiServiceIdentifier();
 	}
 
 	/**
@@ -97,13 +181,10 @@ public class JIRAChangeGroupLocalServiceWrapper
 	*
 	* @param dynamicQuery the dynamic query
 	* @return the matching rows
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
 		return _jiraChangeGroupLocalService.dynamicQuery(dynamicQuery);
 	}
 
@@ -118,13 +199,11 @@ public class JIRAChangeGroupLocalServiceWrapper
 	* @param start the lower bound of the range of model instances
 	* @param end the upper bound of the range of model instances (not inclusive)
 	* @return the range of matching rows
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
+	public <T> java.util.List<T> dynamicQuery(
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		int end) {
 		return _jiraChangeGroupLocalService.dynamicQuery(dynamicQuery, start,
 			end);
 	}
@@ -141,79 +220,14 @@ public class JIRAChangeGroupLocalServiceWrapper
 	* @param end the upper bound of the range of model instances (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching rows
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
-	@SuppressWarnings("rawtypes")
-	public java.util.List dynamicQuery(
+	public <T> java.util.List<T> dynamicQuery(
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _jiraChangeGroupLocalService.dynamicQuery(dynamicQuery, start,
 			end, orderByComparator);
-	}
-
-	/**
-	* Returns the number of rows that match the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows that match the dynamic query
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.dynamicQueryCount(dynamicQuery);
-	}
-
-	/**
-	* Returns the number of rows that match the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows that match the dynamic query
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.dynamicQueryCount(dynamicQuery,
-			projection);
-	}
-
-	@Override
-	public com.liferay.socialcoding.model.JIRAChangeGroup fetchJIRAChangeGroup(
-		long jiraChangeGroupId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.fetchJIRAChangeGroup(jiraChangeGroupId);
-	}
-
-	/**
-	* Returns the j i r a change group with the primary key.
-	*
-	* @param jiraChangeGroupId the primary key of the j i r a change group
-	* @return the j i r a change group
-	* @throws PortalException if a j i r a change group with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public com.liferay.socialcoding.model.JIRAChangeGroup getJIRAChangeGroup(
-		long jiraChangeGroupId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.getJIRAChangeGroup(jiraChangeGroupId);
-	}
-
-	@Override
-	public com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.getPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -226,84 +240,38 @@ public class JIRAChangeGroupLocalServiceWrapper
 	* @param start the lower bound of the range of j i r a change groups
 	* @param end the upper bound of the range of j i r a change groups (not inclusive)
 	* @return the range of j i r a change groups
-	* @throws SystemException if a system exception occurred
 	*/
 	@Override
 	public java.util.List<com.liferay.socialcoding.model.JIRAChangeGroup> getJIRAChangeGroups(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return _jiraChangeGroupLocalService.getJIRAChangeGroups(start, end);
 	}
 
 	/**
-	* Returns the number of j i r a change groups.
+	* Returns the number of rows matching the dynamic query.
 	*
-	* @return the number of j i r a change groups
-	* @throws SystemException if a system exception occurred
+	* @param dynamicQuery the dynamic query
+	* @return the number of rows matching the dynamic query
 	*/
 	@Override
-	public int getJIRAChangeGroupsCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.getJIRAChangeGroupsCount();
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+		return _jiraChangeGroupLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
 	/**
-	* Updates the j i r a change group in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	* Returns the number of rows matching the dynamic query.
 	*
-	* @param jiraChangeGroup the j i r a change group
-	* @return the j i r a change group that was updated
-	* @throws SystemException if a system exception occurred
+	* @param dynamicQuery the dynamic query
+	* @param projection the projection to apply to the query
+	* @return the number of rows matching the dynamic query
 	*/
 	@Override
-	public com.liferay.socialcoding.model.JIRAChangeGroup updateJIRAChangeGroup(
-		com.liferay.socialcoding.model.JIRAChangeGroup jiraChangeGroup)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _jiraChangeGroupLocalService.updateJIRAChangeGroup(jiraChangeGroup);
-	}
-
-	/**
-	* Returns the Spring bean ID for this bean.
-	*
-	* @return the Spring bean ID for this bean
-	*/
-	@Override
-	public java.lang.String getBeanIdentifier() {
-		return _jiraChangeGroupLocalService.getBeanIdentifier();
-	}
-
-	/**
-	* Sets the Spring bean ID for this bean.
-	*
-	* @param beanIdentifier the Spring bean ID for this bean
-	*/
-	@Override
-	public void setBeanIdentifier(java.lang.String beanIdentifier) {
-		_jiraChangeGroupLocalService.setBeanIdentifier(beanIdentifier);
-	}
-
-	@Override
-	public java.lang.Object invokeMethod(java.lang.String name,
-		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
-		throws java.lang.Throwable {
-		return _jiraChangeGroupLocalService.invokeMethod(name, parameterTypes,
-			arguments);
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
-	 */
-	@Deprecated
-	public JIRAChangeGroupLocalService getWrappedJIRAChangeGroupLocalService() {
-		return _jiraChangeGroupLocalService;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
-	 */
-	@Deprecated
-	public void setWrappedJIRAChangeGroupLocalService(
-		JIRAChangeGroupLocalService jiraChangeGroupLocalService) {
-		_jiraChangeGroupLocalService = jiraChangeGroupLocalService;
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection) {
+		return _jiraChangeGroupLocalService.dynamicQueryCount(dynamicQuery,
+			projection);
 	}
 
 	@Override

@@ -21,19 +21,19 @@ import com.liferay.contacts.util.PortletKeys;
 import com.liferay.contacts.util.SocialRelationConstants;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserNotificationEvent;
 import com.liferay.portal.kernel.notifications.BaseUserNotificationHandler;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserNotificationEventLocalServiceUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.model.User;
-import com.liferay.portal.model.UserNotificationEvent;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.service.UserNotificationEventLocalServiceUtil;
-import com.liferay.portlet.social.model.SocialRequest;
-import com.liferay.portlet.social.model.SocialRequestConstants;
-import com.liferay.portlet.social.service.SocialRequestLocalServiceUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.social.kernel.model.SocialRequest;
+import com.liferay.social.kernel.model.SocialRequestConstants;
+import com.liferay.social.kernel.service.SocialRequestLocalServiceUtil;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletURL;
@@ -46,6 +46,7 @@ public class ContactsCenterUserNotificationHandler
 	extends BaseUserNotificationHandler {
 
 	public ContactsCenterUserNotificationHandler() {
+		setActionable(true);
 		setPortletId(PortletKeys.CONTACTS_CENTER);
 	}
 
@@ -70,9 +71,7 @@ public class ContactsCenterUserNotificationHandler
 			return null;
 		}
 
-		StringBundler sb = new StringBundler(14);
-
-		sb.append("<div class=\"title\">");
+		String title = StringPool.BLANK;
 
 		if (socialRequest.getType() ==
 				SocialRelationConstants.TYPE_BI_CONNECTION) {
@@ -80,14 +79,10 @@ public class ContactsCenterUserNotificationHandler
 			String creatorUserName = getUserNameLink(
 				socialRequest.getUserId(), serviceContext);
 
-			sb.append(
-				serviceContext.translate(
-					"request-social-networking-summary-add-connection",
-					creatorUserName));
+			title = serviceContext.translate(
+				"request-social-networking-summary-add-connection",
+				creatorUserName);
 		}
-
-		sb.append("</div>");
-		sb.append("<div class=\"body\">");
 
 		LiferayPortletResponse liferayPortletResponse =
 			serviceContext.getLiferayPortletResponse();
@@ -107,12 +102,6 @@ public class ContactsCenterUserNotificationHandler
 			String.valueOf(userNotificationEvent.getUserNotificationEventId()));
 		confirmURL.setWindowState(WindowState.NORMAL);
 
-		sb.append("<a class=\"btn btn-success\"href=\"");
-		sb.append(confirmURL);
-		sb.append("\">");
-		sb.append(serviceContext.translate("confirm"));
-		sb.append("</a>");
-
 		PortletURL ignoreURL = liferayPortletResponse.createActionURL(
 			PortletKeys.CONTACTS_CENTER);
 
@@ -128,13 +117,16 @@ public class ContactsCenterUserNotificationHandler
 			String.valueOf(userNotificationEvent.getUserNotificationEventId()));
 		ignoreURL.setWindowState(WindowState.NORMAL);
 
-		sb.append("<a class=\"btn btn-warning\"href=\"");
-		sb.append(ignoreURL);
-		sb.append("\">");
-		sb.append(serviceContext.translate("ignore"));
-		sb.append("</a></div>");
-
-		return sb.toString();
+		return StringUtil.replace(
+			getBodyTemplate(),
+			new String[] {
+				"[$CONFIRM$]", "[$CONFIRM_URL$]", "[$IGNORE$]",
+				"[$IGNORE_URL$]", "[$TITLE$]"
+			},
+			new String[] {
+				serviceContext.translate("confirm"), confirmURL.toString(),
+				serviceContext.translate("ignore"), ignoreURL.toString(), title
+			});
 	}
 
 	@Override

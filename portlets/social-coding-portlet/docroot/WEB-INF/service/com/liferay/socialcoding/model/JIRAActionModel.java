@@ -14,12 +14,14 @@
 
 package com.liferay.socialcoding.model;
 
-import com.liferay.portal.kernel.bean.AutoEscape;
-import com.liferay.portal.model.BaseModel;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.service.ServiceContext;
+import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portlet.expando.model.ExpandoBridge;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+
+import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
@@ -38,6 +40,7 @@ import java.util.Date;
  * @see com.liferay.socialcoding.model.impl.JIRAActionModelImpl
  * @generated
  */
+@ProviderType
 public interface JIRAActionModel extends BaseModel<JIRAAction> {
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -212,19 +215,19 @@ public interface JIRAActionModel extends BaseModel<JIRAAction> {
 	public Object clone();
 
 	@Override
-	public int compareTo(JIRAAction jiraAction);
+	public int compareTo(com.liferay.socialcoding.model.JIRAAction jiraAction);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<JIRAAction> toCacheModel();
+	public CacheModel<com.liferay.socialcoding.model.JIRAAction> toCacheModel();
 
 	@Override
-	public JIRAAction toEscapedModel();
+	public com.liferay.socialcoding.model.JIRAAction toEscapedModel();
 
 	@Override
-	public JIRAAction toUnescapedModel();
+	public com.liferay.socialcoding.model.JIRAAction toUnescapedModel();
 
 	@Override
 	public String toString();

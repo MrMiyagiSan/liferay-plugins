@@ -14,24 +14,26 @@
 
 package com.liferay.chat.service.persistence;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
 
 /**
  * @author Brian Wing Shun Chan
+ * @generated
  */
+@ProviderType
 public class StatusFinderUtil {
 	public static java.util.List<java.lang.Object[]> findByModifiedDate(
-		long companyId, long userId, long modifiedDate, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long companyId, long userId, long modifiedDate, int start, int end) {
 		return getFinder()
 				   .findByModifiedDate(companyId, userId, modifiedDate, start,
 			end);
 	}
 
 	public static java.util.List<java.lang.Object[]> findBySocialRelationTypes(
-		long userId, int[] types, long modifiedDate, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		long userId, int[] types, long modifiedDate, int start, int end) {
 		return getFinder()
 				   .findBySocialRelationTypes(userId, types, modifiedDate,
 			start, end);
@@ -39,8 +41,7 @@ public class StatusFinderUtil {
 
 	public static java.util.List<java.lang.Object[]> findByUsersGroups(
 		long userId, long modifiedDate, java.lang.String[] groupNames,
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return getFinder()
 				   .findByUsersGroups(userId, modifiedDate, groupNames, start,
 			end);

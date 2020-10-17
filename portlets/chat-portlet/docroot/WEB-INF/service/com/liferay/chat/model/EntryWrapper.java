@@ -14,8 +14,15 @@
 
 package com.liferay.chat.model;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.expando.kernel.model.ExpandoBridge;
+
+import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ModelWrapper;
+
+import java.io.Serializable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +36,7 @@ import java.util.Map;
  * @see Entry
  * @generated
  */
+@ProviderType
 public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 	public EntryWrapper(Entry entry) {
 		_entry = entry;
@@ -97,208 +105,9 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		}
 	}
 
-	/**
-	* Returns the primary key of this entry.
-	*
-	* @return the primary key of this entry
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _entry.getPrimaryKey();
-	}
-
-	/**
-	* Sets the primary key of this entry.
-	*
-	* @param primaryKey the primary key of this entry
-	*/
-	@Override
-	public void setPrimaryKey(long primaryKey) {
-		_entry.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	* Returns the entry ID of this entry.
-	*
-	* @return the entry ID of this entry
-	*/
-	@Override
-	public long getEntryId() {
-		return _entry.getEntryId();
-	}
-
-	/**
-	* Sets the entry ID of this entry.
-	*
-	* @param entryId the entry ID of this entry
-	*/
-	@Override
-	public void setEntryId(long entryId) {
-		_entry.setEntryId(entryId);
-	}
-
-	/**
-	* Returns the create date of this entry.
-	*
-	* @return the create date of this entry
-	*/
-	@Override
-	public long getCreateDate() {
-		return _entry.getCreateDate();
-	}
-
-	/**
-	* Sets the create date of this entry.
-	*
-	* @param createDate the create date of this entry
-	*/
-	@Override
-	public void setCreateDate(long createDate) {
-		_entry.setCreateDate(createDate);
-	}
-
-	/**
-	* Returns the from user ID of this entry.
-	*
-	* @return the from user ID of this entry
-	*/
-	@Override
-	public long getFromUserId() {
-		return _entry.getFromUserId();
-	}
-
-	/**
-	* Sets the from user ID of this entry.
-	*
-	* @param fromUserId the from user ID of this entry
-	*/
-	@Override
-	public void setFromUserId(long fromUserId) {
-		_entry.setFromUserId(fromUserId);
-	}
-
-	/**
-	* Returns the from user uuid of this entry.
-	*
-	* @return the from user uuid of this entry
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public java.lang.String getFromUserUuid()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _entry.getFromUserUuid();
-	}
-
-	/**
-	* Sets the from user uuid of this entry.
-	*
-	* @param fromUserUuid the from user uuid of this entry
-	*/
-	@Override
-	public void setFromUserUuid(java.lang.String fromUserUuid) {
-		_entry.setFromUserUuid(fromUserUuid);
-	}
-
-	/**
-	* Returns the to user ID of this entry.
-	*
-	* @return the to user ID of this entry
-	*/
-	@Override
-	public long getToUserId() {
-		return _entry.getToUserId();
-	}
-
-	/**
-	* Sets the to user ID of this entry.
-	*
-	* @param toUserId the to user ID of this entry
-	*/
-	@Override
-	public void setToUserId(long toUserId) {
-		_entry.setToUserId(toUserId);
-	}
-
-	/**
-	* Returns the to user uuid of this entry.
-	*
-	* @return the to user uuid of this entry
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public java.lang.String getToUserUuid()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _entry.getToUserUuid();
-	}
-
-	/**
-	* Sets the to user uuid of this entry.
-	*
-	* @param toUserUuid the to user uuid of this entry
-	*/
-	@Override
-	public void setToUserUuid(java.lang.String toUserUuid) {
-		_entry.setToUserUuid(toUserUuid);
-	}
-
-	/**
-	* Returns the content of this entry.
-	*
-	* @return the content of this entry
-	*/
-	@Override
-	public java.lang.String getContent() {
-		return _entry.getContent();
-	}
-
-	/**
-	* Sets the content of this entry.
-	*
-	* @param content the content of this entry
-	*/
-	@Override
-	public void setContent(java.lang.String content) {
-		_entry.setContent(content);
-	}
-
-	/**
-	* Returns the flag of this entry.
-	*
-	* @return the flag of this entry
-	*/
-	@Override
-	public int getFlag() {
-		return _entry.getFlag();
-	}
-
-	/**
-	* Sets the flag of this entry.
-	*
-	* @param flag the flag of this entry
-	*/
-	@Override
-	public void setFlag(int flag) {
-		_entry.setFlag(flag);
-	}
-
-	@Override
-	public boolean isNew() {
-		return _entry.isNew();
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_entry.setNew(n);
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _entry.isCachedModel();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_entry.setCachedModel(cachedModel);
 	}
 
 	@Override
@@ -307,56 +116,8 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 	}
 
 	@Override
-	public java.io.Serializable getPrimaryKeyObj() {
-		return _entry.getPrimaryKeyObj();
-	}
-
-	@Override
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
-		_entry.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
-		return _entry.getExpandoBridge();
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.model.BaseModel<?> baseModel) {
-		_entry.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
-		_entry.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
-		_entry.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new EntryWrapper((Entry)_entry.clone());
-	}
-
-	@Override
-	public int compareTo(com.liferay.chat.model.Entry entry) {
-		return _entry.compareTo(entry);
-	}
-
-	@Override
-	public int hashCode() {
-		return _entry.hashCode();
-	}
-
-	@Override
-	public com.liferay.portal.model.CacheModel<com.liferay.chat.model.Entry> toCacheModel() {
-		return _entry.toCacheModel();
+	public boolean isNew() {
+		return _entry.isNew();
 	}
 
 	@Override
@@ -370,6 +131,76 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 	}
 
 	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _entry.getExpandoBridge();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel<com.liferay.chat.model.Entry> toCacheModel() {
+		return _entry.toCacheModel();
+	}
+
+	@Override
+	public int compareTo(com.liferay.chat.model.Entry entry) {
+		return _entry.compareTo(entry);
+	}
+
+	/**
+	* Returns the flag of this entry.
+	*
+	* @return the flag of this entry
+	*/
+	@Override
+	public int getFlag() {
+		return _entry.getFlag();
+	}
+
+	@Override
+	public int hashCode() {
+		return _entry.hashCode();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _entry.getPrimaryKeyObj();
+	}
+
+	@Override
+	public java.lang.Object clone() {
+		return new EntryWrapper((Entry)_entry.clone());
+	}
+
+	/**
+	* Returns the content of this entry.
+	*
+	* @return the content of this entry
+	*/
+	@Override
+	public java.lang.String getContent() {
+		return _entry.getContent();
+	}
+
+	/**
+	* Returns the from user uuid of this entry.
+	*
+	* @return the from user uuid of this entry
+	*/
+	@Override
+	public java.lang.String getFromUserUuid() {
+		return _entry.getFromUserUuid();
+	}
+
+	/**
+	* Returns the to user uuid of this entry.
+	*
+	* @return the to user uuid of this entry
+	*/
+	@Override
+	public java.lang.String getToUserUuid() {
+		return _entry.getToUserUuid();
+	}
+
+	@Override
 	public java.lang.String toString() {
 		return _entry.toString();
 	}
@@ -379,10 +210,180 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		return _entry.toXmlString();
 	}
 
+	/**
+	* Returns the create date of this entry.
+	*
+	* @return the create date of this entry
+	*/
 	@Override
-	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public long getCreateDate() {
+		return _entry.getCreateDate();
+	}
+
+	/**
+	* Returns the entry ID of this entry.
+	*
+	* @return the entry ID of this entry
+	*/
+	@Override
+	public long getEntryId() {
+		return _entry.getEntryId();
+	}
+
+	/**
+	* Returns the from user ID of this entry.
+	*
+	* @return the from user ID of this entry
+	*/
+	@Override
+	public long getFromUserId() {
+		return _entry.getFromUserId();
+	}
+
+	/**
+	* Returns the primary key of this entry.
+	*
+	* @return the primary key of this entry
+	*/
+	@Override
+	public long getPrimaryKey() {
+		return _entry.getPrimaryKey();
+	}
+
+	/**
+	* Returns the to user ID of this entry.
+	*
+	* @return the to user ID of this entry
+	*/
+	@Override
+	public long getToUserId() {
+		return _entry.getToUserId();
+	}
+
+	@Override
+	public void persist() {
 		_entry.persist();
+	}
+
+	@Override
+	public void setCachedModel(boolean cachedModel) {
+		_entry.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the content of this entry.
+	*
+	* @param content the content of this entry
+	*/
+	@Override
+	public void setContent(java.lang.String content) {
+		_entry.setContent(content);
+	}
+
+	/**
+	* Sets the create date of this entry.
+	*
+	* @param createDate the create date of this entry
+	*/
+	@Override
+	public void setCreateDate(long createDate) {
+		_entry.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the entry ID of this entry.
+	*
+	* @param entryId the entry ID of this entry
+	*/
+	@Override
+	public void setEntryId(long entryId) {
+		_entry.setEntryId(entryId);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_entry.setExpandoBridgeAttributes(expandoBridge);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+		_entry.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		_entry.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the flag of this entry.
+	*
+	* @param flag the flag of this entry
+	*/
+	@Override
+	public void setFlag(int flag) {
+		_entry.setFlag(flag);
+	}
+
+	/**
+	* Sets the from user ID of this entry.
+	*
+	* @param fromUserId the from user ID of this entry
+	*/
+	@Override
+	public void setFromUserId(long fromUserId) {
+		_entry.setFromUserId(fromUserId);
+	}
+
+	/**
+	* Sets the from user uuid of this entry.
+	*
+	* @param fromUserUuid the from user uuid of this entry
+	*/
+	@Override
+	public void setFromUserUuid(java.lang.String fromUserUuid) {
+		_entry.setFromUserUuid(fromUserUuid);
+	}
+
+	@Override
+	public void setNew(boolean n) {
+		_entry.setNew(n);
+	}
+
+	/**
+	* Sets the primary key of this entry.
+	*
+	* @param primaryKey the primary key of this entry
+	*/
+	@Override
+	public void setPrimaryKey(long primaryKey) {
+		_entry.setPrimaryKey(primaryKey);
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		_entry.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the to user ID of this entry.
+	*
+	* @param toUserId the to user ID of this entry
+	*/
+	@Override
+	public void setToUserId(long toUserId) {
+		_entry.setToUserId(toUserId);
+	}
+
+	/**
+	* Sets the to user uuid of this entry.
+	*
+	* @param toUserUuid the to user uuid of this entry
+	*/
+	@Override
+	public void setToUserUuid(java.lang.String toUserUuid) {
+		_entry.setToUserUuid(toUserUuid);
 	}
 
 	@Override
@@ -402,14 +403,6 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
-	 */
-	@Deprecated
-	public Entry getWrappedEntry() {
-		return _entry;
 	}
 
 	@Override
@@ -432,5 +425,5 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		_entry.resetOriginalValues();
 	}
 
-	private Entry _entry;
+	private final Entry _entry;
 }

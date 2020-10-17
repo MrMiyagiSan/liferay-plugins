@@ -14,9 +14,11 @@
 
 package com.liferay.socialcoding.service;
 
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
+import com.liferay.portal.kernel.service.InvokableLocalService;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
-import com.liferay.portal.service.InvokableLocalService;
 
 /**
  * Provides the local service utility for JIRAAction. This utility wraps
@@ -32,23 +34,48 @@ import com.liferay.portal.service.InvokableLocalService;
  * @see com.liferay.socialcoding.service.impl.JIRAActionLocalServiceImpl
  * @generated
  */
+@ProviderType
 public class JIRAActionLocalServiceUtil {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.socialcoding.service.impl.JIRAActionLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
+		return getService().getActionableDynamicQuery();
+	}
+
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
+		return getService().dynamicQuery();
+	}
+
+	public static com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		return getService().getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	* @throws PortalException
+	*/
+	public static com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
+		com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().deletePersistedModel(persistedModel);
+	}
+
+	public static com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
+		java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getPersistedModel(primaryKeyObj);
+	}
 
 	/**
 	* Adds the j i r a action to the database. Also notifies the appropriate model listeners.
 	*
 	* @param jiraAction the j i r a action
 	* @return the j i r a action that was added
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.socialcoding.model.JIRAAction addJIRAAction(
-		com.liferay.socialcoding.model.JIRAAction jiraAction)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.socialcoding.model.JIRAAction jiraAction) {
 		return getService().addJIRAAction(jiraAction);
 	}
 
@@ -64,35 +91,80 @@ public class JIRAActionLocalServiceUtil {
 	}
 
 	/**
+	* Deletes the j i r a action from the database. Also notifies the appropriate model listeners.
+	*
+	* @param jiraAction the j i r a action
+	* @return the j i r a action that was removed
+	*/
+	public static com.liferay.socialcoding.model.JIRAAction deleteJIRAAction(
+		com.liferay.socialcoding.model.JIRAAction jiraAction) {
+		return getService().deleteJIRAAction(jiraAction);
+	}
+
+	/**
 	* Deletes the j i r a action with the primary key from the database. Also notifies the appropriate model listeners.
 	*
 	* @param jiraActionId the primary key of the j i r a action
 	* @return the j i r a action that was removed
 	* @throws PortalException if a j i r a action with the primary key could not be found
-	* @throws SystemException if a system exception occurred
 	*/
 	public static com.liferay.socialcoding.model.JIRAAction deleteJIRAAction(
 		long jiraActionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().deleteJIRAAction(jiraActionId);
 	}
 
-	/**
-	* Deletes the j i r a action from the database. Also notifies the appropriate model listeners.
-	*
-	* @param jiraAction the j i r a action
-	* @return the j i r a action that was removed
-	* @throws SystemException if a system exception occurred
-	*/
-	public static com.liferay.socialcoding.model.JIRAAction deleteJIRAAction(
-		com.liferay.socialcoding.model.JIRAAction jiraAction)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().deleteJIRAAction(jiraAction);
+	public static com.liferay.socialcoding.model.JIRAAction fetchJIRAAction(
+		long jiraActionId) {
+		return getService().fetchJIRAAction(jiraActionId);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
-		return getService().dynamicQuery();
+	/**
+	* Returns the j i r a action with the primary key.
+	*
+	* @param jiraActionId the primary key of the j i r a action
+	* @return the j i r a action
+	* @throws PortalException if a j i r a action with the primary key could not be found
+	*/
+	public static com.liferay.socialcoding.model.JIRAAction getJIRAAction(
+		long jiraActionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getJIRAAction(jiraActionId);
+	}
+
+	/**
+	* Updates the j i r a action in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	*
+	* @param jiraAction the j i r a action
+	* @return the j i r a action that was updated
+	*/
+	public static com.liferay.socialcoding.model.JIRAAction updateJIRAAction(
+		com.liferay.socialcoding.model.JIRAAction jiraAction) {
+		return getService().updateJIRAAction(jiraAction);
+	}
+
+	/**
+	* Returns the number of j i r a actions.
+	*
+	* @return the number of j i r a actions
+	*/
+	public static int getJIRAActionsCount() {
+		return getService().getJIRAActionsCount();
+	}
+
+	public static java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		return getService().invokeMethod(name, parameterTypes, arguments);
+	}
+
+	/**
+	* Returns the OSGi service identifier.
+	*
+	* @return the OSGi service identifier
+	*/
+	public static java.lang.String getOSGiServiceIdentifier() {
+		return getService().getOSGiServiceIdentifier();
 	}
 
 	/**
@@ -100,12 +172,9 @@ public class JIRAActionLocalServiceUtil {
 	*
 	* @param dynamicQuery the dynamic query
 	* @return the matching rows
-	* @throws SystemException if a system exception occurred
 	*/
-	@SuppressWarnings("rawtypes")
-	public static java.util.List dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -120,12 +189,10 @@ public class JIRAActionLocalServiceUtil {
 	* @param start the lower bound of the range of model instances
 	* @param end the upper bound of the range of model instances (not inclusive)
 	* @return the range of matching rows
-	* @throws SystemException if a system exception occurred
 	*/
-	@SuppressWarnings("rawtypes")
-	public static java.util.List dynamicQuery(
+	public static <T> java.util.List<T> dynamicQuery(
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		int end) {
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -141,72 +208,13 @@ public class JIRAActionLocalServiceUtil {
 	* @param end the upper bound of the range of model instances (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching rows
-	* @throws SystemException if a system exception occurred
 	*/
-	@SuppressWarnings("rawtypes")
-	public static java.util.List dynamicQuery(
+	public static <T> java.util.List<T> dynamicQuery(
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
 		int end,
-		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
-	}
-
-	/**
-	* Returns the number of rows that match the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows that match the dynamic query
-	* @throws SystemException if a system exception occurred
-	*/
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().dynamicQueryCount(dynamicQuery);
-	}
-
-	/**
-	* Returns the number of rows that match the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows that match the dynamic query
-	* @throws SystemException if a system exception occurred
-	*/
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	public static com.liferay.socialcoding.model.JIRAAction fetchJIRAAction(
-		long jiraActionId)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().fetchJIRAAction(jiraActionId);
-	}
-
-	/**
-	* Returns the j i r a action with the primary key.
-	*
-	* @param jiraActionId the primary key of the j i r a action
-	* @return the j i r a action
-	* @throws PortalException if a j i r a action with the primary key could not be found
-	* @throws SystemException if a system exception occurred
-	*/
-	public static com.liferay.socialcoding.model.JIRAAction getJIRAAction(
-		long jiraActionId)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getJIRAAction(jiraActionId);
-	}
-
-	public static com.liferay.portal.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -219,60 +227,34 @@ public class JIRAActionLocalServiceUtil {
 	* @param start the lower bound of the range of j i r a actions
 	* @param end the upper bound of the range of j i r a actions (not inclusive)
 	* @return the range of j i r a actions
-	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<com.liferay.socialcoding.model.JIRAAction> getJIRAActions(
-		int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException {
+		int start, int end) {
 		return getService().getJIRAActions(start, end);
 	}
 
 	/**
-	* Returns the number of j i r a actions.
+	* Returns the number of rows matching the dynamic query.
 	*
-	* @return the number of j i r a actions
-	* @throws SystemException if a system exception occurred
+	* @param dynamicQuery the dynamic query
+	* @return the number of rows matching the dynamic query
 	*/
-	public static int getJIRAActionsCount()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getJIRAActionsCount();
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
 	/**
-	* Updates the j i r a action in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	* Returns the number of rows matching the dynamic query.
 	*
-	* @param jiraAction the j i r a action
-	* @return the j i r a action that was updated
-	* @throws SystemException if a system exception occurred
+	* @param dynamicQuery the dynamic query
+	* @param projection the projection to apply to the query
+	* @return the number of rows matching the dynamic query
 	*/
-	public static com.liferay.socialcoding.model.JIRAAction updateJIRAAction(
-		com.liferay.socialcoding.model.JIRAAction jiraAction)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().updateJIRAAction(jiraAction);
-	}
-
-	/**
-	* Returns the Spring bean ID for this bean.
-	*
-	* @return the Spring bean ID for this bean
-	*/
-	public static java.lang.String getBeanIdentifier() {
-		return getService().getBeanIdentifier();
-	}
-
-	/**
-	* Sets the Spring bean ID for this bean.
-	*
-	* @param beanIdentifier the Spring bean ID for this bean
-	*/
-	public static void setBeanIdentifier(java.lang.String beanIdentifier) {
-		getService().setBeanIdentifier(beanIdentifier);
-	}
-
-	public static java.lang.Object invokeMethod(java.lang.String name,
-		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
-		throws java.lang.Throwable {
-		return getService().invokeMethod(name, parameterTypes, arguments);
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection) {
+		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
 	public static void clearService() {
@@ -296,13 +278,6 @@ public class JIRAActionLocalServiceUtil {
 		}
 
 		return _service;
-	}
-
-	/**
-	 * @deprecated As of 6.2.0
-	 */
-	@Deprecated
-	public void setService(JIRAActionLocalService service) {
 	}
 
 	private static JIRAActionLocalService _service;

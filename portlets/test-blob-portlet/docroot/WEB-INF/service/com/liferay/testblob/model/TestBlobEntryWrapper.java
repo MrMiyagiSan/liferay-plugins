@@ -14,13 +14,20 @@
 
 package com.liferay.testblob.model;
 
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ModelWrapper;
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.expando.kernel.model.ExpandoBridge;
+
+import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.service.ServiceContext;
+
+import java.io.Serializable;
 
 import java.sql.Blob;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -31,6 +38,7 @@ import java.util.Map;
  * @see TestBlobEntry
  * @generated
  */
+@ProviderType
 public class TestBlobEntryWrapper implements TestBlobEntry,
 	ModelWrapper<TestBlobEntry> {
 	public TestBlobEntryWrapper(TestBlobEntry testBlobEntry) {
@@ -79,6 +87,31 @@ public class TestBlobEntryWrapper implements TestBlobEntry,
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new TestBlobEntryWrapper((TestBlobEntry)_testBlobEntry.clone());
+	}
+
+	@Override
+	public int compareTo(TestBlobEntry testBlobEntry) {
+		return _testBlobEntry.compareTo(testBlobEntry);
+	}
+
+	/**
+	* Returns the blob field of this test blob entry.
+	*
+	* @return the blob field of this test blob entry
+	*/
+	@Override
+	public Blob getBlobField() {
+		return _testBlobEntry.getBlobField();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _testBlobEntry.getExpandoBridge();
+	}
+
 	/**
 	* Returns the primary key of this test blob entry.
 	*
@@ -89,34 +122,9 @@ public class TestBlobEntryWrapper implements TestBlobEntry,
 		return _testBlobEntry.getPrimaryKey();
 	}
 
-	/**
-	* Sets the primary key of this test blob entry.
-	*
-	* @param primaryKey the primary key of this test blob entry
-	*/
 	@Override
-	public void setPrimaryKey(long primaryKey) {
-		_testBlobEntry.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	* Returns the uuid of this test blob entry.
-	*
-	* @return the uuid of this test blob entry
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _testBlobEntry.getUuid();
-	}
-
-	/**
-	* Sets the uuid of this test blob entry.
-	*
-	* @param uuid the uuid of this test blob entry
-	*/
-	@Override
-	public void setUuid(java.lang.String uuid) {
-		_testBlobEntry.setUuid(uuid);
+	public Serializable getPrimaryKeyObj() {
+		return _testBlobEntry.getPrimaryKeyObj();
 	}
 
 	/**
@@ -130,6 +138,92 @@ public class TestBlobEntryWrapper implements TestBlobEntry,
 	}
 
 	/**
+	* Returns the uuid of this test blob entry.
+	*
+	* @return the uuid of this test blob entry
+	*/
+	@Override
+	public String getUuid() {
+		return _testBlobEntry.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _testBlobEntry.hashCode();
+	}
+
+	@Override
+	public boolean isCachedModel() {
+		return _testBlobEntry.isCachedModel();
+	}
+
+	@Override
+	public boolean isEscapedModel() {
+		return _testBlobEntry.isEscapedModel();
+	}
+
+	@Override
+	public boolean isNew() {
+		return _testBlobEntry.isNew();
+	}
+
+	@Override
+	public void persist() {
+		_testBlobEntry.persist();
+	}
+
+	/**
+	* Sets the blob field of this test blob entry.
+	*
+	* @param blobField the blob field of this test blob entry
+	*/
+	@Override
+	public void setBlobField(Blob blobField) {
+		_testBlobEntry.setBlobField(blobField);
+	}
+
+	@Override
+	public void setCachedModel(boolean cachedModel) {
+		_testBlobEntry.setCachedModel(cachedModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+		_testBlobEntry.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_testBlobEntry.setExpandoBridgeAttributes(expandoBridge);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		_testBlobEntry.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	@Override
+	public void setNew(boolean n) {
+		_testBlobEntry.setNew(n);
+	}
+
+	/**
+	* Sets the primary key of this test blob entry.
+	*
+	* @param primaryKey the primary key of this test blob entry
+	*/
+	@Override
+	public void setPrimaryKey(long primaryKey) {
+		_testBlobEntry.setPrimaryKey(primaryKey);
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		_testBlobEntry.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
 	* Sets the test blob entry ID of this test blob entry.
 	*
 	* @param testBlobEntryId the test blob entry ID of this test blob entry
@@ -140,127 +234,38 @@ public class TestBlobEntryWrapper implements TestBlobEntry,
 	}
 
 	/**
-	* Returns the blob field of this test blob entry.
+	* Sets the uuid of this test blob entry.
 	*
-	* @return the blob field of this test blob entry
+	* @param uuid the uuid of this test blob entry
 	*/
 	@Override
-	public java.sql.Blob getBlobField() {
-		return _testBlobEntry.getBlobField();
-	}
-
-	/**
-	* Sets the blob field of this test blob entry.
-	*
-	* @param blobField the blob field of this test blob entry
-	*/
-	@Override
-	public void setBlobField(java.sql.Blob blobField) {
-		_testBlobEntry.setBlobField(blobField);
+	public void setUuid(String uuid) {
+		_testBlobEntry.setUuid(uuid);
 	}
 
 	@Override
-	public boolean isNew() {
-		return _testBlobEntry.isNew();
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_testBlobEntry.setNew(n);
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _testBlobEntry.isCachedModel();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_testBlobEntry.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _testBlobEntry.isEscapedModel();
-	}
-
-	@Override
-	public java.io.Serializable getPrimaryKeyObj() {
-		return _testBlobEntry.getPrimaryKeyObj();
-	}
-
-	@Override
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
-		_testBlobEntry.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
-		return _testBlobEntry.getExpandoBridge();
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.model.BaseModel<?> baseModel) {
-		_testBlobEntry.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
-		_testBlobEntry.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
-		_testBlobEntry.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new TestBlobEntryWrapper((TestBlobEntry)_testBlobEntry.clone());
-	}
-
-	@Override
-	public int compareTo(com.liferay.testblob.model.TestBlobEntry testBlobEntry) {
-		return _testBlobEntry.compareTo(testBlobEntry);
-	}
-
-	@Override
-	public int hashCode() {
-		return _testBlobEntry.hashCode();
-	}
-
-	@Override
-	public com.liferay.portal.model.CacheModel<com.liferay.testblob.model.TestBlobEntry> toCacheModel() {
+	public com.liferay.portal.kernel.model.CacheModel<TestBlobEntry> toCacheModel() {
 		return _testBlobEntry.toCacheModel();
 	}
 
 	@Override
-	public com.liferay.testblob.model.TestBlobEntry toEscapedModel() {
+	public TestBlobEntry toEscapedModel() {
 		return new TestBlobEntryWrapper(_testBlobEntry.toEscapedModel());
 	}
 
 	@Override
-	public com.liferay.testblob.model.TestBlobEntry toUnescapedModel() {
-		return new TestBlobEntryWrapper(_testBlobEntry.toUnescapedModel());
-	}
-
-	@Override
-	public java.lang.String toString() {
+	public String toString() {
 		return _testBlobEntry.toString();
 	}
 
 	@Override
-	public java.lang.String toXmlString() {
-		return _testBlobEntry.toXmlString();
+	public TestBlobEntry toUnescapedModel() {
+		return new TestBlobEntryWrapper(_testBlobEntry.toUnescapedModel());
 	}
 
 	@Override
-	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		_testBlobEntry.persist();
+	public String toXmlString() {
+		return _testBlobEntry.toXmlString();
 	}
 
 	@Override
@@ -275,19 +280,11 @@ public class TestBlobEntryWrapper implements TestBlobEntry,
 
 		TestBlobEntryWrapper testBlobEntryWrapper = (TestBlobEntryWrapper)obj;
 
-		if (Validator.equals(_testBlobEntry, testBlobEntryWrapper._testBlobEntry)) {
+		if (Objects.equals(_testBlobEntry, testBlobEntryWrapper._testBlobEntry)) {
 			return true;
 		}
 
 		return false;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
-	 */
-	@Deprecated
-	public TestBlobEntry getWrappedTestBlobEntry() {
-		return _testBlobEntry;
 	}
 
 	@Override
@@ -310,5 +307,5 @@ public class TestBlobEntryWrapper implements TestBlobEntry,
 		_testBlobEntry.resetOriginalValues();
 	}
 
-	private TestBlobEntry _testBlobEntry;
+	private final TestBlobEntry _testBlobEntry;
 }

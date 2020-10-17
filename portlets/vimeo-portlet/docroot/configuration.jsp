@@ -21,8 +21,8 @@
 <aui:form action="<%= configurationActionURL %>" method="post">
 	<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
 
-	<aui:layout>
-		<aui:column columnWidth="50" id="controls">
+	<aui:row>
+		<aui:col id="controls" width="<%= 50 %>">
 			<div class="field-row">
 				<aui:input cssClass="url" inlineField="true" label="url" name="preferences--url--" value="<%= url %>" />
 			</div>
@@ -68,14 +68,14 @@
 					</div>
 				</liferay-ui:panel>
 			</liferay-ui:panel-container>
-		</aui:column>
+		</aui:col>
 
-		<aui:column columnWidth="50">
+		<aui:col width="<%= 50 %>">
 			<div class="field-wrapper-content preview" id="<portlet:namespace />preview">
 				<i class="icon-youtube-play preview-play"></i>
 			</div>
-		</aui:column>
-	</aui:layout>
+		</aui:col>
+	</aui:row>
 
 	<aui:button-row>
 		<aui:button type="submit" />
@@ -84,7 +84,6 @@
 
 <aui:script use="aui-color-picker-popover,aui-datatype,aui-swf-deprecated">
 	var swfURL = '<%= HttpUtil.getProtocol(request) + _SWF_URL %>';
-	var watchURL = '<%= HttpUtil.getProtocol(request) + _WATCH_URL %>';
 
 	var allInputsNode = A.all('#<portlet:namespace />fm input');
 
@@ -103,6 +102,8 @@
 	var showTitleNode = A.one('#<portlet:namespace />showTitle');
 	var urlNode = A.one('#<portlet:namespace />url');
 	var widthNode = A.one('#<portlet:namespace />width');
+
+	var player;
 
 	function presetChange(e) {
 		if (this.val().indexOf('x') < 0) {
@@ -133,8 +134,8 @@
 	}
 
 	function createPlayer() {
-		var id = urlToVideoId(urlNode.val());
 		var height = parseInt(heightNode.val(), 10) || 0;
+		var id = urlToVideoId(urlNode.val());
 		var maxWidth = (formNode.get('clientWidth') || formNode.get('scrollWidth')) - (controlsNode.get('clientWidth') || controlsNode.get('scrollWidth'));
 		var playerOptions = {
 			autoplay: encodeBinary(autoplayNode.val()),
@@ -161,13 +162,13 @@
 		}
 
 		if (id) {
-			new A.SWF(
+			player = new A.SWF(
 				{
 					boundingBox: previewNode,
 					height: height,
 					url: playerOptionsCompiled.join('&'),
-					width: width,
-					version: 0
+					version: 0,
+					width: width
 				}
 			).render();
 		}
@@ -249,6 +250,19 @@
 	if (presetSizeNode.val() == 'custom') {
 		A.one('#<portlet:namespace />height').ancestor('.control-group').removeClass('invisible');
 		A.one('#<portlet:namespace />width').ancestor('.control-group').removeClass('invisible');
+	}
+
+	var dialog = Liferay.Util.getWindow();
+
+	if (dialog !== A.config.win) {
+		dialog.once(
+			'visibleChange',
+			function(event) {
+				if (player && !event.newVal) {
+					player.destroy();
+				}
+			}
+		);
 	}
 
 	createPlayer();

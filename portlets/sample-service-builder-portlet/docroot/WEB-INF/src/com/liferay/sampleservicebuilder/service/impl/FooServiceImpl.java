@@ -15,11 +15,11 @@
 package com.liferay.sampleservicebuilder.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.GroupServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.GroupServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.sampleservicebuilder.model.Foo;
 import com.liferay.sampleservicebuilder.service.base.FooServiceBaseImpl;
 
 import java.util.List;
@@ -29,13 +29,16 @@ import java.util.List;
  */
 public class FooServiceImpl extends FooServiceBaseImpl {
 
-	public User getUser(long userId) throws PortalException, SystemException {
+	@Override
+	public List<Foo> getFoos() {
+		return fooLocalService.getFoos();
+	}
+
+	public User getUser(long userId) throws PortalException {
 		return UserLocalServiceUtil.getUserById(userId);
 	}
 
-	public List<Group> getUserSitesGroups()
-		throws PortalException, SystemException {
-
+	public List<Group> getUserSitesGroups() throws PortalException {
 		return GroupServiceUtil.getUserSitesGroups();
 	}
 

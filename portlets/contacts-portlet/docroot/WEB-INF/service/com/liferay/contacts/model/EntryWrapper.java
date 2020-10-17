@@ -14,8 +14,15 @@
 
 package com.liferay.contacts.model;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.expando.kernel.model.ExpandoBridge;
+
+import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ModelWrapper;
+
+import java.io.Serializable;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +37,7 @@ import java.util.Map;
  * @see Entry
  * @generated
  */
+@ProviderType
 public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 	public EntryWrapper(Entry entry) {
 		_entry = entry;
@@ -126,266 +134,9 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		}
 	}
 
-	/**
-	* Returns the primary key of this entry.
-	*
-	* @return the primary key of this entry
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _entry.getPrimaryKey();
-	}
-
-	/**
-	* Sets the primary key of this entry.
-	*
-	* @param primaryKey the primary key of this entry
-	*/
-	@Override
-	public void setPrimaryKey(long primaryKey) {
-		_entry.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	* Returns the entry ID of this entry.
-	*
-	* @return the entry ID of this entry
-	*/
-	@Override
-	public long getEntryId() {
-		return _entry.getEntryId();
-	}
-
-	/**
-	* Sets the entry ID of this entry.
-	*
-	* @param entryId the entry ID of this entry
-	*/
-	@Override
-	public void setEntryId(long entryId) {
-		_entry.setEntryId(entryId);
-	}
-
-	/**
-	* Returns the group ID of this entry.
-	*
-	* @return the group ID of this entry
-	*/
-	@Override
-	public long getGroupId() {
-		return _entry.getGroupId();
-	}
-
-	/**
-	* Sets the group ID of this entry.
-	*
-	* @param groupId the group ID of this entry
-	*/
-	@Override
-	public void setGroupId(long groupId) {
-		_entry.setGroupId(groupId);
-	}
-
-	/**
-	* Returns the company ID of this entry.
-	*
-	* @return the company ID of this entry
-	*/
-	@Override
-	public long getCompanyId() {
-		return _entry.getCompanyId();
-	}
-
-	/**
-	* Sets the company ID of this entry.
-	*
-	* @param companyId the company ID of this entry
-	*/
-	@Override
-	public void setCompanyId(long companyId) {
-		_entry.setCompanyId(companyId);
-	}
-
-	/**
-	* Returns the user ID of this entry.
-	*
-	* @return the user ID of this entry
-	*/
-	@Override
-	public long getUserId() {
-		return _entry.getUserId();
-	}
-
-	/**
-	* Sets the user ID of this entry.
-	*
-	* @param userId the user ID of this entry
-	*/
-	@Override
-	public void setUserId(long userId) {
-		_entry.setUserId(userId);
-	}
-
-	/**
-	* Returns the user uuid of this entry.
-	*
-	* @return the user uuid of this entry
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public java.lang.String getUserUuid()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _entry.getUserUuid();
-	}
-
-	/**
-	* Sets the user uuid of this entry.
-	*
-	* @param userUuid the user uuid of this entry
-	*/
-	@Override
-	public void setUserUuid(java.lang.String userUuid) {
-		_entry.setUserUuid(userUuid);
-	}
-
-	/**
-	* Returns the user name of this entry.
-	*
-	* @return the user name of this entry
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _entry.getUserName();
-	}
-
-	/**
-	* Sets the user name of this entry.
-	*
-	* @param userName the user name of this entry
-	*/
-	@Override
-	public void setUserName(java.lang.String userName) {
-		_entry.setUserName(userName);
-	}
-
-	/**
-	* Returns the create date of this entry.
-	*
-	* @return the create date of this entry
-	*/
-	@Override
-	public java.util.Date getCreateDate() {
-		return _entry.getCreateDate();
-	}
-
-	/**
-	* Sets the create date of this entry.
-	*
-	* @param createDate the create date of this entry
-	*/
-	@Override
-	public void setCreateDate(java.util.Date createDate) {
-		_entry.setCreateDate(createDate);
-	}
-
-	/**
-	* Returns the modified date of this entry.
-	*
-	* @return the modified date of this entry
-	*/
-	@Override
-	public java.util.Date getModifiedDate() {
-		return _entry.getModifiedDate();
-	}
-
-	/**
-	* Sets the modified date of this entry.
-	*
-	* @param modifiedDate the modified date of this entry
-	*/
-	@Override
-	public void setModifiedDate(java.util.Date modifiedDate) {
-		_entry.setModifiedDate(modifiedDate);
-	}
-
-	/**
-	* Returns the full name of this entry.
-	*
-	* @return the full name of this entry
-	*/
-	@Override
-	public java.lang.String getFullName() {
-		return _entry.getFullName();
-	}
-
-	/**
-	* Sets the full name of this entry.
-	*
-	* @param fullName the full name of this entry
-	*/
-	@Override
-	public void setFullName(java.lang.String fullName) {
-		_entry.setFullName(fullName);
-	}
-
-	/**
-	* Returns the email address of this entry.
-	*
-	* @return the email address of this entry
-	*/
-	@Override
-	public java.lang.String getEmailAddress() {
-		return _entry.getEmailAddress();
-	}
-
-	/**
-	* Sets the email address of this entry.
-	*
-	* @param emailAddress the email address of this entry
-	*/
-	@Override
-	public void setEmailAddress(java.lang.String emailAddress) {
-		_entry.setEmailAddress(emailAddress);
-	}
-
-	/**
-	* Returns the comments of this entry.
-	*
-	* @return the comments of this entry
-	*/
-	@Override
-	public java.lang.String getComments() {
-		return _entry.getComments();
-	}
-
-	/**
-	* Sets the comments of this entry.
-	*
-	* @param comments the comments of this entry
-	*/
-	@Override
-	public void setComments(java.lang.String comments) {
-		_entry.setComments(comments);
-	}
-
-	@Override
-	public boolean isNew() {
-		return _entry.isNew();
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_entry.setNew(n);
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _entry.isCachedModel();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_entry.setCachedModel(cachedModel);
 	}
 
 	@Override
@@ -394,56 +145,8 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 	}
 
 	@Override
-	public java.io.Serializable getPrimaryKeyObj() {
-		return _entry.getPrimaryKeyObj();
-	}
-
-	@Override
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
-		_entry.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
-		return _entry.getExpandoBridge();
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.model.BaseModel<?> baseModel) {
-		_entry.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
-		_entry.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
-		_entry.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new EntryWrapper((Entry)_entry.clone());
-	}
-
-	@Override
-	public int compareTo(com.liferay.contacts.model.Entry entry) {
-		return _entry.compareTo(entry);
-	}
-
-	@Override
-	public int hashCode() {
-		return _entry.hashCode();
-	}
-
-	@Override
-	public com.liferay.portal.model.CacheModel<com.liferay.contacts.model.Entry> toCacheModel() {
-		return _entry.toCacheModel();
+	public boolean isNew() {
+		return _entry.isNew();
 	}
 
 	@Override
@@ -457,6 +160,86 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 	}
 
 	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _entry.getExpandoBridge();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel<com.liferay.contacts.model.Entry> toCacheModel() {
+		return _entry.toCacheModel();
+	}
+
+	@Override
+	public int compareTo(com.liferay.contacts.model.Entry entry) {
+		return _entry.compareTo(entry);
+	}
+
+	@Override
+	public int hashCode() {
+		return _entry.hashCode();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _entry.getPrimaryKeyObj();
+	}
+
+	@Override
+	public java.lang.Object clone() {
+		return new EntryWrapper((Entry)_entry.clone());
+	}
+
+	/**
+	* Returns the comments of this entry.
+	*
+	* @return the comments of this entry
+	*/
+	@Override
+	public java.lang.String getComments() {
+		return _entry.getComments();
+	}
+
+	/**
+	* Returns the email address of this entry.
+	*
+	* @return the email address of this entry
+	*/
+	@Override
+	public java.lang.String getEmailAddress() {
+		return _entry.getEmailAddress();
+	}
+
+	/**
+	* Returns the full name of this entry.
+	*
+	* @return the full name of this entry
+	*/
+	@Override
+	public java.lang.String getFullName() {
+		return _entry.getFullName();
+	}
+
+	/**
+	* Returns the user name of this entry.
+	*
+	* @return the user name of this entry
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _entry.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this entry.
+	*
+	* @return the user uuid of this entry
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _entry.getUserUuid();
+	}
+
+	@Override
 	public java.lang.String toString() {
 		return _entry.toString();
 	}
@@ -466,10 +249,230 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		return _entry.toXmlString();
 	}
 
+	/**
+	* Returns the create date of this entry.
+	*
+	* @return the create date of this entry
+	*/
 	@Override
-	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public Date getCreateDate() {
+		return _entry.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this entry.
+	*
+	* @return the modified date of this entry
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _entry.getModifiedDate();
+	}
+
+	/**
+	* Returns the company ID of this entry.
+	*
+	* @return the company ID of this entry
+	*/
+	@Override
+	public long getCompanyId() {
+		return _entry.getCompanyId();
+	}
+
+	/**
+	* Returns the entry ID of this entry.
+	*
+	* @return the entry ID of this entry
+	*/
+	@Override
+	public long getEntryId() {
+		return _entry.getEntryId();
+	}
+
+	/**
+	* Returns the group ID of this entry.
+	*
+	* @return the group ID of this entry
+	*/
+	@Override
+	public long getGroupId() {
+		return _entry.getGroupId();
+	}
+
+	/**
+	* Returns the primary key of this entry.
+	*
+	* @return the primary key of this entry
+	*/
+	@Override
+	public long getPrimaryKey() {
+		return _entry.getPrimaryKey();
+	}
+
+	/**
+	* Returns the user ID of this entry.
+	*
+	* @return the user ID of this entry
+	*/
+	@Override
+	public long getUserId() {
+		return _entry.getUserId();
+	}
+
+	@Override
+	public void persist() {
 		_entry.persist();
+	}
+
+	@Override
+	public void setCachedModel(boolean cachedModel) {
+		_entry.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the comments of this entry.
+	*
+	* @param comments the comments of this entry
+	*/
+	@Override
+	public void setComments(java.lang.String comments) {
+		_entry.setComments(comments);
+	}
+
+	/**
+	* Sets the company ID of this entry.
+	*
+	* @param companyId the company ID of this entry
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_entry.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the create date of this entry.
+	*
+	* @param createDate the create date of this entry
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_entry.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the email address of this entry.
+	*
+	* @param emailAddress the email address of this entry
+	*/
+	@Override
+	public void setEmailAddress(java.lang.String emailAddress) {
+		_entry.setEmailAddress(emailAddress);
+	}
+
+	/**
+	* Sets the entry ID of this entry.
+	*
+	* @param entryId the entry ID of this entry
+	*/
+	@Override
+	public void setEntryId(long entryId) {
+		_entry.setEntryId(entryId);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_entry.setExpandoBridgeAttributes(expandoBridge);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+		_entry.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		_entry.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the full name of this entry.
+	*
+	* @param fullName the full name of this entry
+	*/
+	@Override
+	public void setFullName(java.lang.String fullName) {
+		_entry.setFullName(fullName);
+	}
+
+	/**
+	* Sets the group ID of this entry.
+	*
+	* @param groupId the group ID of this entry
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_entry.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the modified date of this entry.
+	*
+	* @param modifiedDate the modified date of this entry
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_entry.setModifiedDate(modifiedDate);
+	}
+
+	@Override
+	public void setNew(boolean n) {
+		_entry.setNew(n);
+	}
+
+	/**
+	* Sets the primary key of this entry.
+	*
+	* @param primaryKey the primary key of this entry
+	*/
+	@Override
+	public void setPrimaryKey(long primaryKey) {
+		_entry.setPrimaryKey(primaryKey);
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		_entry.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the user ID of this entry.
+	*
+	* @param userId the user ID of this entry
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_entry.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this entry.
+	*
+	* @param userName the user name of this entry
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_entry.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this entry.
+	*
+	* @param userUuid the user uuid of this entry
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_entry.setUserUuid(userUuid);
 	}
 
 	@Override
@@ -489,14 +492,6 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		}
 
 		return false;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
-	 */
-	@Deprecated
-	public Entry getWrappedEntry() {
-		return _entry;
 	}
 
 	@Override
@@ -519,5 +514,5 @@ public class EntryWrapper implements Entry, ModelWrapper<Entry> {
 		_entry.resetOriginalValues();
 	}
 
-	private Entry _entry;
+	private final Entry _entry;
 }

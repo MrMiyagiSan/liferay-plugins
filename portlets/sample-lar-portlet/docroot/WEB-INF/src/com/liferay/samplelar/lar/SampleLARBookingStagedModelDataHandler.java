@@ -14,14 +14,17 @@
 
 package com.liferay.samplelar.lar;
 
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.lar.BaseStagedModelDataHandler;
-import com.liferay.portal.kernel.lar.ExportImportPathUtil;
-import com.liferay.portal.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
+import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
+import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.exportimport.kernel.lar.StagedModelModifiedDateComparator;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.xml.Element;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.samplelar.model.SampleLARBooking;
 import com.liferay.samplelar.service.SampleLARBookingLocalServiceUtil;
+
+import java.util.List;
 
 /**
  * @author Mate Thurzo
@@ -33,18 +36,39 @@ public class SampleLARBookingStagedModelDataHandler
 		{SampleLARBooking.class.getName()};
 
 	@Override
-	public void deleteStagedModel(
-			String uuid, long groupId, String className, String extraData)
-		throws SystemException {
+	public void deleteStagedModel(SampleLARBooking sampleLARBooking) {
+		SampleLARBookingLocalServiceUtil.deleteSampleLARBooking(
+			sampleLARBooking);
+	}
 
-		SampleLARBooking sampleLARBooking =
-			SampleLARBookingLocalServiceUtil.
-				fetchSampleLARBookingByUuidAndGroupId(uuid, groupId);
+	@Override
+	public void deleteStagedModel(
+		String uuid, long groupId, String className, String extraData) {
+
+		SampleLARBooking sampleLARBooking = fetchStagedModelByUuidAndGroupId(
+			uuid, groupId);
 
 		if (sampleLARBooking != null) {
-			SampleLARBookingLocalServiceUtil.deleteSampleLARBooking(
-				sampleLARBooking);
+			deleteStagedModel(sampleLARBooking);
 		}
+	}
+
+	@Override
+	public SampleLARBooking fetchStagedModelByUuidAndGroupId(
+		String uuid, long groupId) {
+
+		return SampleLARBookingLocalServiceUtil.
+			fetchSampleLARBookingByUuidAndGroupId(uuid, groupId);
+	}
+
+	@Override
+	public List<SampleLARBooking> fetchStagedModelsByUuidAndCompanyId(
+		String uuid, long companyId) {
+
+		return SampleLARBookingLocalServiceUtil.
+			getSampleLARBookingsByUuidAndCompanyId(
+				uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+				new StagedModelModifiedDateComparator<SampleLARBooking>());
 	}
 
 	@Override
@@ -88,10 +112,9 @@ public class SampleLARBookingStagedModelDataHandler
 
 		if (portletDataContext.isDataStrategyMirror()) {
 			SampleLARBooking existingSampleLARBooking =
-				SampleLARBookingLocalServiceUtil.
-					fetchSampleLARBookingByUuidAndGroupId(
-						sampleLARBooking.getUuid(),
-						portletDataContext.getScopeGroupId());
+				fetchStagedModelByUuidAndGroupId(
+					sampleLARBooking.getUuid(),
+					portletDataContext.getScopeGroupId());
 
 			if (existingSampleLARBooking == null) {
 				serviceContext.setUuid(sampleLARBooking.getUuid());

@@ -35,7 +35,21 @@ portletURL.setParameter("tabs2", tabs2);
 
 <div class="control-wrapper">
 	<c:if test="<%= TasksPermission.contains(permissionChecker, themeDisplay.getScopeGroupId(), ActionKeys.ADD_ENTRY) %>">
-		<a class="add-task" href="javascript:;" onClick="Liferay.Tasks.displayPopup('<portlet:renderURL windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>"><portlet:param name="mvcPath" value="/tasks/edit_task.jsp" /></portlet:renderURL>', '<liferay-ui:message key="add-task" />');"><liferay-ui:message key="add-task" /></a>
+		<portlet:renderURL var="addkURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+			<portlet:param name="mvcPath" value="/tasks/edit_task.jsp" />
+		</portlet:renderURL>
+
+		<%
+		String taglibOnClick = "Liferay.Tasks.displayPopup('" + addkURL.toString() + "', '" + LanguageUtil.get(request, "add-task") + "');";
+		%>
+
+		<liferay-ui:icon
+			iconCssClass="icon-plus"
+			label="<%= true %>"
+			message="add-task"
+			onClick="<%= taglibOnClick %>"
+			url="javascript:;"
+		/>
 	</c:if>
 
 	<c:if test="<%= TasksPermission.contains(permissionChecker, themeDisplay.getScopeGroupId(), ActionKeys.PERMISSIONS) %>">
@@ -48,15 +62,23 @@ portletURL.setParameter("tabs2", tabs2);
 		/>
 
 		<liferay-ui:icon
-			image="permissions"
+			iconCssClass="icon-lock"
 			label="<%= true %>"
+			message="permissions"
 			method="get"
 			url="<%= permissionsURL %>"
 			useDialog="<%= true %>"
 		/>
 	</c:if>
 
-	<a class="filter-tasks" href="javascript:;" onClick="Liferay.Tasks.toggleTasksFilter();"><liferay-ui:message key="filter" /></a>
+	<liferay-ui:icon
+		cssClass="filter-tasks"
+		iconCssClass="icon-tag"
+		label="<%= true %>"
+		message="filter"
+		onClick="Liferay.Tasks.toggleTasksFilter()"
+		url="javascript:;"
+	/>
 
 	<div style="clear: both;"><!-- --></div>
 </div>
@@ -71,14 +93,14 @@ portletURL.setParameter("tabs2", tabs2);
 
 <div class="tasks-options">
 	<table>
-	<tr>
-		<td>
-			<input name="all-tasks" onclick="Liferay.Tasks.updateTaskList(null, this.checked);" type="checkbox" <%= (tabs2.equals("all") ? "checked" : StringPool.BLANK) %>/>
-		</td>
-		<td>
-			<liferay-ui:message key="show-completed-tasks" />
-		</td>
-	</tr>
+		<tr>
+			<td>
+				<input name="all-tasks" onclick="Liferay.Tasks.updateTaskList(null, this.checked);" type="checkbox" <%= (tabs2.equals("all") ? "checked" : StringPool.BLANK) %> />
+			</td>
+			<td>
+				<liferay-ui:message key="show-completed-tasks" />
+			</td>
+		</tr>
 	</table>
 </div>
 
@@ -87,6 +109,7 @@ portletURL.setParameter("tabs2", tabs2);
 		function() {
 			Liferay.Tasks.init(
 				{
+					baseActionURL: '<%= PortletURLFactoryUtil.create(request, portletDisplay.getId(), themeDisplay.getPlid(), PortletRequest.ACTION_PHASE) %>',
 					currentTab: '<%= HtmlUtil.escape(tabs1) %>',
 					namespace: '<portlet:namespace />',
 					taskListURL: '<portlet:renderURL windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>"><portlet:param name="mvcPath" value="/tasks/view_tasks.jsp" /></portlet:renderURL>'

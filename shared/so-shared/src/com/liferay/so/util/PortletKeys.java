@@ -20,7 +20,7 @@ package com.liferay.so.util;
 /**
  * @author Ryan Park
  */
-public class PortletKeys extends com.liferay.portal.util.PortletKeys {
+public class PortletKeys extends com.liferay.portal.kernel.util.PortletKeys {
 
 	public static final String MICROBLOGS_STATUS_UPDATE =
 		com.liferay.microblogs.util.PortletKeys.MICROBLOGS_STATUS_UPDATE;
@@ -29,6 +29,9 @@ public class PortletKeys extends com.liferay.portal.util.PortletKeys {
 
 	public static final String SO_ANNOUNCEMENTS =
 		com.liferay.so.announcements.util.PortletKeys.SO_ANNOUNCEMENTS;
+
+	public static final String SO_CONFIGURATIONS =
+		com.liferay.so.configurations.util.PortletKeys.SO_CONFIGURATIONS;
 
 	public static final String SO_DOCKBAR_NOTIFICATION = "7_WAR_soportlet";
 

@@ -23,7 +23,7 @@
 	%>
 
 	<liferay-util:html-top>
-		<link href="<%= PortalUtil.getStaticResourceURL(request, PortalUtil.getPathContext(request) + "/css/main.css", portlet.getTimestamp()) %>" rel="stylesheet" type="text/css" />
+		<link data-senna-track="permanent" href="<%= PortalUtil.getStaticResourceURL(request, PortalUtil.getPathContext(request) + "/css/main.css", portlet.getTimestamp()) %>" rel="stylesheet" type="text/css" />
 	</liferay-util:html-top>
 
 	<liferay-util:html-bottom>
@@ -60,7 +60,7 @@
 			<div class="chat-status">
 				<div class="status-message">
 					<c:if test="<%= Validator.isNotNull(statusMessage) %>">
-						<%= LanguageUtil.format(pageContext, "you-are-x", "<strong>" + statusMessage + "</strong>", false) %>
+						<%= LanguageUtil.format(request, "you-are-x", "<strong>" + statusMessage + "</strong>", false) %>
 					</c:if>
 				</div>
 			</div>
@@ -68,34 +68,40 @@
 			<div class="chat-tabs-container">
 				<ul class="chat-tabs">
 					<li class="buddy-list loading <%= openPanelId.equals("buddylist") ? "selected" : "" %>">
-						<div class="panel-trigger" panelId="buddylist">
-							<span class="trigger-name"><%= LanguageUtil.format(pageContext, "online-friends-x", "(" + buddiesCount + ")", false) %></span>
+						<div class="chat-panel-trigger" panelId="buddylist" tabindex="0">
+							<span class="trigger-name"><%= LanguageUtil.format(request, "online-friends-x", "(" + buddiesCount + ")", false) %></span>
 						</div>
 
 						<div class="chat-panel">
-							<div class="panel-window">
-								<div class="panel-button minimize"></div>
+							<div class="chat-panel-window">
+								<div class="chat-panel-button minimize"></div>
 
-								<div class="panel-title">
-									<%= LanguageUtil.format(pageContext, "online-friends-x", "(" + buddiesCount + ")", false) %>
+								<div class="chat-panel-title">
+									<%= LanguageUtil.format(request, "online-friends-x", "(" + buddiesCount + ")", false) %>
 								</div>
 
 								<aui:input cssClass="search-buddies" label="" name="searchBuddies" placeholder="search" />
 
-								<div class="panel-content">
+								<div class="chat-panel-content">
 									<ul class="lfr-component online-users">
 
 										<%
 										for (Object[] buddy : buddies) {
-											long userId = (Long)buddy[0];
-											String firstName = (String)buddy[2];
-											String middleName = (String)buddy[3];
-											String lastName = (String)buddy[4];
-											long portraitId = (Long)buddy[5];
+											String firstName = (String)buddy[1];
+											long groupId = (Long)buddy[2];
+											String lastName = (String)buddy[3];
+											boolean male = (Boolean)buddy[4];
+											String middleName = (String)buddy[5];
+											long portraitId = (Long)buddy[6];
+											String screenName = (String)buddy[7];
+											long userId = (Long)buddy[8];
+											String userUuid = (String)buddy[9];
+
+											Group group = GroupLocalServiceUtil.fetchGroup(groupId);
 										%>
 
-											<li class="user active" userId="<%= userId %>">
-												<img alt="" src="<%= themeDisplay.getPathImage() %>/user_portrait?img_id=<%= portraitId %>&t=<%= WebServerServletTokenUtil.getToken(portraitId) %>" />
+											<li class="active user" data-displayURL="<%= group.getDisplayURL(themeDisplay, false) %>" data-groupId="<%= groupId %>" data-userId="<%= userId %>" tabindex="0">
+												<img alt="<%= HtmlUtil.escape(ContactConstants.getFullName(firstName, middleName, lastName)) %>" src="<%= UserConstants.getPortraitURL(themeDisplay.getPathImage(), male, portraitId, userUuid) %>" />
 
 												<div class="name">
 													<%= HtmlUtil.escape(ContactConstants.getFullName(firstName, middleName, lastName)) %>
@@ -114,19 +120,19 @@
 						</div>
 					</li>
 					<li class="chat-settings <%= openPanelId.equals("settings") ? "selected" : "" %>">
-						<div class="panel-trigger" panelId="settings">
+						<div class="chat-panel-trigger" panelId="settings" tabindex="0">
 							<span class="trigger-name"><liferay-ui:message key="settings" /></span>
 						</div>
 
 						<div class="chat-panel">
-							<div class="panel-window">
-								<div class="panel-button minimize"></div>
+							<div class="chat-panel-window">
+								<div class="chat-panel-button minimize"></div>
 
-								<div class="panel-title"><liferay-ui:message key="settings" /></div>
+								<div class="chat-panel-title"><liferay-ui:message key="settings" /></div>
 
 								<ul class="lfr-component settings">
 									<li>
-										<label for="statusMessage"><%= LanguageUtil.format(pageContext, "x-is", HtmlUtil.escape(user.getFullName()), false) %></label>
+										<label for="statusMessage"><%= LanguageUtil.format(request, "x-is", HtmlUtil.escape(user.getFullName()), false) %></label>
 
 										<input id="statusMessage" type="text" value="<%= statusMessage %>" />
 									</li>

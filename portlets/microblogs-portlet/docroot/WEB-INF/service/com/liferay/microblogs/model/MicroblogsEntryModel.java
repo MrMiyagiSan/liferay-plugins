@@ -14,14 +14,16 @@
 
 package com.liferay.microblogs.model;
 
-import com.liferay.portal.kernel.bean.AutoEscape;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.AuditedModel;
-import com.liferay.portal.model.BaseModel;
-import com.liferay.portal.model.CacheModel;
-import com.liferay.portal.service.ServiceContext;
+import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portlet.expando.model.ExpandoBridge;
+import com.liferay.expando.kernel.model.ExpandoBridge;
+
+import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.model.AuditedModel;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ShardedModel;
+import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
 
@@ -40,8 +42,9 @@ import java.util.Date;
  * @see com.liferay.microblogs.model.impl.MicroblogsEntryModelImpl
  * @generated
  */
+@ProviderType
 public interface MicroblogsEntryModel extends AuditedModel,
-	BaseModel<MicroblogsEntry> {
+	BaseModel<MicroblogsEntry>, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -112,10 +115,9 @@ public interface MicroblogsEntryModel extends AuditedModel,
 	 * Returns the user uuid of this microblogs entry.
 	 *
 	 * @return the user uuid of this microblogs entry
-	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public String getUserUuid() throws SystemException;
+	public String getUserUuid();
 
 	/**
 	 * Sets the user uuid of this microblogs entry.
@@ -175,6 +177,34 @@ public interface MicroblogsEntryModel extends AuditedModel,
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the creator class name ID of this microblogs entry.
+	 *
+	 * @return the creator class name ID of this microblogs entry
+	 */
+	public long getCreatorClassNameId();
+
+	/**
+	 * Sets the creator class name ID of this microblogs entry.
+	 *
+	 * @param creatorClassNameId the creator class name ID of this microblogs entry
+	 */
+	public void setCreatorClassNameId(long creatorClassNameId);
+
+	/**
+	 * Returns the creator class p k of this microblogs entry.
+	 *
+	 * @return the creator class p k of this microblogs entry
+	 */
+	public long getCreatorClassPK();
+
+	/**
+	 * Sets the creator class p k of this microblogs entry.
+	 *
+	 * @param creatorClassPK the creator class p k of this microblogs entry
+	 */
+	public void setCreatorClassPK(long creatorClassPK);
+
+	/**
 	 * Returns the content of this microblogs entry.
 	 *
 	 * @return the content of this microblogs entry
@@ -204,47 +234,18 @@ public interface MicroblogsEntryModel extends AuditedModel,
 	public void setType(int type);
 
 	/**
-	 * Returns the receiver user ID of this microblogs entry.
+	 * Returns the parent microblogs entry ID of this microblogs entry.
 	 *
-	 * @return the receiver user ID of this microblogs entry
+	 * @return the parent microblogs entry ID of this microblogs entry
 	 */
-	public long getReceiverUserId();
+	public long getParentMicroblogsEntryId();
 
 	/**
-	 * Sets the receiver user ID of this microblogs entry.
+	 * Sets the parent microblogs entry ID of this microblogs entry.
 	 *
-	 * @param receiverUserId the receiver user ID of this microblogs entry
+	 * @param parentMicroblogsEntryId the parent microblogs entry ID of this microblogs entry
 	 */
-	public void setReceiverUserId(long receiverUserId);
-
-	/**
-	 * Returns the receiver user uuid of this microblogs entry.
-	 *
-	 * @return the receiver user uuid of this microblogs entry
-	 * @throws SystemException if a system exception occurred
-	 */
-	public String getReceiverUserUuid() throws SystemException;
-
-	/**
-	 * Sets the receiver user uuid of this microblogs entry.
-	 *
-	 * @param receiverUserUuid the receiver user uuid of this microblogs entry
-	 */
-	public void setReceiverUserUuid(String receiverUserUuid);
-
-	/**
-	 * Returns the receiver microblogs entry ID of this microblogs entry.
-	 *
-	 * @return the receiver microblogs entry ID of this microblogs entry
-	 */
-	public long getReceiverMicroblogsEntryId();
-
-	/**
-	 * Sets the receiver microblogs entry ID of this microblogs entry.
-	 *
-	 * @param receiverMicroblogsEntryId the receiver microblogs entry ID of this microblogs entry
-	 */
-	public void setReceiverMicroblogsEntryId(long receiverMicroblogsEntryId);
+	public void setParentMicroblogsEntryId(long parentMicroblogsEntryId);
 
 	/**
 	 * Returns the social relation type of this microblogs entry.
@@ -297,19 +298,20 @@ public interface MicroblogsEntryModel extends AuditedModel,
 	public Object clone();
 
 	@Override
-	public int compareTo(MicroblogsEntry microblogsEntry);
+	public int compareTo(
+		com.liferay.microblogs.model.MicroblogsEntry microblogsEntry);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<MicroblogsEntry> toCacheModel();
+	public CacheModel<com.liferay.microblogs.model.MicroblogsEntry> toCacheModel();
 
 	@Override
-	public MicroblogsEntry toEscapedModel();
+	public com.liferay.microblogs.model.MicroblogsEntry toEscapedModel();
 
 	@Override
-	public MicroblogsEntry toUnescapedModel();
+	public com.liferay.microblogs.model.MicroblogsEntry toUnescapedModel();
 
 	@Override
 	public String toString();

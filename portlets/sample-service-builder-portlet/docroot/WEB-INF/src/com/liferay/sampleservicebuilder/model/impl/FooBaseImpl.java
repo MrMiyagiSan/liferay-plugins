@@ -14,7 +14,7 @@
 
 package com.liferay.sampleservicebuilder.model.impl;
 
-import com.liferay.portal.kernel.exception.SystemException;
+import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.sampleservicebuilder.model.Foo;
 import com.liferay.sampleservicebuilder.service.FooLocalServiceUtil;
@@ -28,17 +28,19 @@ import com.liferay.sampleservicebuilder.service.FooLocalServiceUtil;
  *
  * @author Brian Wing Shun Chan
  * @see FooImpl
- * @see com.liferay.sampleservicebuilder.model.Foo
+ * @see Foo
  * @generated
  */
+@ProviderType
 public abstract class FooBaseImpl extends FooModelImpl implements Foo {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a foo model instance should use the {@link Foo} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a foo model instance should use the <code>Foo</code> interface instead.
 	 */
 	@Override
-	public void persist() throws SystemException {
+	public void persist() {
 		if (this.isNew()) {
 			FooLocalServiceUtil.addFoo(this);
 		}
@@ -46,4 +48,5 @@ public abstract class FooBaseImpl extends FooModelImpl implements Foo {
 			FooLocalServiceUtil.updateFoo(this);
 		}
 	}
+
 }

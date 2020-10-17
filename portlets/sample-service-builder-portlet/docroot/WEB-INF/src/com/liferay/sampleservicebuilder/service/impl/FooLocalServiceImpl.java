@@ -16,12 +16,11 @@ package com.liferay.sampleservicebuilder.service.impl;
 
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
 import com.liferay.sampleservicebuilder.model.Foo;
 import com.liferay.sampleservicebuilder.service.base.FooLocalServiceBaseImpl;
 import com.liferay.sampleservicebuilder.util.LocalObject;
@@ -37,7 +36,7 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 	public void addFoo(
 			String field1, boolean field2, int field3, Date field4,
 			String field5, ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		// Foo
 
@@ -72,7 +71,7 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 	}
 
 	@Override
-	public Foo deleteFoo(Foo foo) throws SystemException {
+	public Foo deleteFoo(Foo foo) {
 		try {
 			assetEntryLocalService.deleteEntry(
 				Foo.class.getName(), foo.getFooId());
@@ -84,7 +83,7 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 	}
 
 	@Override
-	public Foo deleteFoo(long fooId) throws SystemException {
+	public Foo deleteFoo(long fooId) {
 		Foo foo = fooPersistence.fetchByPrimaryKey(fooId);
 
 		if (foo == null) {
@@ -94,13 +93,33 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 		return deleteFoo(foo);
 	}
 
-	public List<Foo> getFoos(int start, int end, OrderByComparator obc)
-		throws SystemException {
+	@Override
+	public void deleteFoos() {
+		fooPersistence.removeAll();
+	}
 
+	@Override
+	public List<Foo> getField1Foos(
+		String[] field1s, int start, int end, OrderByComparator<Foo> obc) {
+
+		return fooPersistence.findByField1(field1s, start, end, obc);
+	}
+
+	@Override
+	public int getField1FoosCount(String[] field1s) {
+		return fooPersistence.countByField1(field1s);
+	}
+
+	@Override
+	public List<Foo> getFoos() {
+		return fooPersistence.findAll();
+	}
+
+	public List<Foo> getFoos(int start, int end, OrderByComparator<Foo> obc) {
 		return fooPersistence.findAll(start, end, obc);
 	}
 
-	public List<Foo> getFoos(OrderByComparator obc) throws SystemException {
+	public List<Foo> getFoos(OrderByComparator<Foo> obc) {
 		return getFoos(QueryUtil.ALL_POS, QueryUtil.ALL_POS, obc);
 	}
 
@@ -116,19 +135,19 @@ public class FooLocalServiceImpl extends FooLocalServiceBaseImpl {
 	public void updateAsset(
 			long userId, Foo foo, long[] assetCategoryIds,
 			String[] assetTagNames)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		assetEntryLocalService.updateEntry(
-			userId, foo.getGroupId(), Foo.class.getName(), foo.getFooId(),
-			foo.getUuid(), 0, assetCategoryIds, assetTagNames, true, null, null,
-			null, null, ContentTypes.TEXT_PLAIN_UTF8, foo.getField1(), null,
-			foo.getField1(), null, null, 0, 0, null, false);
+			userId, foo.getGroupId(), null, null, Foo.class.getName(),
+			foo.getFooId(), foo.getUuid(), 0, assetCategoryIds, assetTagNames,
+			true, true, null, null, null, null, ContentTypes.TEXT_PLAIN_UTF8,
+			foo.getField1(), null, foo.getField1(), null, null, 0, 0, null);
 	}
 
 	public void updateFoo(
 			long fooId, String field1, boolean field2, int field3, Date field4,
 			String field5, ServiceContext serviceContext)
-		throws PortalException, SystemException {
+		throws PortalException {
 
 		User user = userPersistence.findByPrimaryKey(
 			serviceContext.getUserId());

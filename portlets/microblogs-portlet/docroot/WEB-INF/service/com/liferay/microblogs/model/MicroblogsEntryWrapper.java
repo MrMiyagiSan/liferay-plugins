@@ -14,8 +14,15 @@
 
 package com.liferay.microblogs.model;
 
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.expando.kernel.model.ExpandoBridge;
+
+import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.model.ModelWrapper;
+
+import java.io.Serializable;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +37,7 @@ import java.util.Map;
  * @see MicroblogsEntry
  * @generated
  */
+@ProviderType
 public class MicroblogsEntryWrapper implements MicroblogsEntry,
 	ModelWrapper<MicroblogsEntry> {
 	public MicroblogsEntryWrapper(MicroblogsEntry microblogsEntry) {
@@ -56,11 +64,11 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("creatorClassNameId", getCreatorClassNameId());
+		attributes.put("creatorClassPK", getCreatorClassPK());
 		attributes.put("content", getContent());
 		attributes.put("type", getType());
-		attributes.put("receiverUserId", getReceiverUserId());
-		attributes.put("receiverMicroblogsEntryId",
-			getReceiverMicroblogsEntryId());
+		attributes.put("parentMicroblogsEntryId", getParentMicroblogsEntryId());
 		attributes.put("socialRelationType", getSocialRelationType());
 
 		return attributes;
@@ -104,6 +112,18 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 			setModifiedDate(modifiedDate);
 		}
 
+		Long creatorClassNameId = (Long)attributes.get("creatorClassNameId");
+
+		if (creatorClassNameId != null) {
+			setCreatorClassNameId(creatorClassNameId);
+		}
+
+		Long creatorClassPK = (Long)attributes.get("creatorClassPK");
+
+		if (creatorClassPK != null) {
+			setCreatorClassPK(creatorClassPK);
+		}
+
 		String content = (String)attributes.get("content");
 
 		if (content != null) {
@@ -116,17 +136,11 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 			setType(type);
 		}
 
-		Long receiverUserId = (Long)attributes.get("receiverUserId");
+		Long parentMicroblogsEntryId = (Long)attributes.get(
+				"parentMicroblogsEntryId");
 
-		if (receiverUserId != null) {
-			setReceiverUserId(receiverUserId);
-		}
-
-		Long receiverMicroblogsEntryId = (Long)attributes.get(
-				"receiverMicroblogsEntryId");
-
-		if (receiverMicroblogsEntryId != null) {
-			setReceiverMicroblogsEntryId(receiverMicroblogsEntryId);
+		if (parentMicroblogsEntryId != null) {
+			setParentMicroblogsEntryId(parentMicroblogsEntryId);
 		}
 
 		Integer socialRelationType = (Integer)attributes.get(
@@ -137,308 +151,9 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 		}
 	}
 
-	/**
-	* Returns the primary key of this microblogs entry.
-	*
-	* @return the primary key of this microblogs entry
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _microblogsEntry.getPrimaryKey();
-	}
-
-	/**
-	* Sets the primary key of this microblogs entry.
-	*
-	* @param primaryKey the primary key of this microblogs entry
-	*/
-	@Override
-	public void setPrimaryKey(long primaryKey) {
-		_microblogsEntry.setPrimaryKey(primaryKey);
-	}
-
-	/**
-	* Returns the microblogs entry ID of this microblogs entry.
-	*
-	* @return the microblogs entry ID of this microblogs entry
-	*/
-	@Override
-	public long getMicroblogsEntryId() {
-		return _microblogsEntry.getMicroblogsEntryId();
-	}
-
-	/**
-	* Sets the microblogs entry ID of this microblogs entry.
-	*
-	* @param microblogsEntryId the microblogs entry ID of this microblogs entry
-	*/
-	@Override
-	public void setMicroblogsEntryId(long microblogsEntryId) {
-		_microblogsEntry.setMicroblogsEntryId(microblogsEntryId);
-	}
-
-	/**
-	* Returns the company ID of this microblogs entry.
-	*
-	* @return the company ID of this microblogs entry
-	*/
-	@Override
-	public long getCompanyId() {
-		return _microblogsEntry.getCompanyId();
-	}
-
-	/**
-	* Sets the company ID of this microblogs entry.
-	*
-	* @param companyId the company ID of this microblogs entry
-	*/
-	@Override
-	public void setCompanyId(long companyId) {
-		_microblogsEntry.setCompanyId(companyId);
-	}
-
-	/**
-	* Returns the user ID of this microblogs entry.
-	*
-	* @return the user ID of this microblogs entry
-	*/
-	@Override
-	public long getUserId() {
-		return _microblogsEntry.getUserId();
-	}
-
-	/**
-	* Sets the user ID of this microblogs entry.
-	*
-	* @param userId the user ID of this microblogs entry
-	*/
-	@Override
-	public void setUserId(long userId) {
-		_microblogsEntry.setUserId(userId);
-	}
-
-	/**
-	* Returns the user uuid of this microblogs entry.
-	*
-	* @return the user uuid of this microblogs entry
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public java.lang.String getUserUuid()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _microblogsEntry.getUserUuid();
-	}
-
-	/**
-	* Sets the user uuid of this microblogs entry.
-	*
-	* @param userUuid the user uuid of this microblogs entry
-	*/
-	@Override
-	public void setUserUuid(java.lang.String userUuid) {
-		_microblogsEntry.setUserUuid(userUuid);
-	}
-
-	/**
-	* Returns the user name of this microblogs entry.
-	*
-	* @return the user name of this microblogs entry
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _microblogsEntry.getUserName();
-	}
-
-	/**
-	* Sets the user name of this microblogs entry.
-	*
-	* @param userName the user name of this microblogs entry
-	*/
-	@Override
-	public void setUserName(java.lang.String userName) {
-		_microblogsEntry.setUserName(userName);
-	}
-
-	/**
-	* Returns the create date of this microblogs entry.
-	*
-	* @return the create date of this microblogs entry
-	*/
-	@Override
-	public java.util.Date getCreateDate() {
-		return _microblogsEntry.getCreateDate();
-	}
-
-	/**
-	* Sets the create date of this microblogs entry.
-	*
-	* @param createDate the create date of this microblogs entry
-	*/
-	@Override
-	public void setCreateDate(java.util.Date createDate) {
-		_microblogsEntry.setCreateDate(createDate);
-	}
-
-	/**
-	* Returns the modified date of this microblogs entry.
-	*
-	* @return the modified date of this microblogs entry
-	*/
-	@Override
-	public java.util.Date getModifiedDate() {
-		return _microblogsEntry.getModifiedDate();
-	}
-
-	/**
-	* Sets the modified date of this microblogs entry.
-	*
-	* @param modifiedDate the modified date of this microblogs entry
-	*/
-	@Override
-	public void setModifiedDate(java.util.Date modifiedDate) {
-		_microblogsEntry.setModifiedDate(modifiedDate);
-	}
-
-	/**
-	* Returns the content of this microblogs entry.
-	*
-	* @return the content of this microblogs entry
-	*/
-	@Override
-	public java.lang.String getContent() {
-		return _microblogsEntry.getContent();
-	}
-
-	/**
-	* Sets the content of this microblogs entry.
-	*
-	* @param content the content of this microblogs entry
-	*/
-	@Override
-	public void setContent(java.lang.String content) {
-		_microblogsEntry.setContent(content);
-	}
-
-	/**
-	* Returns the type of this microblogs entry.
-	*
-	* @return the type of this microblogs entry
-	*/
-	@Override
-	public int getType() {
-		return _microblogsEntry.getType();
-	}
-
-	/**
-	* Sets the type of this microblogs entry.
-	*
-	* @param type the type of this microblogs entry
-	*/
-	@Override
-	public void setType(int type) {
-		_microblogsEntry.setType(type);
-	}
-
-	/**
-	* Returns the receiver user ID of this microblogs entry.
-	*
-	* @return the receiver user ID of this microblogs entry
-	*/
-	@Override
-	public long getReceiverUserId() {
-		return _microblogsEntry.getReceiverUserId();
-	}
-
-	/**
-	* Sets the receiver user ID of this microblogs entry.
-	*
-	* @param receiverUserId the receiver user ID of this microblogs entry
-	*/
-	@Override
-	public void setReceiverUserId(long receiverUserId) {
-		_microblogsEntry.setReceiverUserId(receiverUserId);
-	}
-
-	/**
-	* Returns the receiver user uuid of this microblogs entry.
-	*
-	* @return the receiver user uuid of this microblogs entry
-	* @throws SystemException if a system exception occurred
-	*/
-	@Override
-	public java.lang.String getReceiverUserUuid()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _microblogsEntry.getReceiverUserUuid();
-	}
-
-	/**
-	* Sets the receiver user uuid of this microblogs entry.
-	*
-	* @param receiverUserUuid the receiver user uuid of this microblogs entry
-	*/
-	@Override
-	public void setReceiverUserUuid(java.lang.String receiverUserUuid) {
-		_microblogsEntry.setReceiverUserUuid(receiverUserUuid);
-	}
-
-	/**
-	* Returns the receiver microblogs entry ID of this microblogs entry.
-	*
-	* @return the receiver microblogs entry ID of this microblogs entry
-	*/
-	@Override
-	public long getReceiverMicroblogsEntryId() {
-		return _microblogsEntry.getReceiverMicroblogsEntryId();
-	}
-
-	/**
-	* Sets the receiver microblogs entry ID of this microblogs entry.
-	*
-	* @param receiverMicroblogsEntryId the receiver microblogs entry ID of this microblogs entry
-	*/
-	@Override
-	public void setReceiverMicroblogsEntryId(long receiverMicroblogsEntryId) {
-		_microblogsEntry.setReceiverMicroblogsEntryId(receiverMicroblogsEntryId);
-	}
-
-	/**
-	* Returns the social relation type of this microblogs entry.
-	*
-	* @return the social relation type of this microblogs entry
-	*/
-	@Override
-	public int getSocialRelationType() {
-		return _microblogsEntry.getSocialRelationType();
-	}
-
-	/**
-	* Sets the social relation type of this microblogs entry.
-	*
-	* @param socialRelationType the social relation type of this microblogs entry
-	*/
-	@Override
-	public void setSocialRelationType(int socialRelationType) {
-		_microblogsEntry.setSocialRelationType(socialRelationType);
-	}
-
-	@Override
-	public boolean isNew() {
-		return _microblogsEntry.isNew();
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_microblogsEntry.setNew(n);
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _microblogsEntry.isCachedModel();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_microblogsEntry.setCachedModel(cachedModel);
 	}
 
 	@Override
@@ -447,57 +162,13 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 	}
 
 	@Override
-	public java.io.Serializable getPrimaryKeyObj() {
-		return _microblogsEntry.getPrimaryKeyObj();
+	public boolean isNew() {
+		return _microblogsEntry.isNew();
 	}
 
 	@Override
-	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
-		_microblogsEntry.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
+	public ExpandoBridge getExpandoBridge() {
 		return _microblogsEntry.getExpandoBridge();
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.model.BaseModel<?> baseModel) {
-		_microblogsEntry.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
-		_microblogsEntry.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.service.ServiceContext serviceContext) {
-		_microblogsEntry.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new MicroblogsEntryWrapper((MicroblogsEntry)_microblogsEntry.clone());
-	}
-
-	@Override
-	public int compareTo(
-		com.liferay.microblogs.model.MicroblogsEntry microblogsEntry) {
-		return _microblogsEntry.compareTo(microblogsEntry);
-	}
-
-	@Override
-	public int hashCode() {
-		return _microblogsEntry.hashCode();
-	}
-
-	@Override
-	public com.liferay.portal.model.CacheModel<com.liferay.microblogs.model.MicroblogsEntry> toCacheModel() {
-		return _microblogsEntry.toCacheModel();
 	}
 
 	@Override
@@ -511,6 +182,82 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.model.CacheModel<com.liferay.microblogs.model.MicroblogsEntry> toCacheModel() {
+		return _microblogsEntry.toCacheModel();
+	}
+
+	@Override
+	public int compareTo(
+		com.liferay.microblogs.model.MicroblogsEntry microblogsEntry) {
+		return _microblogsEntry.compareTo(microblogsEntry);
+	}
+
+	/**
+	* Returns the social relation type of this microblogs entry.
+	*
+	* @return the social relation type of this microblogs entry
+	*/
+	@Override
+	public int getSocialRelationType() {
+		return _microblogsEntry.getSocialRelationType();
+	}
+
+	/**
+	* Returns the type of this microblogs entry.
+	*
+	* @return the type of this microblogs entry
+	*/
+	@Override
+	public int getType() {
+		return _microblogsEntry.getType();
+	}
+
+	@Override
+	public int hashCode() {
+		return _microblogsEntry.hashCode();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _microblogsEntry.getPrimaryKeyObj();
+	}
+
+	@Override
+	public java.lang.Object clone() {
+		return new MicroblogsEntryWrapper((MicroblogsEntry)_microblogsEntry.clone());
+	}
+
+	/**
+	* Returns the content of this microblogs entry.
+	*
+	* @return the content of this microblogs entry
+	*/
+	@Override
+	public java.lang.String getContent() {
+		return _microblogsEntry.getContent();
+	}
+
+	/**
+	* Returns the user name of this microblogs entry.
+	*
+	* @return the user name of this microblogs entry
+	*/
+	@Override
+	public java.lang.String getUserName() {
+		return _microblogsEntry.getUserName();
+	}
+
+	/**
+	* Returns the user uuid of this microblogs entry.
+	*
+	* @return the user uuid of this microblogs entry
+	*/
+	@Override
+	public java.lang.String getUserUuid() {
+		return _microblogsEntry.getUserUuid();
+	}
+
+	@Override
 	public java.lang.String toString() {
 		return _microblogsEntry.toString();
 	}
@@ -520,10 +267,281 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 		return _microblogsEntry.toXmlString();
 	}
 
+	/**
+	* Returns the create date of this microblogs entry.
+	*
+	* @return the create date of this microblogs entry
+	*/
 	@Override
-	public void persist()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public Date getCreateDate() {
+		return _microblogsEntry.getCreateDate();
+	}
+
+	/**
+	* Returns the modified date of this microblogs entry.
+	*
+	* @return the modified date of this microblogs entry
+	*/
+	@Override
+	public Date getModifiedDate() {
+		return _microblogsEntry.getModifiedDate();
+	}
+
+	@Override
+	public long fetchParentMicroblogsEntryUserId() {
+		return _microblogsEntry.fetchParentMicroblogsEntryUserId();
+	}
+
+	/**
+	* Returns the company ID of this microblogs entry.
+	*
+	* @return the company ID of this microblogs entry
+	*/
+	@Override
+	public long getCompanyId() {
+		return _microblogsEntry.getCompanyId();
+	}
+
+	/**
+	* Returns the creator class name ID of this microblogs entry.
+	*
+	* @return the creator class name ID of this microblogs entry
+	*/
+	@Override
+	public long getCreatorClassNameId() {
+		return _microblogsEntry.getCreatorClassNameId();
+	}
+
+	/**
+	* Returns the creator class p k of this microblogs entry.
+	*
+	* @return the creator class p k of this microblogs entry
+	*/
+	@Override
+	public long getCreatorClassPK() {
+		return _microblogsEntry.getCreatorClassPK();
+	}
+
+	/**
+	* Returns the microblogs entry ID of this microblogs entry.
+	*
+	* @return the microblogs entry ID of this microblogs entry
+	*/
+	@Override
+	public long getMicroblogsEntryId() {
+		return _microblogsEntry.getMicroblogsEntryId();
+	}
+
+	/**
+	* Returns the parent microblogs entry ID of this microblogs entry.
+	*
+	* @return the parent microblogs entry ID of this microblogs entry
+	*/
+	@Override
+	public long getParentMicroblogsEntryId() {
+		return _microblogsEntry.getParentMicroblogsEntryId();
+	}
+
+	@Override
+	public long getParentMicroblogsEntryUserId()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _microblogsEntry.getParentMicroblogsEntryUserId();
+	}
+
+	/**
+	* Returns the primary key of this microblogs entry.
+	*
+	* @return the primary key of this microblogs entry
+	*/
+	@Override
+	public long getPrimaryKey() {
+		return _microblogsEntry.getPrimaryKey();
+	}
+
+	/**
+	* Returns the user ID of this microblogs entry.
+	*
+	* @return the user ID of this microblogs entry
+	*/
+	@Override
+	public long getUserId() {
+		return _microblogsEntry.getUserId();
+	}
+
+	@Override
+	public void persist() {
 		_microblogsEntry.persist();
+	}
+
+	@Override
+	public void setCachedModel(boolean cachedModel) {
+		_microblogsEntry.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this microblogs entry.
+	*
+	* @param companyId the company ID of this microblogs entry
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_microblogsEntry.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the content of this microblogs entry.
+	*
+	* @param content the content of this microblogs entry
+	*/
+	@Override
+	public void setContent(java.lang.String content) {
+		_microblogsEntry.setContent(content);
+	}
+
+	/**
+	* Sets the create date of this microblogs entry.
+	*
+	* @param createDate the create date of this microblogs entry
+	*/
+	@Override
+	public void setCreateDate(Date createDate) {
+		_microblogsEntry.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the creator class name ID of this microblogs entry.
+	*
+	* @param creatorClassNameId the creator class name ID of this microblogs entry
+	*/
+	@Override
+	public void setCreatorClassNameId(long creatorClassNameId) {
+		_microblogsEntry.setCreatorClassNameId(creatorClassNameId);
+	}
+
+	/**
+	* Sets the creator class p k of this microblogs entry.
+	*
+	* @param creatorClassPK the creator class p k of this microblogs entry
+	*/
+	@Override
+	public void setCreatorClassPK(long creatorClassPK) {
+		_microblogsEntry.setCreatorClassPK(creatorClassPK);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_microblogsEntry.setExpandoBridgeAttributes(expandoBridge);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+		_microblogsEntry.setExpandoBridgeAttributes(baseModel);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
+		_microblogsEntry.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the microblogs entry ID of this microblogs entry.
+	*
+	* @param microblogsEntryId the microblogs entry ID of this microblogs entry
+	*/
+	@Override
+	public void setMicroblogsEntryId(long microblogsEntryId) {
+		_microblogsEntry.setMicroblogsEntryId(microblogsEntryId);
+	}
+
+	/**
+	* Sets the modified date of this microblogs entry.
+	*
+	* @param modifiedDate the modified date of this microblogs entry
+	*/
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_microblogsEntry.setModifiedDate(modifiedDate);
+	}
+
+	@Override
+	public void setNew(boolean n) {
+		_microblogsEntry.setNew(n);
+	}
+
+	/**
+	* Sets the parent microblogs entry ID of this microblogs entry.
+	*
+	* @param parentMicroblogsEntryId the parent microblogs entry ID of this microblogs entry
+	*/
+	@Override
+	public void setParentMicroblogsEntryId(long parentMicroblogsEntryId) {
+		_microblogsEntry.setParentMicroblogsEntryId(parentMicroblogsEntryId);
+	}
+
+	/**
+	* Sets the primary key of this microblogs entry.
+	*
+	* @param primaryKey the primary key of this microblogs entry
+	*/
+	@Override
+	public void setPrimaryKey(long primaryKey) {
+		_microblogsEntry.setPrimaryKey(primaryKey);
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		_microblogsEntry.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the social relation type of this microblogs entry.
+	*
+	* @param socialRelationType the social relation type of this microblogs entry
+	*/
+	@Override
+	public void setSocialRelationType(int socialRelationType) {
+		_microblogsEntry.setSocialRelationType(socialRelationType);
+	}
+
+	/**
+	* Sets the type of this microblogs entry.
+	*
+	* @param type the type of this microblogs entry
+	*/
+	@Override
+	public void setType(int type) {
+		_microblogsEntry.setType(type);
+	}
+
+	/**
+	* Sets the user ID of this microblogs entry.
+	*
+	* @param userId the user ID of this microblogs entry
+	*/
+	@Override
+	public void setUserId(long userId) {
+		_microblogsEntry.setUserId(userId);
+	}
+
+	/**
+	* Sets the user name of this microblogs entry.
+	*
+	* @param userName the user name of this microblogs entry
+	*/
+	@Override
+	public void setUserName(java.lang.String userName) {
+		_microblogsEntry.setUserName(userName);
+	}
+
+	/**
+	* Sets the user uuid of this microblogs entry.
+	*
+	* @param userUuid the user uuid of this microblogs entry
+	*/
+	@Override
+	public void setUserUuid(java.lang.String userUuid) {
+		_microblogsEntry.setUserUuid(userUuid);
 	}
 
 	@Override
@@ -546,14 +564,6 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 		return false;
 	}
 
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
-	 */
-	@Deprecated
-	public MicroblogsEntry getWrappedMicroblogsEntry() {
-		return _microblogsEntry;
-	}
-
 	@Override
 	public MicroblogsEntry getWrappedModel() {
 		return _microblogsEntry;
@@ -574,5 +584,5 @@ public class MicroblogsEntryWrapper implements MicroblogsEntry,
 		_microblogsEntry.resetOriginalValues();
 	}
 
-	private MicroblogsEntry _microblogsEntry;
+	private final MicroblogsEntry _microblogsEntry;
 }
